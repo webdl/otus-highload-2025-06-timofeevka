@@ -9,7 +9,6 @@ import ru.webdl.otus.socialnetwork.core.user.UserService;
 import ru.webdl.otus.socialnetwork.core.user.cases.UserRegistrationUseCaseImpl;
 
 @RestController
-@RequestMapping("/user")
 public class UserController {
     private final UserRegistrationUseCaseImpl userRegistrationUseCase;
     private final UserService userService;
@@ -23,15 +22,6 @@ public class UserController {
         this.authenticationManager = authenticationManager;
     }
 
-    @PostMapping("/register")
-    public ResponseEntity<UserViewDTO> register(@RequestBody UserDTO user) {
-        userRegistrationUseCase.register(user.toDomain());
-        return userService.findByUsername(user.getUsername())
-                .map(UserViewDTO::new)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
-    }
-
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody UserLoginDTO user) {
         var token = new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword());
@@ -43,7 +33,16 @@ public class UserController {
         }
     }
 
-    @GetMapping("/get/{id}")
+    @PostMapping("/user/register")
+    public ResponseEntity<UserViewDTO> register(@RequestBody UserDTO user) {
+        userRegistrationUseCase.register(user.toDomain());
+        return userService.findByUsername(user.getUsername())
+                .map(UserViewDTO::new)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+    @GetMapping("/user/get/{id}")
     public ResponseEntity<UserViewDTO> getUserById(@PathVariable Long id) {
         return userService.findById(id)
                 .map(UserViewDTO::new)
