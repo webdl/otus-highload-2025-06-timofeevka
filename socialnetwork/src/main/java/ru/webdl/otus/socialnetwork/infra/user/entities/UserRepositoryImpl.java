@@ -1,0 +1,64 @@
+package ru.webdl.otus.socialnetwork.infra.user.entities;
+
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Repository;
+import ru.webdl.otus.socialnetwork.core.user.entities.User;
+import ru.webdl.otus.socialnetwork.core.user.entities.UserImpl;
+import ru.webdl.otus.socialnetwork.core.user.entities.UserRepository;
+
+import java.time.LocalDate;
+import java.util.Optional;
+
+@Repository
+public class UserRepositoryImpl implements UserRepository {
+    private final JdbcTemplate jdbcTemplate;
+
+    @Autowired
+    public UserRepositoryImpl(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
+
+    private final RowMapper<User> userRowMapper = (rs, rowNum) -> {
+        return new UserImpl(
+                rs.getLong("user_id"),
+                rs.getString("first_name"),
+                rs.getString("last_name"),
+                rs.getObject("birth_date", LocalDate.class),
+                rs.getString("gender"),
+                rs.getString("interests"),
+                rs.getInt("city_id"),
+                rs.getString("username"),
+                rs.getString("password")
+        );
+    };
+
+    public Optional<User> findById(Long id) {
+        String sql = "SELECT * FROM users WHERE user_id = ?";
+        return jdbcTemplate.query(sql, userRowMapper, id).stream().findFirst();
+    }
+
+    @Override
+    public Optional<User> findByUsername(String username) {
+        String sql = "SELECT * FROM users WHERE username = ?";
+        return jdbcTemplate.query(sql, userRowMapper, username).stream().findFirst();
+    }
+
+    public void create(User user) {
+        String sql = "INSERT INTO users (first_name, last_name, birth_date, gender, interests, city_id, username, password) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        jdbcTemplate.update(sql, ps -> {
+                    ps.setString(1, user.getFirstName());
+                    ps.setString(2, user.getLastName());
+                    ps.setObject(3, user.getBirthDate());
+                    ps.setObject(4, user.getGender(), java.sql.Types.OTHER);
+                    ps.setString(5, user.getInterests());
+                    ps.setInt(6, user.getCityId());
+                    ps.setString(7, user.getUsername());
+                    ps.setString(8, user.getPassword());
+                }
+        );
+    }
+}
