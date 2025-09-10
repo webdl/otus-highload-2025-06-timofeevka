@@ -15,6 +15,7 @@ import org.springframework.batch.repeat.RepeatStatus;
 import org.springframework.boot.autoconfigure.batch.JobLauncherApplicationRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.context.annotation.Profile;
 import org.springframework.transaction.PlatformTransactionManager;
 
@@ -25,6 +26,7 @@ import java.net.URL;
 @Configuration
 @EnableBatchProcessing
 @Profile("dev")
+@DependsOn("springBatchDataSourceInitializer")
 public class LoadUsersBatchConfig {
 
     @Bean
