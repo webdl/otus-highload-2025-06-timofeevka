@@ -23,15 +23,16 @@ public class BatchActuatorConfig {
     @Component
     @Endpoint(id = "batchjobs")
     public class BatchJobsEndpoint {
+        private final JobLauncher jobLauncher;
+        private final JobRegistry jobRegistry;
+        private final JobExplorer jobExplorer;
 
         @Autowired
-        private JobLauncher jobLauncher;
-
-        @Autowired
-        private JobRegistry jobRegistry;
-
-        @Autowired
-        private JobExplorer jobExplorer;
+        public BatchJobsEndpoint(JobLauncher jobLauncher, JobRegistry jobRegistry, JobExplorer jobExplorer) {
+            this.jobLauncher = jobLauncher;
+            this.jobRegistry = jobRegistry;
+            this.jobExplorer = jobExplorer;
+        }
 
         @ReadOperation
         public Map<String, Object> getJobs() {
