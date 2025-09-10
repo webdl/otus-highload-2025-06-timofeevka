@@ -1,5 +1,6 @@
 package ru.webdl.otus.socialnetwork.infra.user.rest;
 
+import lombok.extern.log4j.Log4j2;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -7,7 +8,12 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import ru.webdl.otus.socialnetwork.core.user.UserService;
 import ru.webdl.otus.socialnetwork.core.user.cases.UserRegistrationUseCaseImpl;
+import ru.webdl.otus.socialnetwork.core.user.entities.User;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
+@Log4j2
 @RestController
 public class UserController {
     private final UserRegistrationUseCaseImpl userRegistrationUseCase;
@@ -48,5 +54,29 @@ public class UserController {
                 .map(UserViewDTO::new)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
+    }
+
+    @GetMapping("/user/find")
+    public ResponseEntity<List<UserViewDTO>> findUsers(@RequestParam String firstName, @RequestParam String lastName) {
+        long startTotal = System.currentTimeMillis();
+
+        // 1. Время получения данных из БД
+        long startDb = System.currentTimeMillis();
+        List<User> users = userService.findByFirstLastName(firstName, lastName);
+        long dbTime = System.currentTimeMillis() - startDb;
+
+        // 2. Время маппинга в DTO
+        long startMapping = System.currentTimeMillis();
+        List<UserViewDTO> dtos = users.stream()
+                .map(UserViewDTO::new)
+                .collect(Collectors.toList());
+        long mappingTime = System.currentTimeMillis() - startMapping;
+
+        long totalTime = System.currentTimeMillis() - startTotal;
+
+        log.info("DB: {}ms, Mapping: {}ms, Total: {}ms", dbTime, mappingTime, totalTime);
+
+//        List<UserViewDTO> users = userService.findByFirstLastName(firstName, lastName).stream().map(UserViewDTO::new).toList();
+        return ResponseEntity.ok(dtos);
     }
 }

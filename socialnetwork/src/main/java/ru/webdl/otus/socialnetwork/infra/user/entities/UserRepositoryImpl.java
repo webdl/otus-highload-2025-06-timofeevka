@@ -1,6 +1,5 @@
 package ru.webdl.otus.socialnetwork.infra.user.entities;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -10,6 +9,7 @@ import ru.webdl.otus.socialnetwork.core.user.entities.UserImpl;
 import ru.webdl.otus.socialnetwork.core.user.entities.UserRepository;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -44,6 +44,14 @@ public class UserRepositoryImpl implements UserRepository {
     public Optional<User> findByUsername(String username) {
         String sql = "SELECT * FROM users WHERE username = ?";
         return jdbcTemplate.query(sql, userRowMapper, username).stream().findFirst();
+    }
+
+    @Override
+    public List<User> findByFirstLastName(String firstName, String lastName) {
+        firstName += "%";
+        lastName += "%";
+        String sql = "SELECT * FROM users WHERE first_name LIKE ? AND last_name LIKE ?";
+        return jdbcTemplate.query(sql, userRowMapper, firstName, lastName);
     }
 
     public void create(User user) {
