@@ -24,3 +24,4 @@ CREATE TABLE users
 
     CONSTRAINT fk_city FOREIGN KEY (city_id) REFERENCES cities (city_id)
 );
+
