@@ -59,24 +59,17 @@ public class UserController {
     @GetMapping("/user/find")
     public ResponseEntity<List<UserViewDTO>> findUsers(@RequestParam String firstName, @RequestParam String lastName) {
         long startTotal = System.currentTimeMillis();
-
-        // 1. Время получения данных из БД
         long startDb = System.currentTimeMillis();
         List<User> users = userService.findByFirstLastName(firstName, lastName);
         long dbTime = System.currentTimeMillis() - startDb;
-
-        // 2. Время маппинга в DTO
         long startMapping = System.currentTimeMillis();
-        List<UserViewDTO> dtos = users.stream()
+        List<UserViewDTO> usersDto = users.stream()
                 .map(UserViewDTO::new)
                 .collect(Collectors.toList());
         long mappingTime = System.currentTimeMillis() - startMapping;
-
         long totalTime = System.currentTimeMillis() - startTotal;
-
-        log.info("DB: {}ms, Mapping: {}ms, Total: {}ms", dbTime, mappingTime, totalTime);
-
-//        List<UserViewDTO> users = userService.findByFirstLastName(firstName, lastName).stream().map(UserViewDTO::new).toList();
-        return ResponseEntity.ok(dtos);
+        log.debug("DB: {}ms, Mapping: {}ms, Total: {}ms", dbTime, mappingTime, totalTime);
+//        List<UserViewDTO> usersDto = userService.findByFirstLastName(firstName, lastName).stream().map(UserViewDTO::new).toList();
+        return ResponseEntity.ok(usersDto);
     }
 }
