@@ -61,5 +61,6 @@ DROP TABLE IF EXISTS tmp_users;
 
 # Тестирование
 
-1. Загрузите файл [HW01_postman_collection.json](src/test/postman/HW01_postman_collection.json) в Postman
-2. Последовательно выполните каждый из запросов, чтобы увидеть возвращаемые результаты
+1. [HW01: Тестирование REST API через Postman](hw/HW01.md)
+1. [HW01: Нагрузочное тестирование с JMeter](hw/HW02.md)
+
