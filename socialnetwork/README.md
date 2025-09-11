@@ -62,5 +62,5 @@ DROP TABLE IF EXISTS tmp_users;
 # Тестирование
 
 1. [HW01: Тестирование REST API через Postman](hw/HW01.md)
-1. [HW01: Нагрузочное тестирование с JMeter](hw/HW02.md)
+1. [HW02: Нагрузочное тестирование с JMeter](hw/HW02.md)
 
