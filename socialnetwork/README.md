@@ -18,6 +18,9 @@ CREATE DATABASE socialnet
 Перейдите в файл [Application.java](src/main/java/ru/webdl/otus/socialnetwork/Application.java) и создайте новую конфигурацию запуска, как
 показано ниже:
 ![run-config.png](img/run-config.png)
+Там же задайте переменные окружения через пункт меню `Modify options -> Operating System -> Environment variables`:
+- `SECURITY_JWT_SECRET` — для dev окружения можете указать любое значение
+
 Запустите приложение через созданную конфигурацию и REST API будет доступен по адресу http://localhost:8080/user/.
 
 # Загрузка тестовых данных в БД
