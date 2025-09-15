@@ -1,4 +1,22 @@
-# Инициализация
+# Домашняя работа
+
+1. [HW01: Тестирование REST API через Postman](hw/HW01.md)
+2. [HW02: Нагрузочное тестирование с JMeter](hw/HW02.md)
+
+# Подготовка к запуску приложения
+
+В корне проекта создайте файл `.env` с переменными окружения (поменяйте их при необходимости):
+
+```
+SPRING_PROFILES_ACTIVE=dev
+SECURITY_JWT_SECRET=fallback-key-only-for-testing
+
+SPRING_DATASOURCE_URL=jdbc:postgresql://192.168.128.2:5432/socialnet
+SPRING_DATASOURCE_USERNAME=socialnet
+SPRING_DATASOURCE_PASSWORD=socialnet
+```
+
+# Инициализация данных в БД
 
 Подключитесь к своему серверу БД PostgreSQL, создайте УЗ и БД:
 
@@ -13,21 +31,13 @@ CREATE DATABASE socialnet
     ENCODING = 'UTF8';
 ```
 
-Перейдите в файл [application-dev.properties](src/main/resources/application-dev.properties) и задайте параметр `spring.datasource.url`.
+# Инициализация приложения
 
-Перейдите в файл [Application.java](src/main/java/ru/webdl/otus/socialnetwork/Application.java) и создайте новую конфигурацию запуска, как
-показано ниже:
-![run-config.png](img/run-config.png)
-Там же задайте переменные окружения через пункт меню `Modify options -> Operating System -> Environment variables`:
-- `SECURITY_JWT_SECRET` — для dev окружения можете указать любое значение
-
-Запустите приложение через созданную конфигурацию и REST API будет доступен по адресу http://localhost:8080/user/.
-
-# Загрузка тестовых данных в БД
+Перейдите в [docker-compose.yml](docker-compose.yml) и запустите приложение.
 
 **Обратите внимание!**
 
-После первого запуска приложения в каталоге `target/` автоматически скачается файл `people.v2.csv` из репозитория
+После первого запуска приложения в каталоге `/app/target/` контейнера автоматически скачается файл `people.v2.csv` из репозитория
 https://github.com/OtusTeam/highload/tree/master/homework. Данный файл имеет ошибку, поэтому перед его использованием обязательно откройте
 его любым редактором и удалите последнюю строчку! После этого переходите к шагам ниже.
 
@@ -61,9 +71,3 @@ DROP SEQUENCE IF EXISTS username_seq;
 DROP TABLE IF EXISTS tmp_users;
 
 ```
-
-# Тестирование
-
-1. [HW01: Тестирование REST API через Postman](hw/HW01.md)
-1. [HW02: Нагрузочное тестирование с JMeter](hw/HW02.md)
-
