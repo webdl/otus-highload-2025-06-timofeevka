@@ -11,9 +11,12 @@
 SPRING_PROFILES_ACTIVE=dev
 SECURITY_JWT_SECRET=fallback-key-only-for-testing
 
-SPRING_DATASOURCE_URL=jdbc:postgresql://192.168.128.2:5432/socialnet
-SPRING_DATASOURCE_USERNAME=socialnet
-SPRING_DATASOURCE_PASSWORD=socialnet
+PGHOST=192.168.128.2
+PGPORT=5432
+PGDATABASE=socialnet
+PGUSER=socialnet
+PGPASSWORD=socialnet
+SPRING_DATASOURCE_URL=jdbc:postgresql://${PGHOST}:${PGPORT}/${PGDATABASE}
 ```
 
 # Инициализация данных в БД
@@ -38,13 +41,15 @@ CREATE DATABASE socialnet
 **Обратите внимание!**
 
 После первого запуска приложения в каталоге `/app/target/` контейнера автоматически скачается файл `people.v2.csv` из репозитория
-https://github.com/OtusTeam/highload/tree/master/homework. Данный файл имеет ошибку, поэтому перед его использованием обязательно откройте
-его любым редактором и удалите последнюю строчку! После этого переходите к шагам ниже.
+https://github.com/OtusTeam/highload/tree/master/homework.
 
-Запустите psql, подключитесь к БД `socialnet`, и выполните (заменив путь до файла `target/people.v2.csv`):
+Зайдите в запущенный образ, подключитесь к базе данных с помощью psql (команду можно выполнить без параметров):
 
+```shell
+psql
+```
 ```sql
-\COPY tmp_users(full_name, birth_date, city_name) FROM '~/git/otus/otus-highload-2025-06-timofeevka/socialnetwork/target/people.v2.csv' WITH (FORMAT csv, DELIMITER ',', HEADER false);
+\COPY tmp_users(full_name, birth_date, city_name) FROM '/app/target/people.v2.csv' WITH (FORMAT csv, DELIMITER ',', HEADER false);
 ```
 
 Далее выполнители запросы ниже:
