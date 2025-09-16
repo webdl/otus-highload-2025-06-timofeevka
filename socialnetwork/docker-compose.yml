@@ -31,9 +31,86 @@ services:
     stdin_open: true
     tty: true
 
+  prometheus:
+    image: prom/prometheus:v3.5.0
+    container_name: prometheus
+    restart: unless-stopped
+    volumes:
+      - ./deploy/prometheus/config/:/etc/prometheus/
+      - ./deploy/prometheus/data/:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--storage.tsdb.retention.time=200h'
+      - '--web.console.libraries=/etc/prometheus/console_libraries'
+      - '--web.console.templates=/etc/prometheus/consoles'
+      - '--web.enable-lifecycle'
+    expose:
+      - 9090
+    ports:
+      - "9090:9090"
+    networks:
+      - socialnet
+    links:
+      - cadvisor:cadvisor
+      - node-exporter:node-exporter
+
+  node-exporter:
+    image: prom/node-exporter:v1.9.1
+    container_name: node_exporter
+    restart: unless-stopped
+    expose:
+      - 9100
+    networks:
+      - socialnet
+
+  cadvisor:
+    image: gcr.io/cadvisor/cadvisor:latest
+    container_name: cadvisor
+    restart: unless-stopped
+    devices:
+      - /dev/kmsg
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:ro
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+      - /dev/disk:/dev/disk:ro
+    expose:
+      - 8080
+    ports:
+      - "8090:8080"
+    networks:
+      - socialnet
+
+  grafana:
+    image: grafana/grafana-oss:11.5.8
+    container_name: grafana
+    restart: unless-stopped
+    links:
+      - prometheus:prometheus
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./grafana/provisioning:/etc/grafana/provisioning
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_USERS_ALLOW_SIGN_UP=false
+    ports:
+      - "3000:3000"
+    networks:
+      - socialnet
+    depends_on:
+      - prometheus
+
 networks:
   socialnet:
     driver: bridge
 
 volumes:
   m2:
+  prometheus_data:
+    driver: local
+  grafana_data:
+    driver: local
