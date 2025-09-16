@@ -24,7 +24,7 @@ services:
       - SPRING_DATASOURCE_URL=${SPRING_DATASOURCE_URL}
       - SPRING_DATASOURCE_USERNAME=${PGUSER}
       - SPRING_DATASOURCE_PASSWORD=${PGPASSWORD}
-      - JAVA_OPTS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005 -Xmx512m -Xms512m
+      - JAVA_OPTS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005 -Xmx4g -Xms4g -XX:+UseContainerSupport -XX:MaxRAMPercentage=75.0
     networks:
       - socialnet
     restart: unless-stopped
@@ -65,18 +65,17 @@ services:
       - socialnet
 
   cadvisor:
-    image: gcr.io/cadvisor/cadvisor:latest
+    image: gcr.io/cadvisor/cadvisor:v0.52.1
     container_name: cadvisor
     restart: unless-stopped
-    devices:
-      - /dev/kmsg
+    privileged: true
     volumes:
-      - /:/rootfs:ro
       - /var/run:/var/run:ro
       - /sys:/sys:ro
       - /var/lib/docker/:/var/lib/docker:ro
-      - /sys/fs/cgroup:/sys/fs/cgroup:ro
-      - /dev/disk:/dev/disk:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /etc/machine-id:/etc/machine-id:ro
+      - /var/lib/dbus/machine-id:/var/lib/dbus/machine-id:ro
     expose:
       - 8080
     ports:
