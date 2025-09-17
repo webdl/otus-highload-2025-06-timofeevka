@@ -7,7 +7,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import ru.webdl.otus.socialnetwork.core.user.UserService;
-import ru.webdl.otus.socialnetwork.core.user.cases.UserRegistrationUseCaseImpl;
+import ru.webdl.otus.socialnetwork.core.user.cases.UserSignUpUseCaseImpl;
 import ru.webdl.otus.socialnetwork.core.user.entities.User;
 
 import java.util.List;
@@ -16,11 +16,11 @@ import java.util.stream.Collectors;
 @Log4j2
 @RestController
 public class UserController {
-    private final UserRegistrationUseCaseImpl userRegistrationUseCase;
+    private final UserSignUpUseCaseImpl userRegistrationUseCase;
     private final UserService userService;
     private final AuthenticationManager authenticationManager;
 
-    public UserController(UserRegistrationUseCaseImpl userRegistrationUseCase,
+    public UserController(UserSignUpUseCaseImpl userRegistrationUseCase,
                           UserService userService,
                           AuthenticationManager authenticationManager) {
         this.userRegistrationUseCase = userRegistrationUseCase;
@@ -41,7 +41,7 @@ public class UserController {
 
     @PostMapping("/user/register")
     public ResponseEntity<UserViewDTO> register(@RequestBody UserDTO user) {
-        userRegistrationUseCase.register(user.toDomain());
+        userRegistrationUseCase.signup(user.toDomain());
         return userService.findByUsername(user.getUsername())
                 .map(UserViewDTO::new)
                 .map(ResponseEntity::ok)

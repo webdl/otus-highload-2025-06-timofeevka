@@ -2,8 +2,8 @@ package ru.webdl.otus.socialnetwork.core.user.cases;
 
 import ru.webdl.otus.socialnetwork.core.user.entities.User;
 
-public interface UserRegistrationUseCase {
+public interface UserSignInUseCase {
 
-    void register(User user);
+    User signin(String username, String password);
 
 }

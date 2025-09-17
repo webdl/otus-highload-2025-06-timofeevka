@@ -4,6 +4,6 @@ public interface PasswordHasher {
 
     String encode(String password);
 
-    boolean verify(String rawPassword, String encodedPassword);
+    boolean matches(String rawPassword, String encodedPassword);
 
 }

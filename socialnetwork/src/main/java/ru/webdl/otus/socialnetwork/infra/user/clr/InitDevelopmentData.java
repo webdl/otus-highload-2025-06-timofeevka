@@ -4,7 +4,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import ru.webdl.otus.socialnetwork.core.user.UserService;
-import ru.webdl.otus.socialnetwork.core.user.cases.UserRegistrationUseCase;
+import ru.webdl.otus.socialnetwork.core.user.cases.UserSignUpUseCase;
 import ru.webdl.otus.socialnetwork.core.user.entities.User;
 import ru.webdl.otus.socialnetwork.core.user.entities.UserImpl;
 
@@ -12,11 +12,11 @@ import ru.webdl.otus.socialnetwork.core.user.entities.UserImpl;
 @Profile("dev")
 public class InitDevelopmentData implements CommandLineRunner {
     private final UserService userService;
-    private final UserRegistrationUseCase userRegistrationUseCase;
+    private final UserSignUpUseCase userSignUpUseCase;
 
-    public InitDevelopmentData(UserService userService, UserRegistrationUseCase userRegistrationUseCase) {
+    public InitDevelopmentData(UserService userService, UserSignUpUseCase userSignUpUseCase) {
         this.userService = userService;
-        this.userRegistrationUseCase = userRegistrationUseCase;
+        this.userSignUpUseCase = userSignUpUseCase;
     }
 
     @Override
@@ -29,6 +29,6 @@ public class InitDevelopmentData implements CommandLineRunner {
     private void createAdminUser() {
         User user = new UserImpl(null, "Админ", "Админов", null, null, null,
                 171, "admin", "admin");
-        userRegistrationUseCase.register(user);
+        userSignUpUseCase.signup(user);
     }
 }

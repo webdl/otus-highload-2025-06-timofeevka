@@ -20,7 +20,7 @@ public class PasswordHasherImpl implements PasswordHasher {
     }
 
     @Override
-    public boolean verify(String rawPassword, String encodedPassword) {
+    public boolean matches(String rawPassword, String encodedPassword) {
         return passwordEncoder.matches(rawPassword, encodedPassword);
     }
 }
