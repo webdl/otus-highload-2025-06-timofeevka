@@ -68,7 +68,7 @@ SELECT split_part(full_name, ' ', 2)                                  AS first_n
                    || left(split_part(full_name, ' ', 2), 1)
                ))
            || nextval('username_seq')::text                           AS username,
-       '$2a$10$uF1yne0CC4rCSoH6XkiJPuWbUp3/Jm0L2quSORZRG7NTCZsrwBjia' as password -- пароль "password" для всех пользователей
+       '$2a$04$OGuod6JuDmEsUdK/MgN4AOpGkn0jjKVLdQE4DLhC1y9FnT6YQFbmi' as password -- пароль "password" для всех пользователей
 FROM tmp_users t
          JOIN cities c ON c.name = t.city_name;
 
