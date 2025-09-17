@@ -780,14 +780,14 @@
           "value": "$__all"
         },
         "datasource": "dey806wbnzmkgf",
-        "definition": "label_values({__name__=~\"container.*\", instance=~\"$host\"},id)",
+        "definition": "label_values({__name__=~\"container.*\", instance=~\"$host\"},name)",
         "includeAll": true,
         "label": "Container",
         "name": "container",
         "options": [],
         "query": {
           "qryType": 1,
-          "query": "label_values({__name__=~\"container.*\", instance=~\"$host\"},id)",
+          "query": "label_values({__name__=~\"container.*\", instance=~\"$host\"},name)",
           "refId": "PrometheusVariableQueryEditor-VariableQuery"
         },
         "refresh": 1,
@@ -804,6 +804,6 @@
   "timezone": "",
   "title": "Cadvisor exporter",
   "uid": "pMEd7m0Mz",
-  "version": 5,
+  "version": 6,
   "weekStart": ""
 }
