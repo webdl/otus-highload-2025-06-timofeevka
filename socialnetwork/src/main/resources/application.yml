@@ -1,0 +1,53 @@
+spring:
+  application:
+    name: socialnetwork
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://${PGHOST}:${PGPORT}/${PGDATABASE}
+    username: ${PGUSER}
+    password: ${PGPASSWORD}
+  jpa:
+    hibernate:
+      ddl-auto: none
+  sql:
+    init:
+      mode: never
+  batch:
+    jdbc:
+      initialize-schema: always
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: always
+
+security:
+  jwt:
+    secret: ${SECURITY_JWT_SECRET:fallback-key-only-for-testing}
+    tokenExpirationTime: 3600
+    refreshTokenExpirationTime: 1209600000
+
+---
+spring:
+  config:
+    activate:
+      on-profile: dev
+  sql:
+    init:
+      schema-locations: classpath:schema.sql,classpath:schema-dev.sql
+  jpa:
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: false
+        generate_statistics: false
+logging:
+  level:
+    org.hibernate.SQL: ERROR
+    org.hibernate.type.descriptor.sql.BasicBinder: ERROR
+    org.springframework.security: ERROR
+    org.springframework.jdbc.core.JdbcTemplate: ERROR
