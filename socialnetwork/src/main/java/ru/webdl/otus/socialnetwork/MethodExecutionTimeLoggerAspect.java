@@ -13,7 +13,7 @@ import org.springframework.util.StopWatch;
 @Log4j2
 public class MethodExecutionTimeLoggerAspect {
 
-    @Around("execution(* ru.webdl.otus.socialnetwork.infra..*.*(..))")
+//    @Around("execution(* ru.webdl.otus.socialnetwork.infra..*.*(..))")
 //    @Around("execution(* ru.webdl.otus.socialnetwork.infra.security.jwt.*(..))")
     public Object logExecutionTime(ProceedingJoinPoint joinPoint) throws Throwable {
         MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
