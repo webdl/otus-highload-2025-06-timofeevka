@@ -11,6 +11,6 @@ public interface UserRepository {
 
     List<User> findByFirstLastName(String firstName, String lastName);
 
-    void create(User user);
+    User create(User user);
 
 }

@@ -41,11 +41,8 @@ public class UserController {
 
     @PostMapping("/user/register")
     public ResponseEntity<UserViewDTO> register(@RequestBody UserDTO user) {
-        userRegistrationUseCase.signup(user.toDomain());
-        return userService.findByUsername(user.getUsername())
-                .map(UserViewDTO::new)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+        User newUser = userRegistrationUseCase.signup(user.toDomain());
+        return ResponseEntity.ok(new UserViewDTO(newUser));
     }
 
     @GetMapping("/user/get/{id}")

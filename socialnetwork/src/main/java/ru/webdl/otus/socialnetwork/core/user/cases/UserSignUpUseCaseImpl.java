@@ -17,8 +17,8 @@ public class UserSignUpUseCaseImpl implements UserSignUpUseCase {
     }
 
     @Override
-    public void signup(User user) {
+    public User signup(User user) {
         user.setPassword(passwordHasher.encode(user.getPassword()));
-        repository.create(user);
+        return repository.create(user);
     }
 }

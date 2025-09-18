@@ -64,7 +64,8 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public void create(User user) {
+    @Transactional
+    public User create(User user) {
         String sql = "INSERT INTO users (first_name, last_name, birth_date, gender, interests, city_id, username, password) " +
                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         jdbcTemplate.update(sql, ps -> {
@@ -78,5 +79,6 @@ public class UserRepositoryImpl implements UserRepository {
                     ps.setString(8, user.getPassword());
                 }
         );
+        return findByUsername(user.getUsername()).orElseThrow();
     }
 }
