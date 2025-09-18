@@ -2,10 +2,25 @@ spring:
   application:
     name: socialnetwork
   datasource:
-    driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://${PGHOST}:${PGPORT}/${PGDATABASE}
-    username: ${PGUSER}
-    password: ${PGPASSWORD}
+    dynamic:
+      primary: master
+      strict: false
+      datasource:
+        master:
+          url: jdbc:postgresql://${PGHOST}:${PGPORT}/${PGDATABASE}
+          username: ${PGUSER}
+          password: ${PGPASSWORD}
+          driver-class-name: org.postgresql.Driver
+        slave_1:
+          url: jdbc:postgresql://${PGHOST_SLAVE_1}:${PGPORT}/${PGDATABASE}
+          username: ${PGUSER}
+          password: ${PGPASSWORD}
+          driver-class-name: org.postgresql.Driver
+        slave_2:
+          url: jdbc:postgresql://${PGHOST_SLAVE_2}:${PGPORT}/${PGDATABASE}
+          username: ${PGUSER}
+          password: ${PGPASSWORD}
+          driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
       ddl-auto: none

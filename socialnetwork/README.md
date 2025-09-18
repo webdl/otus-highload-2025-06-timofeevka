@@ -11,12 +11,13 @@
 SPRING_PROFILES_ACTIVE=dev
 SECURITY_JWT_SECRET=fallback-key-only-for-testing
 
-PGHOST=192.168.128.2
+PGHOST=10.0.2.2
+PGHOST_SLAVE_1=10.0.2.3
+PGHOST_SLAVE_2=10.0.2.4
 PGPORT=5432
 PGDATABASE=socialnet
 PGUSER=socialnet
 PGPASSWORD=socialnet
-SPRING_DATASOURCE_URL=jdbc:postgresql://${PGHOST}:${PGPORT}/${PGDATABASE}
 ```
 
 # Инициализация данных в БД

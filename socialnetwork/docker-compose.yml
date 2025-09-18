@@ -15,17 +15,14 @@ services:
       - PGDATABASE=${PGDATABASE}
       - PGHOST=${PGHOST}
       - PGPORT=${PGPORT}
+      - PGHOST_SLAVE_1=${PGHOST_SLAVE_1}
+      - PGHOST_SLAVE_2=${PGHOST_SLAVE_2}
       - SECURITY_JWT_SECRET=${SECURITY_JWT_SECRET}
       - SPRING_PROFILES_ACTIVE=${SPRING_PROFILES_ACTIVE:-dev}
-      - SPRING_DATASOURCE_URL=${SPRING_DATASOURCE_URL}
-      - SPRING_DATASOURCE_USERNAME=${PGUSER}
-      - SPRING_DATASOURCE_PASSWORD=${PGPASSWORD}
       - JAVA_OPTS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005 -Xmx4g -Xms4g -XX:+UseContainerSupport -XX:MaxRAMPercentage=75.0
     networks:
       - socialnet
     restart: unless-stopped
-    stdin_open: true
-    tty: true
 
   prometheus:
     image: prom/prometheus:v3.5.0

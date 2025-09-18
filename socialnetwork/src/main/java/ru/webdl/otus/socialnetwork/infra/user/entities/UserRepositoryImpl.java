@@ -1,9 +1,11 @@
 package ru.webdl.otus.socialnetwork.infra.user.entities;
 
+import com.baomidou.dynamic.datasource.annotation.DS;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import ru.webdl.otus.socialnetwork.core.user.entities.User;
 import ru.webdl.otus.socialnetwork.core.user.entities.UserImpl;
 import ru.webdl.otus.socialnetwork.core.user.entities.UserRepository;
@@ -35,18 +37,25 @@ public class UserRepositoryImpl implements UserRepository {
         );
     };
 
+    @Override
+    @DS("slave_1")
+    @Transactional(readOnly = true)
     public Optional<User> findById(Long id) {
         String sql = "SELECT * FROM users WHERE user_id = ?";
         return jdbcTemplate.query(sql, userRowMapper, id).stream().findFirst();
     }
 
     @Override
+    @DS("slave_1")
+    @Transactional(readOnly = true)
     public Optional<User> findByUsername(String username) {
         String sql = "SELECT * FROM users WHERE username = ?";
         return jdbcTemplate.query(sql, userRowMapper, username).stream().findFirst();
     }
 
     @Override
+    @DS("slave_2")
+    @Transactional(readOnly = true)
     public List<User> findByFirstLastName(String firstName, String lastName) {
         firstName += "%";
         lastName += "%";
@@ -54,6 +63,7 @@ public class UserRepositoryImpl implements UserRepository {
         return jdbcTemplate.query(sql, userRowMapper, firstName, lastName);
     }
 
+    @Override
     public void create(User user) {
         String sql = "INSERT INTO users (first_name, last_name, birth_date, gender, interests, city_id, username, password) " +
                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
