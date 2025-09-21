@@ -7,7 +7,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import ru.webdl.otus.socialnetwork.core.user.UserService;
-import ru.webdl.otus.socialnetwork.core.user.cases.UserSignUpUseCaseImpl;
+import ru.webdl.otus.socialnetwork.core.user.cases.UserSignUpUseCase;
 import ru.webdl.otus.socialnetwork.core.user.entities.User;
 
 import java.util.List;
@@ -16,14 +16,14 @@ import java.util.stream.Collectors;
 @Log4j2
 @RestController
 public class UserController {
-    private final UserSignUpUseCaseImpl userRegistrationUseCase;
+    private final UserSignUpUseCase userSignUpUseCase;
     private final UserService userService;
     private final AuthenticationManager authenticationManager;
 
-    public UserController(UserSignUpUseCaseImpl userRegistrationUseCase,
+    public UserController(UserSignUpUseCase userSignUpUseCase,
                           UserService userService,
                           AuthenticationManager authenticationManager) {
-        this.userRegistrationUseCase = userRegistrationUseCase;
+        this.userSignUpUseCase = userSignUpUseCase;
         this.userService = userService;
         this.authenticationManager = authenticationManager;
     }
@@ -40,9 +40,9 @@ public class UserController {
     }
 
     @PostMapping("/user/register")
-    public ResponseEntity<UserViewDTO> register(@RequestBody UserDTO user) {
-        User newUser = userRegistrationUseCase.signup(user.toDomain());
-        return ResponseEntity.ok(new UserViewDTO(newUser));
+    public ResponseEntity<UserSignUpDTO> register(@RequestBody UserDTO user) {
+        int userId = userSignUpUseCase.signup(user.toDomain());
+        return ResponseEntity.ok(new UserSignUpDTO(userId));
     }
 
     @GetMapping("/user/get/{id}")

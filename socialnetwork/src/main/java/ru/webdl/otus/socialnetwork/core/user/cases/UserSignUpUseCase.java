@@ -4,6 +4,6 @@ import ru.webdl.otus.socialnetwork.core.user.entities.User;
 
 public interface UserSignUpUseCase {
 
-    User signup(User user);
+    int signup(User user);
 
 }
