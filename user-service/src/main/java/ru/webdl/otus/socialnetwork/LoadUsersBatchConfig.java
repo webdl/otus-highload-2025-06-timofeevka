@@ -14,6 +14,7 @@ import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.batch.core.step.builder.StepBuilder;
 import org.springframework.batch.core.step.tasklet.Tasklet;
 import org.springframework.batch.repeat.RepeatStatus;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.batch.JobLauncherApplicationRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -38,6 +39,7 @@ public class LoadUsersBatchConfig {
     private static final String USERS_CSV_OUTPUT_PATH = "target/people.v2.csv";
 
     @Bean
+    @Qualifier("downloadFileStep")
     public Step downloadFileStep(JobRepository jobRepository,
                                  PlatformTransactionManager transactionManager) {
         Tasklet downloadTasklet = new Tasklet() {
@@ -64,6 +66,7 @@ public class LoadUsersBatchConfig {
     }
 
     @Bean
+    @Qualifier("removeLastLineStep")
     public Step removeLastLineStep(JobRepository jobRepository, PlatformTransactionManager transactionManager) {
         return new StepBuilder("removeLastLineStep", jobRepository)
                 .tasklet(removeLastLineTasklet(), transactionManager)
