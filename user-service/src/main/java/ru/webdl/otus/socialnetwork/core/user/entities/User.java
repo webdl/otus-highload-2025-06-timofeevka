@@ -1,10 +1,11 @@
 package ru.webdl.otus.socialnetwork.core.user.entities;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 public interface User {
 
-    Long getId();
+    UUID getId();
 
     String getFirstName();
 

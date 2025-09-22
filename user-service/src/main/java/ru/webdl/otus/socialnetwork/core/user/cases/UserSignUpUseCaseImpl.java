@@ -5,6 +5,8 @@ import ru.webdl.otus.socialnetwork.core.user.PasswordHasher;
 import ru.webdl.otus.socialnetwork.core.user.entities.User;
 import ru.webdl.otus.socialnetwork.core.user.entities.UserRepository;
 
+import java.util.UUID;
+
 @Service
 class UserSignUpUseCaseImpl implements UserSignUpUseCase {
     private final UserRepository repository;
@@ -17,7 +19,7 @@ class UserSignUpUseCaseImpl implements UserSignUpUseCase {
     }
 
     @Override
-    public int signup(User user) {
+    public UUID signup(User user) {
         user.setPassword(passwordHasher.encode(user.getPassword()));
         return repository.create(user);
     }

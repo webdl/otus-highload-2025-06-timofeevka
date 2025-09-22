@@ -3,14 +3,14 @@ package ru.webdl.otus.socialnetwork.infra.user.rest;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import ru.webdl.otus.socialnetwork.core.user.entities.User;
-import ru.webdl.otus.socialnetwork.core.user.entities.UserImpl;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 @Getter
 @AllArgsConstructor
 public class UserViewDTO {
-    private Long id;
+    private UUID id;
     private String firstName;
     private String lastName;
     private LocalDate birthDate;

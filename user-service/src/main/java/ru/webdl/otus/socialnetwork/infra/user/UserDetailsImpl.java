@@ -10,13 +10,14 @@ import ru.webdl.otus.socialnetwork.core.user.entities.User;
 import java.io.Serial;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.UUID;
 
 @Getter
 @EqualsAndHashCode
 public class UserDetailsImpl implements UserDetails {
     @Serial
     private static final long serialVersionUID = 1L;
-    private final Long id;
+    private final UUID id;
     private final String username;
     @JsonIgnore
     private final String password;

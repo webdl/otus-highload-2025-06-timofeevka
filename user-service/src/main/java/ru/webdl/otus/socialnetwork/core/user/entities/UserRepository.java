@@ -2,15 +2,16 @@ package ru.webdl.otus.socialnetwork.core.user.entities;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 public interface UserRepository {
 
-    Optional<User> findById(Long id);
+    Optional<User> findById(UUID id);
 
     Optional<User> findByUsername(String username);
 
     List<User> findByFirstLastName(String firstName, String lastName);
 
-    int create(User user);
+    UUID create(User user);
 
 }

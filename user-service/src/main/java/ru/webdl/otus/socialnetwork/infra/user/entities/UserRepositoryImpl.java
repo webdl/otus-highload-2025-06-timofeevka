@@ -16,8 +16,8 @@ import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
+import java.util.UUID;
 
 @Repository
 public class UserRepositoryImpl implements UserRepository {
@@ -30,7 +30,7 @@ public class UserRepositoryImpl implements UserRepository {
 
     private final RowMapper<User> userRowMapper = (rs, rowNum) -> {
         return new UserImpl(
-                rs.getLong("user_id"),
+                rs.getObject("user_id", UUID.class),
                 rs.getString("first_name"),
                 rs.getString("last_name"),
                 rs.getObject("birth_date", LocalDate.class),
@@ -45,7 +45,7 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     @DS("slave_1")
     @Transactional(readOnly = true)
-    public Optional<User> findById(Long id) {
+    public Optional<User> findById(UUID id) {
         String sql = "SELECT * FROM users WHERE user_id = ?";
         return jdbcTemplate.query(sql, userRowMapper, id).stream().findFirst();
     }
@@ -69,7 +69,7 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public int create(User user) {
+    public UUID create(User user) {
         String sql = """
                 INSERT INTO users (first_name, last_name, birth_date, gender, interests, city_id, username, password)
                                 VALUES (?, ?, ?, ?, ?, ?, ?, ?)
@@ -87,6 +87,6 @@ public class UserRepositoryImpl implements UserRepository {
             ps.setString(8, user.getPassword());
             return ps;
         }, keyHolder);
-        return Objects.requireNonNull(keyHolder.getKey()).intValue();
+        return keyHolder.getKeyAs(UUID.class);
     }
 }

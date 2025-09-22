@@ -11,6 +11,7 @@ import ru.webdl.otus.socialnetwork.core.user.cases.UserSignUpUseCase;
 import ru.webdl.otus.socialnetwork.core.user.entities.User;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Log4j2
@@ -41,12 +42,12 @@ public class UserController {
 
     @PostMapping("/user/register")
     public ResponseEntity<UserSignUpDTO> register(@RequestBody UserDTO user) {
-        int userId = userSignUpUseCase.signup(user.toDomain());
+        UUID userId = userSignUpUseCase.signup(user.toDomain());
         return ResponseEntity.ok(new UserSignUpDTO(userId));
     }
 
     @GetMapping("/user/get/{id}")
-    public ResponseEntity<UserViewDTO> getUserById(@PathVariable Long id) {
+    public ResponseEntity<UserViewDTO> getUserById(@PathVariable UUID id) {
         return userService.findById(id)
                 .map(UserViewDTO::new)
                 .map(ResponseEntity::ok)

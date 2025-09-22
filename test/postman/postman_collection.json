@@ -76,7 +76,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/user/get/1",
+					"raw": "http://localhost:8080/user/get/01997291-1f77-7be4-b3eb-3d71c8fcc936",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -85,7 +85,7 @@
 					"path": [
 						"user",
 						"get",
-						"1"
+						"01997291-1f77-7be4-b3eb-3d71c8fcc936"
 					]
 				}
 			},
@@ -157,6 +157,7 @@
 			"script": {
 				"type": "text/javascript",
 				"packages": {},
+				"requests": {},
 				"exec": [
 					""
 				]
@@ -167,6 +168,7 @@
 			"script": {
 				"type": "text/javascript",
 				"packages": {},
+				"requests": {},
 				"exec": [
 					""
 				]

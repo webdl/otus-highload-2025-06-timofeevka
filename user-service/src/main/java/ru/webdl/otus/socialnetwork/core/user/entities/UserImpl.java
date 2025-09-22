@@ -4,11 +4,12 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 @Getter
 @AllArgsConstructor
 public class UserImpl implements User {
-    private Long id;
+    private UUID id;
     private String firstName;
     private String lastName;
     private LocalDate birthDate;

@@ -6,6 +6,7 @@ import ru.webdl.otus.socialnetwork.core.user.entities.UserRepository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -16,7 +17,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Optional<User> findById(Long id) {
+    public Optional<User> findById(UUID id) {
         return repository.findById(id);
     }
 

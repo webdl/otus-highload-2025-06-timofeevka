@@ -4,10 +4,11 @@ import ru.webdl.otus.socialnetwork.core.user.entities.User;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 public interface UserService {
 
-    Optional<User> findById(Long id);
+    Optional<User> findById(UUID id);
 
     Optional<User> findByUsername(String username);
 
