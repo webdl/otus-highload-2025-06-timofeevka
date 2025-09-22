@@ -89,4 +89,22 @@ public class UserRepositoryImpl implements UserRepository {
         }, keyHolder);
         return keyHolder.getKeyAs(UUID.class);
     }
+
+    @Override
+    public void addFriend(User user, User friend) {
+        String sql = "INSERT INTO user_friends (user_id, friend_id) VALUES (?, ?)";
+        jdbcTemplate.update(sql, user.getId(), friend.getId());
+    }
+
+    @Override
+    public void deleteFriend(User user, User friend) {
+        String  sql = "DELETE FROM user_friends WHERE user_id = ? AND friend_id = ?";
+        jdbcTemplate.update(sql, user.getId(), friend.getId());
+    }
+
+    @Override
+    public List<User> getFriends(User user) {
+        String  sql = "SELECT user_id, friend_id FROM user_friends WHERE user_id = ?";
+        return jdbcTemplate.query(sql, userRowMapper, user.getId());
+    }
 }

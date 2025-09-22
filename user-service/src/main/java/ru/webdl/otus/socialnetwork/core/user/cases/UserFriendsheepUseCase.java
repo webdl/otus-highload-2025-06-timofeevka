@@ -1,0 +1,15 @@
+package ru.webdl.otus.socialnetwork.core.user.cases;
+
+import ru.webdl.otus.socialnetwork.core.user.entities.User;
+
+import java.util.List;
+
+public interface UserFriendsheepUseCase {
+
+    void add(User user, User friend);
+
+    void delete(User user, User friend);
+
+    List<User> getFriends(User user);
+
+}

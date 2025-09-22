@@ -25,3 +25,15 @@ CREATE TABLE users
     CONSTRAINT fk_city FOREIGN KEY (city_id) REFERENCES cities (city_id)
 );
 
+CREATE TABLE user_friends
+(
+    user_id   uuid      NOT NULL,
+    friend_id uuid      NOT NULL,
+    created   TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    PRIMARY KEY (user_id, friend_id),
+    CONSTRAINT fk_user FOREIGN KEY (user_id) REFERENCES users (user_id) ON DELETE CASCADE,
+    CONSTRAINT fk_friend FOREIGN KEY (friend_id) REFERENCES users (user_id) ON DELETE CASCADE,
+
+    CONSTRAINT chk_different_users CHECK (user_id != friend_id)
+);

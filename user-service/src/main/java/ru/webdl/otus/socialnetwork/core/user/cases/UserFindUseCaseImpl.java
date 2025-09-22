@@ -1,4 +1,4 @@
-package ru.webdl.otus.socialnetwork.core.user;
+package ru.webdl.otus.socialnetwork.core.user.cases;
 
 import org.springframework.stereotype.Service;
 import ru.webdl.otus.socialnetwork.core.user.entities.User;
@@ -9,10 +9,10 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
-public class UserServiceImpl implements UserService {
+public class UserFindUseCaseImpl implements UserFindUseCase {
     private final UserRepository repository;
 
-    public UserServiceImpl(UserRepository repository) {
+    public UserFindUseCaseImpl(UserRepository repository) {
         this.repository = repository;
     }
 

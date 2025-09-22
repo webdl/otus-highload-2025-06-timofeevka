@@ -14,4 +14,10 @@ public interface UserRepository {
 
     UUID create(User user);
 
+    void addFriend(User user, User friend);
+
+    void deleteFriend(User user, User friend);
+
+    List<User> getFriends(User user);
+
 }

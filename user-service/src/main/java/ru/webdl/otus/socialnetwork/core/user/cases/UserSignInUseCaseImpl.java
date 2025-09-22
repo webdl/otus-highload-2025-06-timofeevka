@@ -1,23 +1,24 @@
 package ru.webdl.otus.socialnetwork.core.user.cases;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.webdl.otus.socialnetwork.core.user.PasswordHasher;
-import ru.webdl.otus.socialnetwork.core.user.UserService;
 import ru.webdl.otus.socialnetwork.core.user.entities.User;
 
 @Service
 public class UserSignInUseCaseImpl implements UserSignInUseCase {
     private final PasswordHasher passwordHasher;
-    private final UserService userService;
+    private final UserFindUseCase userFindUseCase;
 
-    public UserSignInUseCaseImpl(PasswordHasher passwordHasher, UserService userService) {
+    @Autowired
+    public UserSignInUseCaseImpl(PasswordHasher passwordHasher, UserFindUseCase userFindUseCase) {
         this.passwordHasher = passwordHasher;
-        this.userService = userService;
+        this.userFindUseCase = userFindUseCase;
     }
 
     @Override
     public User signin(String username, String password) {
-        User user = userService.findByUsername(username)
+        User user = userFindUseCase.findByUsername(username)
                 .orElseThrow(() -> new UserNotFoundException("User not found: " + username));
         if (!passwordHasher.matches(password, user.getPassword())) {
             throw new PasswordIncorrectException("exception.badCredentials");

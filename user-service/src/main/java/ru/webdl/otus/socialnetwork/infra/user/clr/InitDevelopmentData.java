@@ -3,7 +3,7 @@ package ru.webdl.otus.socialnetwork.infra.user.clr;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
-import ru.webdl.otus.socialnetwork.core.user.UserService;
+import ru.webdl.otus.socialnetwork.core.user.cases.UserFindUseCase;
 import ru.webdl.otus.socialnetwork.core.user.cases.UserSignUpUseCase;
 import ru.webdl.otus.socialnetwork.core.user.entities.User;
 import ru.webdl.otus.socialnetwork.core.user.entities.UserImpl;
@@ -11,17 +11,17 @@ import ru.webdl.otus.socialnetwork.core.user.entities.UserImpl;
 @Component
 @Profile("dev")
 public class InitDevelopmentData implements CommandLineRunner {
-    private final UserService userService;
+    private final UserFindUseCase userFindUseCase;
     private final UserSignUpUseCase userSignUpUseCase;
 
-    public InitDevelopmentData(UserService userService, UserSignUpUseCase userSignUpUseCase) {
-        this.userService = userService;
+    public InitDevelopmentData(UserFindUseCase userFindUseCase, UserSignUpUseCase userSignUpUseCase) {
+        this.userFindUseCase = userFindUseCase;
         this.userSignUpUseCase = userSignUpUseCase;
     }
 
     @Override
     public void run(String... args) throws Exception {
-        if (userService.findByUsername("admin").isEmpty()) {
+        if (userFindUseCase.findByUsername("admin").isEmpty()) {
             createAdminUser();
         }
     }
