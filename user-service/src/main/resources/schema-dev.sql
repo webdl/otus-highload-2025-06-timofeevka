@@ -52,3 +52,4 @@ CREATE TABLE tmp_users
     birth_date DATE,
     city_name  VARCHAR(100)
 );
+

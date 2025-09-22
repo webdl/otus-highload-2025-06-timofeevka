@@ -3,7 +3,7 @@ name: socialnet
 services:
   app:
     build:
-      context: .
+      context: user-service
       dockerfile: Dockerfile
     container_name: socialnet-app
     ports:

@@ -1,8 +1,0 @@
-.idea
-target
-
-.m2
-.mvn
-.env
-
-deploy/prometheus/data
