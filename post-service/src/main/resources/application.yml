@@ -1,3 +1,32 @@
+server.port: 8081
 spring:
-  application:
-    name: Post Service
+  application.name: Post Service
+  config.import: optional:file:.env[.properties]
+  datasource:
+    dynamic:
+      primary: master
+      strict: false
+      datasource:
+        master:
+          url: jdbc:postgresql://${PGHOST}:${PGPORT}/${PGDATABASE}
+          username: ${PGUSER}
+          password: ${PGPASSWORD}
+          driver-class-name: org.postgresql.Driver
+        slave_1:
+          url: jdbc:postgresql://${PGHOST_SLAVE_1}:${PGPORT}/${PGDATABASE}
+          username: ${PGUSER}
+          password: ${PGPASSWORD}
+          driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: none
+  sql:
+    init:
+      mode: never
+  batch:
+    jdbc:
+      initialize-schema: always
+
+logging:
+  level:
+    ru.webdl.otus.socialnetwork: INFO

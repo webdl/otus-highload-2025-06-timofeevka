@@ -1,6 +1,7 @@
+server.port: 8080
 spring:
-  application:
-    name: User Service
+  application.name: User Service
+  config.import: optional:file:.env[.properties]
   datasource:
     dynamic:
       primary: master
