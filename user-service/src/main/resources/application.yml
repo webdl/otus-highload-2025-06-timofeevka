@@ -48,6 +48,10 @@ security:
     tokenExpirationTime: 3600
     refreshTokenExpirationTime: 1209600000
 
+logging:
+  level:
+    ru.webdl.otus.socialnetwork: INFO
+
 ---
 spring:
   config:
@@ -62,8 +66,10 @@ spring:
       hibernate:
         format_sql: false
         generate_statistics: false
+
 logging:
   level:
+    ru.webdl.otus.socialnetwork: DEBUG
     org.hibernate.SQL: ERROR
     org.hibernate.type.descriptor.sql.BasicBinder: ERROR
     org.springframework.security: ERROR
