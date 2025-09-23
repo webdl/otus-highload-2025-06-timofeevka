@@ -1,0 +1,49 @@
+package ru.webdl.otus.socialnetwork.infra.user.entities;
+
+import com.baomidou.dynamic.datasource.annotation.DS;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+import ru.webdl.otus.socialnetwork.core.user.entities.User;
+import ru.webdl.otus.socialnetwork.core.user.entities.UserRepository;
+import ru.webdl.otus.socialnetwork.core.user.entities.impl.UserImpl;
+
+import java.util.Optional;
+import java.util.UUID;
+
+@Repository
+public class UserRepositoryImpl implements UserRepository {
+    private final JdbcTemplate jdbcTemplate;
+
+    @Autowired
+    public UserRepositoryImpl(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
+
+    private final RowMapper<User> userRowMapper = (rs, rowNum) -> {
+        return new UserImpl(
+                rs.getObject("user_id", UUID.class),
+                rs.getString("display_name"),
+                rs.getInt("total_posts"),
+                rs.getTimestamp("created"),
+                rs.getString("status")
+        );
+    };
+
+    @Override
+    @DS("slave_1")
+    @Transactional(readOnly = true)
+    public Optional<User> findById(UUID id) {
+        String sql = "SELECT * FROM users WHERE user_id = ?";
+        return jdbcTemplate.query(sql, userRowMapper, id).stream().findFirst();
+    }
+
+    @Override
+    public UUID create(User user) {
+        String sql = "INSERT INTO users (user_id, display_name) VALUES (?, ?);";
+        jdbcTemplate.update(sql, user.getId(), user.getDisplayName());
+        return user.getId();
+    }
+}
