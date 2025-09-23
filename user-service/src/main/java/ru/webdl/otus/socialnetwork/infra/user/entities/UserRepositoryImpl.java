@@ -104,7 +104,14 @@ class UserRepositoryImpl implements UserRepository {
 
     @Override
     public List<User> getFriends(User user) {
-        String sql = "SELECT user_id, friend_id FROM user_friends WHERE user_id = ?";
+        String sql = """
+                SELECT u.*
+                FROM users u
+                WHERE u.user_id IN (
+                    SELECT friend_id
+                    FROM user_friends
+                    WHERE user_id = ?
+                    );""";
         return jdbcTemplate.query(sql, userRowMapper, user.getId());
     }
 }

@@ -1,9 +1,7 @@
 package ru.webdl.otus.socialnetwork.infra.user.rest.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import ru.webdl.otus.socialnetwork.core.user.entities.User;
-import ru.webdl.otus.socialnetwork.core.user.entities.impl.UserImpl;
 
 import java.time.LocalDate;
 import java.util.UUID;
@@ -18,8 +16,6 @@ public class UserDTO {
     private String interests;
     private Integer cityId;
     private String username;
-    @JsonIgnore
-    private String password;
 
     public UserDTO(User user) {
         this.id = user.getId();
@@ -31,8 +27,5 @@ public class UserDTO {
         this.cityId = user.getCityId();
         this.username = user.getUsername();
     }
-
-    public User toDomain() {
-        return new UserImpl(null, firstName, lastName, birthDate, gender, interests, cityId, username, password);
-    }
 }
+
