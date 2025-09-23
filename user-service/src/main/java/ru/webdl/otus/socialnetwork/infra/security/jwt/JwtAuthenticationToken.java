@@ -5,6 +5,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 public class JwtAuthenticationToken extends AbstractAuthenticationToken {
     private String rawAccessToken;
+    private String principal;
 
     public JwtAuthenticationToken(final String rawAccessToken) {
         super(null);
@@ -16,6 +17,7 @@ public class JwtAuthenticationToken extends AbstractAuthenticationToken {
         super(userDetails.getAuthorities());
         super.setAuthenticated(true);
         super.eraseCredentials();
+        this.principal = userDetails.getUsername();
     }
 
     @Override
@@ -24,8 +26,8 @@ public class JwtAuthenticationToken extends AbstractAuthenticationToken {
     }
 
     @Override
-    public Object getPrincipal() {
-        return null;
+    public String getPrincipal() {
+        return principal;
     }
 
     @Override

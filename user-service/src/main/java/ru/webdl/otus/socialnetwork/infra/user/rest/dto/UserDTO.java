@@ -1,16 +1,14 @@
 package ru.webdl.otus.socialnetwork.infra.user.rest.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import ru.webdl.otus.socialnetwork.core.user.entities.User;
 import ru.webdl.otus.socialnetwork.core.user.entities.impl.UserImpl;
 
 import java.time.LocalDate;
 import java.util.UUID;
 
-@Getter
-@AllArgsConstructor
+@Data
 public class UserDTO {
     private UUID id;
     private String firstName;
