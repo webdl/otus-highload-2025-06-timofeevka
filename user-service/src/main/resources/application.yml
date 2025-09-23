@@ -1,6 +1,6 @@
 spring:
   application:
-    name: socialnetwork
+    name: User Service
   datasource:
     dynamic:
       primary: master
