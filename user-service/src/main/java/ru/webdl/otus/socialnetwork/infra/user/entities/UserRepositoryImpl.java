@@ -103,6 +103,8 @@ class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
+    @DS("slave_1")
+    @Transactional(readOnly = true)
     public List<User> getFriends(User user) {
         String sql = """
                 SELECT u.*
