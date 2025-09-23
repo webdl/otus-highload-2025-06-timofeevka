@@ -1,8 +1,9 @@
-package ru.webdl.otus.socialnetwork.core.user.cases;
+package ru.webdl.otus.socialnetwork.core.user.cases.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.webdl.otus.socialnetwork.core.user.PasswordHasher;
+import ru.webdl.otus.socialnetwork.core.user.cases.UserSignUpUseCase;
 import ru.webdl.otus.socialnetwork.core.user.entities.User;
 import ru.webdl.otus.socialnetwork.core.user.entities.UserRepository;
 

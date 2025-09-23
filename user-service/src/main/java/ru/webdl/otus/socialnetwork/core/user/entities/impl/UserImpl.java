@@ -1,7 +1,8 @@
-package ru.webdl.otus.socialnetwork.core.user.entities;
+package ru.webdl.otus.socialnetwork.core.user.entities.impl;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import ru.webdl.otus.socialnetwork.core.user.entities.User;
 
 import java.time.LocalDate;
 import java.util.UUID;

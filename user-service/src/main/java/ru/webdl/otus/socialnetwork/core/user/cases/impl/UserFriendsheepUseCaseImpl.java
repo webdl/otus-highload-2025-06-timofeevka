@@ -1,13 +1,14 @@
-package ru.webdl.otus.socialnetwork.core.user.cases;
+package ru.webdl.otus.socialnetwork.core.user.cases.impl;
 
 import org.springframework.stereotype.Service;
+import ru.webdl.otus.socialnetwork.core.user.cases.UserFriendsheepUseCase;
 import ru.webdl.otus.socialnetwork.core.user.entities.User;
 import ru.webdl.otus.socialnetwork.core.user.entities.UserRepository;
 
 import java.util.List;
 
 @Service
-public class UserFriendsheepUseCaseImpl implements UserFriendsheepUseCase {
+class UserFriendsheepUseCaseImpl implements UserFriendsheepUseCase {
     private final UserRepository repository;
 
     public UserFriendsheepUseCaseImpl(UserRepository repository) {

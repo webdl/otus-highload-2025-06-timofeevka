@@ -9,8 +9,8 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import ru.webdl.otus.socialnetwork.core.user.entities.User;
-import ru.webdl.otus.socialnetwork.core.user.entities.UserImpl;
 import ru.webdl.otus.socialnetwork.core.user.entities.UserRepository;
+import ru.webdl.otus.socialnetwork.core.user.entities.impl.UserImpl;
 
 import java.sql.PreparedStatement;
 import java.sql.Statement;
@@ -20,11 +20,11 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public class UserRepositoryImpl implements UserRepository {
+class UserRepositoryImpl implements UserRepository {
     private final JdbcTemplate jdbcTemplate;
 
     @Autowired
-    public UserRepositoryImpl(JdbcTemplate jdbcTemplate) {
+    UserRepositoryImpl(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
@@ -98,13 +98,13 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public void deleteFriend(User user, User friend) {
-        String  sql = "DELETE FROM user_friends WHERE user_id = ? AND friend_id = ?";
+        String sql = "DELETE FROM user_friends WHERE user_id = ? AND friend_id = ?";
         jdbcTemplate.update(sql, user.getId(), friend.getId());
     }
 
     @Override
     public List<User> getFriends(User user) {
-        String  sql = "SELECT user_id, friend_id FROM user_friends WHERE user_id = ?";
+        String sql = "SELECT user_id, friend_id FROM user_friends WHERE user_id = ?";
         return jdbcTemplate.query(sql, userRowMapper, user.getId());
     }
 }

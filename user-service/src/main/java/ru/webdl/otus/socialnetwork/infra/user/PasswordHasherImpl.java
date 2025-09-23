@@ -6,11 +6,11 @@ import org.springframework.stereotype.Component;
 import ru.webdl.otus.socialnetwork.core.user.PasswordHasher;
 
 @Component
-public class PasswordHasherImpl implements PasswordHasher {
+class PasswordHasherImpl implements PasswordHasher {
     private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public PasswordHasherImpl(PasswordEncoder passwordEncoder) {
+    PasswordHasherImpl(PasswordEncoder passwordEncoder) {
         this.passwordEncoder = passwordEncoder;
     }
 

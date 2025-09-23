@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 import ru.webdl.otus.socialnetwork.core.user.cases.UserFindUseCase;
 import ru.webdl.otus.socialnetwork.core.user.cases.UserSignUpUseCase;
 import ru.webdl.otus.socialnetwork.core.user.entities.User;
-import ru.webdl.otus.socialnetwork.core.user.entities.UserImpl;
+import ru.webdl.otus.socialnetwork.core.user.entities.impl.UserImpl;
 
 @Component
 @Profile("dev")
