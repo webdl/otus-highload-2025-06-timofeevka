@@ -10,6 +10,7 @@ import ru.webdl.otus.socialnetwork.core.user.entities.User;
 import ru.webdl.otus.socialnetwork.core.user.entities.UserRepository;
 import ru.webdl.otus.socialnetwork.core.user.entities.impl.UserImpl;
 
+import java.time.ZonedDateTime;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -22,15 +23,20 @@ public class UserRepositoryImpl implements UserRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    private final RowMapper<User> userRowMapper = (rs, rowNum) -> {
-        return new UserImpl(
-                rs.getObject("user_id", UUID.class),
-                rs.getString("display_name"),
-                rs.getInt("total_posts"),
-                rs.getTimestamp("created"),
-                rs.getString("status")
-        );
-    };
+    private final RowMapper<User> userRowMapper = (rs, rowNum) -> new UserImpl(
+            rs.getObject("user_id", UUID.class),
+            rs.getString("display_name"),
+            rs.getInt("total_posts"),
+            rs.getObject("created", ZonedDateTime.class),
+            rs.getString("status")
+    );
+
+    @Override
+    public UUID create(User user) {
+        String sql = "INSERT INTO users (user_id, display_name) VALUES (?, ?);";
+        jdbcTemplate.update(sql, user.getId(), user.getDisplayName());
+        return user.getId();
+    }
 
     @Override
     @DS("slave_1")
@@ -38,12 +44,5 @@ public class UserRepositoryImpl implements UserRepository {
     public Optional<User> findById(UUID id) {
         String sql = "SELECT * FROM users WHERE user_id = ?";
         return jdbcTemplate.query(sql, userRowMapper, id).stream().findFirst();
-    }
-
-    @Override
-    public UUID create(User user) {
-        String sql = "INSERT INTO users (user_id, display_name) VALUES (?, ?);";
-        jdbcTemplate.update(sql, user.getId(), user.getDisplayName());
-        return user.getId();
     }
 }

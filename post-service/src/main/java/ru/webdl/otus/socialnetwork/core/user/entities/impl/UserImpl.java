@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.ToString;
 import ru.webdl.otus.socialnetwork.core.user.entities.User;
 
-import java.sql.Timestamp;
+import java.time.ZonedDateTime;
 import java.util.UUID;
 
 @Getter
@@ -15,6 +15,6 @@ public class UserImpl implements User {
     private UUID id;
     private String displayName;
     private int totalPosts;
-    private Timestamp created;
+    private ZonedDateTime created;
     private String status;
 }
