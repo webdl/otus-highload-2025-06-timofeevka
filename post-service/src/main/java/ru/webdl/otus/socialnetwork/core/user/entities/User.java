@@ -1,17 +1,17 @@
 package ru.webdl.otus.socialnetwork.core.user.entities;
 
-import java.time.ZonedDateTime;
+import java.time.OffsetDateTime;
 import java.util.UUID;
 
 public interface User {
 
-    UUID getId();
+    UUID getUserId();
 
     String getDisplayName();
 
     int getTotalPosts();
 
-    ZonedDateTime getCreated();
+    OffsetDateTime getCreated();
 
     String getStatus();
 

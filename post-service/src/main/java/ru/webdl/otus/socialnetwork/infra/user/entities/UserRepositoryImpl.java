@@ -10,7 +10,7 @@ import ru.webdl.otus.socialnetwork.core.user.entities.User;
 import ru.webdl.otus.socialnetwork.core.user.entities.UserRepository;
 import ru.webdl.otus.socialnetwork.core.user.entities.impl.UserImpl;
 
-import java.time.ZonedDateTime;
+import java.time.OffsetDateTime;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -27,15 +27,15 @@ public class UserRepositoryImpl implements UserRepository {
             rs.getObject("user_id", UUID.class),
             rs.getString("display_name"),
             rs.getInt("total_posts"),
-            rs.getObject("created", ZonedDateTime.class),
+            rs.getObject("created", OffsetDateTime.class),
             rs.getString("status")
     );
 
     @Override
     public UUID create(User user) {
         String sql = "INSERT INTO users (user_id, display_name) VALUES (?, ?);";
-        jdbcTemplate.update(sql, user.getId(), user.getDisplayName());
-        return user.getId();
+        jdbcTemplate.update(sql, user.getUserId(), user.getDisplayName());
+        return user.getUserId();
     }
 
     @Override

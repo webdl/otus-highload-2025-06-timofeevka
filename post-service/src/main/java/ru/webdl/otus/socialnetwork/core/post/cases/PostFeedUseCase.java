@@ -1,12 +1,12 @@
 package ru.webdl.otus.socialnetwork.core.post.cases;
 
 import ru.webdl.otus.socialnetwork.core.post.entities.Post;
-import ru.webdl.otus.socialnetwork.core.user.entities.User;
 
 import java.util.List;
+import java.util.UUID;
 
 public interface PostFeedUseCase {
 
-    List<Post> getFriendsPosts(User user);
+    List<Post> getFriendsPosts(UUID userId);
 
 }

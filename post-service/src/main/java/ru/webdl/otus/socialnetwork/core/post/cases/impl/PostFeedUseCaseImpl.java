@@ -9,6 +9,7 @@ import ru.webdl.otus.socialnetwork.core.user.entities.FriendRepository;
 import ru.webdl.otus.socialnetwork.core.user.entities.User;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 class PostFeedUseCaseImpl implements PostFeedUseCase {
@@ -22,8 +23,8 @@ class PostFeedUseCaseImpl implements PostFeedUseCase {
     }
 
     @Override
-    public List<Post> getFriendsPosts(User user) {
-        List<User> friends = friendRepository.getFriends(user);
+    public List<Post> getFriendsPosts(UUID userId) {
+        List<User> friends = friendRepository.getFriends(userId);
         return postRepository.getPosts(friends);
     }
 }
