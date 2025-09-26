@@ -28,13 +28,15 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/user/register",
+							"raw": "http://localhost:8080/api/v1/user/register",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
+								"api",
+								"v1",
 								"user",
 								"register"
 							]
@@ -79,16 +81,18 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/user/get/019975d4-4874-77da-9845-914b1904ca93",
+							"raw": "http://localhost:8080/api/v1/user/get/019975d1-7db7-7349-9077-b51c1e627b99",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
+								"api",
+								"v1",
 								"user",
 								"get",
-								"019975d4-4874-77da-9845-914b1904ca93"
+								"019975d1-7db7-7349-9077-b51c1e627b99"
 							]
 						}
 					},
@@ -100,13 +104,15 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/user/me",
+							"raw": "http://localhost:8080/api/v1/user/me",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
+								"api",
+								"v1",
 								"user",
 								"me"
 							]
@@ -120,24 +126,26 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/user/find?firstName=Кир&lastName=Тим",
+							"raw": "http://localhost:8080/api/v1/user/find?firstName=Адм&lastName=Адм",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
+								"api",
+								"v1",
 								"user",
 								"find"
 							],
 							"query": [
 								{
 									"key": "firstName",
-									"value": "Кир"
+									"value": "Адм"
 								},
 								{
 									"key": "lastName",
-									"value": "Тим"
+									"value": "Адм"
 								}
 							]
 						}
@@ -155,13 +163,16 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/friend/all",
+							"raw": "http://localhost:8080/api/v1/user/friend/all",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
+								"api",
+								"v1",
+								"user",
 								"friend",
 								"all"
 							]
@@ -175,13 +186,16 @@
 						"method": "POST",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/friend/add/019975d4-4874-77da-9845-914b1904ca93",
+							"raw": "http://localhost:8080/api/v1/user/friend/add/019975d4-4874-77da-9845-914b1904ca93",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
+								"api",
+								"v1",
+								"user",
 								"friend",
 								"add",
 								"019975d4-4874-77da-9845-914b1904ca93"
@@ -196,16 +210,84 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/friend/delete/019975d4-4874-77da-9845-914b1904ca93",
+							"raw": "http://localhost:8080/api/v1/user/friend/delete/019975d4-4874-77da-9845-914b1904ca93",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
+								"api",
+								"v1",
+								"user",
 								"friend",
 								"delete",
 								"019975d4-4874-77da-9845-914b1904ca93"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Post",
+			"item": [
+				{
+					"name": "Create",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"authorId\": \"019975d1-7db7-7349-9077-b51c1e627b99\",\n    \"content\": \"Дориан пишет\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8081/api/v1/post/create",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"v1",
+								"post",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get One",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8081/api/v1/post/get/0199862c-8bd8-7a40-b043-bef715627a77",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"v1",
+								"post",
+								"get",
+								"0199862c-8bd8-7a40-b043-bef715627a77"
 							]
 						}
 					},
