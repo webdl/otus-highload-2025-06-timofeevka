@@ -10,15 +10,15 @@ import java.util.UUID;
 @Getter
 @ToString
 @AllArgsConstructor
-public class UserImpl implements User {
-    private UUID userId;
+public class AuthorImpl implements Author {
+    private UUID authorId;
     private String displayName;
     private int totalPosts;
     private OffsetDateTime created;
     private String status;
 
-    public UserImpl(UUID userId, String displayName) {
-        this.userId = userId;
+    public AuthorImpl(UUID authorId, String displayName) {
+        this.authorId = authorId;
         this.displayName = displayName;
     }
 }

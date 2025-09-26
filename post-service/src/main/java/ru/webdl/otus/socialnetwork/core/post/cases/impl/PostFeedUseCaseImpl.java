@@ -6,7 +6,7 @@ import ru.webdl.otus.socialnetwork.core.post.cases.PostFeedUseCase;
 import ru.webdl.otus.socialnetwork.core.post.entities.Post;
 import ru.webdl.otus.socialnetwork.core.post.entities.PostRepository;
 import ru.webdl.otus.socialnetwork.core.author.repositories.FriendRepository;
-import ru.webdl.otus.socialnetwork.core.author.entities.User;
+import ru.webdl.otus.socialnetwork.core.author.entities.Author;
 
 import java.util.List;
 import java.util.UUID;
@@ -24,7 +24,7 @@ class PostFeedUseCaseImpl implements PostFeedUseCase {
 
     @Override
     public List<Post> getFriendsPosts(UUID userId) {
-        List<User> friends = friendRepository.getFriends(userId);
+        List<Author> friends = friendRepository.getFriends(userId);
         return postRepository.getPosts(friends);
     }
 }

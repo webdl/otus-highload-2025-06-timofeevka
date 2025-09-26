@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.webdl.otus.socialnetwork.core.post.entities.Post;
 import ru.webdl.otus.socialnetwork.core.post.entities.PostRepository;
 import ru.webdl.otus.socialnetwork.core.post.entities.impl.PostImpl;
-import ru.webdl.otus.socialnetwork.core.author.entities.User;
+import ru.webdl.otus.socialnetwork.core.author.entities.Author;
 
 import java.sql.PreparedStatement;
 import java.sql.Statement;
@@ -69,7 +69,7 @@ public class PostRepositoryImpl implements PostRepository {
     @Override
     @DS("slave_1")
     @Transactional(readOnly = true)
-    public List<Post> getPosts(List<User> users) {
+    public List<Post> getPosts(List<Author> authors) {
         return List.of();
     }
 }

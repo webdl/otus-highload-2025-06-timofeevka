@@ -7,8 +7,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
-import ru.webdl.otus.socialnetwork.core.author.entities.User;
-import ru.webdl.otus.socialnetwork.core.author.entities.UserImpl;
+import ru.webdl.otus.socialnetwork.core.author.entities.Author;
+import ru.webdl.otus.socialnetwork.core.author.entities.AuthorImpl;
 import ru.webdl.otus.socialnetwork.core.author.externals.UserExternalService;
 import ru.webdl.otus.socialnetwork.infra.user.externals.dto.ExternalUserRequest;
 
@@ -25,7 +25,7 @@ public class ExternalUserServiceImpl implements UserExternalService {
     private String userServiceGetUserPath;
 
     @Override
-    public Optional<User> findById(UUID userId) {
+    public Optional<Author> findById(UUID userId) {
         try {
             String url = buildUserUrl(userId);
             HttpHeaders headers = createHeaders();
@@ -38,8 +38,8 @@ public class ExternalUserServiceImpl implements UserExternalService {
             );
 
             if (response.getStatusCode() == HttpStatus.OK && response.getBody() != null) {
-                User domainUser = convertToDomainUser(response.getBody());
-                return Optional.of(domainUser);
+                Author domainAuthor = convertToDomainUser(response.getBody());
+                return Optional.of(domainAuthor);
             } else {
                 return Optional.empty();
             }
@@ -63,8 +63,8 @@ public class ExternalUserServiceImpl implements UserExternalService {
         return headers;
     }
 
-    private User convertToDomainUser(ExternalUserRequest externalUser) {
-        return new UserImpl(externalUser.getId(), externalUser.getFirstName() + externalUser.getLastName());
+    private Author convertToDomainUser(ExternalUserRequest externalUser) {
+        return new AuthorImpl(externalUser.getId(), externalUser.getFirstName() + externalUser.getLastName());
     }
 
 }

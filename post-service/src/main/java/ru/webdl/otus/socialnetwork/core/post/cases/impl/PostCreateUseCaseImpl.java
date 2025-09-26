@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import ru.webdl.otus.socialnetwork.core.post.cases.PostCreateUseCase;
 import ru.webdl.otus.socialnetwork.core.post.entities.Post;
 import ru.webdl.otus.socialnetwork.core.post.entities.PostRepository;
-import ru.webdl.otus.socialnetwork.core.author.cases.CreateUserUseCase;
+import ru.webdl.otus.socialnetwork.core.author.cases.CreateAuthorUseCase;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -14,11 +14,11 @@ import java.util.UUID;
 @RequiredArgsConstructor
 class PostCreateUseCaseImpl implements PostCreateUseCase {
     private final PostRepository postRepository;
-    private final CreateUserUseCase createUserUseCase;
+    private final CreateAuthorUseCase createAuthorUseCase;
 
     @Override
     public UUID create(Post post) {
-        createUserUseCase.createIfNotExists(post.getAuthorId());
+        createAuthorUseCase.createIfNotExists(post.getAuthorId());
         return postRepository.create(post);
     }
 

@@ -1,6 +1,6 @@
 package ru.webdl.otus.socialnetwork.core.post.entities;
 
-import ru.webdl.otus.socialnetwork.core.author.entities.User;
+import ru.webdl.otus.socialnetwork.core.author.entities.Author;
 
 import java.util.List;
 import java.util.Optional;
@@ -16,5 +16,5 @@ public interface PostRepository {
 
     Optional<Post> getPost(UUID postId);
 
-    List<Post> getPosts(List<User> users);
+    List<Post> getPosts(List<Author> authors);
 }

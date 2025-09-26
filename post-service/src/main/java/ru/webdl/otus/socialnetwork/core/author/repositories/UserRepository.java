@@ -1,14 +1,14 @@
 package ru.webdl.otus.socialnetwork.core.author.repositories;
 
-import ru.webdl.otus.socialnetwork.core.author.entities.User;
+import ru.webdl.otus.socialnetwork.core.author.entities.Author;
 
 import java.util.Optional;
 import java.util.UUID;
 
 public interface UserRepository {
 
-    Optional<User> findById(UUID id);
+    Optional<Author> findById(UUID id);
 
-    User create(User user);
+    Author create(Author author);
 
 }

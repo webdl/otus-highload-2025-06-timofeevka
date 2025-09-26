@@ -6,8 +6,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-import ru.webdl.otus.socialnetwork.core.author.entities.User;
-import ru.webdl.otus.socialnetwork.core.author.entities.UserImpl;
+import ru.webdl.otus.socialnetwork.core.author.entities.Author;
+import ru.webdl.otus.socialnetwork.core.author.entities.AuthorImpl;
 import ru.webdl.otus.socialnetwork.core.author.repositories.UserRepository;
 
 import java.time.OffsetDateTime;
@@ -23,7 +23,7 @@ public class UserRepositoryImpl implements UserRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    private final RowMapper<User> userRowMapper = (rs, rowNum) -> new UserImpl(
+    private final RowMapper<Author> userRowMapper = (rs, rowNum) -> new AuthorImpl(
             rs.getObject("user_id", UUID.class),
             rs.getString("display_name"),
             rs.getInt("total_posts"),
@@ -32,15 +32,15 @@ public class UserRepositoryImpl implements UserRepository {
     );
 
     @Override
-    public User create(User user) {
+    public Author create(Author author) {
         String sql = "INSERT INTO users (user_id, display_name) VALUES (?, ?) RETURNING *";
-        return jdbcTemplate.queryForObject(sql, userRowMapper, user.getUserId(), user.getDisplayName());
+        return jdbcTemplate.queryForObject(sql, userRowMapper, author.getAuthorId(), author.getDisplayName());
     }
 
     @Override
     @DS("slave_1")
     @Transactional(readOnly = true)
-    public Optional<User> findById(UUID id) {
+    public Optional<Author> findById(UUID id) {
         String sql = "SELECT * FROM users WHERE user_id = ?";
         return jdbcTemplate.query(sql, userRowMapper, id).stream().findFirst();
     }

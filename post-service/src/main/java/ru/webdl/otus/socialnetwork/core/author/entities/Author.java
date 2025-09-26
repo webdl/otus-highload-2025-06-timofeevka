@@ -3,9 +3,9 @@ package ru.webdl.otus.socialnetwork.core.author.entities;
 import java.time.OffsetDateTime;
 import java.util.UUID;
 
-public interface User {
+public interface Author {
 
-    UUID getUserId();
+    UUID getAuthorId();
 
     String getDisplayName();
 
