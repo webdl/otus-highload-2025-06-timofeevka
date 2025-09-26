@@ -1,4 +1,10 @@
 server.port: 8081
+
+externals:
+  user-service:
+    url: http://localhost:8080
+    get-user-path: /api/v1/public/user/get/{userId}
+
 spring:
   application.name: Post Service
   config.import: optional:file:.env[.properties]

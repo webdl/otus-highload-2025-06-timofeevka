@@ -24,7 +24,7 @@ public class CreateUserUseCaseImpl implements CreateUserUseCase {
     @Override
     public User createIfNotExists(UUID userId) {
         return userRepository.findById(userId)
-                .orElseGet(() -> createIfNotExists(userId));
+                .orElseGet(() -> createUserFromExternalService(userId));
     }
 
     private User createUserFromExternalService(UUID userId) {
