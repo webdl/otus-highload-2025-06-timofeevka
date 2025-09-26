@@ -1,6 +1,6 @@
 package ru.webdl.otus.socialnetwork.infra.user;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.MethodParameter;
 import org.springframework.security.access.AccessDeniedException;
@@ -15,13 +15,9 @@ import ru.webdl.otus.socialnetwork.core.user.cases.UserFindUseCase;
 import ru.webdl.otus.socialnetwork.core.user.entities.User;
 
 @Configuration
+@RequiredArgsConstructor
 public class CurrentUserResolver implements HandlerMethodArgumentResolver {
     private final UserFindUseCase userFindUseCase;
-
-    @Autowired
-    CurrentUserResolver(UserFindUseCase userFindUseCase) {
-        this.userFindUseCase = userFindUseCase;
-    }
 
     @Override
     public boolean supportsParameter(MethodParameter parameter) {

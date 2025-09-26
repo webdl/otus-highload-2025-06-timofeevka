@@ -1,6 +1,6 @@
 package ru.webdl.otus.socialnetwork.infra.user.rest;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.webdl.otus.socialnetwork.core.user.cases.UserFindUseCase;
@@ -10,14 +10,10 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping({"/api/v1/user", "/api/v1/public/user"})
 class UserController {
     private final UserFindUseCase userFindUseCase;
-
-    @Autowired
-    UserController(UserFindUseCase userFindUseCase) {
-        this.userFindUseCase = userFindUseCase;
-    }
 
     @GetMapping("/get/{id}")
     ResponseEntity<UserResponse> getUserById(@PathVariable UUID id) {

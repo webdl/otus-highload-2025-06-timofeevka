@@ -1,5 +1,6 @@
 package ru.webdl.otus.socialnetwork.core.user.cases.impl;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.webdl.otus.socialnetwork.core.user.cases.UserFindUseCase;
 import ru.webdl.otus.socialnetwork.core.user.entities.User;
@@ -10,12 +11,9 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
+@RequiredArgsConstructor
 class UserFindUseCaseImpl implements UserFindUseCase {
     private final UserRepository repository;
-
-    public UserFindUseCaseImpl(UserRepository repository) {
-        this.repository = repository;
-    }
 
     @Override
     public Optional<User> findById(UUID id) {

@@ -1,6 +1,6 @@
 package ru.webdl.otus.socialnetwork.infra.user.rest;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,14 +13,10 @@ import ru.webdl.otus.socialnetwork.infra.user.rest.dto.UserSignUpResponse;
 import java.util.UUID;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api/v1/user")
 class UserSignUpController {
     private final UserSignUpUseCase userSignUpUseCase;
-
-    @Autowired
-    UserSignUpController(UserSignUpUseCase userSignUpUseCase) {
-        this.userSignUpUseCase = userSignUpUseCase;
-    }
 
     @PostMapping("/register")
     ResponseEntity<UserIdResponse> register(@RequestBody UserSignUpResponse user) {
