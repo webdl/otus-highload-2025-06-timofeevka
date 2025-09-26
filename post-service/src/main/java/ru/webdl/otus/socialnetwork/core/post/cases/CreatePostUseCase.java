@@ -5,7 +5,7 @@ import ru.webdl.otus.socialnetwork.core.post.entities.Post;
 import java.util.Optional;
 import java.util.UUID;
 
-public interface PostCreateUseCase {
+public interface CreatePostUseCase {
 
     UUID create(Post post);
 

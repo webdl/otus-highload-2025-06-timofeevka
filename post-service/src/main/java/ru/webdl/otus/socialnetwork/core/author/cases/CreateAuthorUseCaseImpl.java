@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import ru.webdl.otus.socialnetwork.core.author.entities.Author;
 import ru.webdl.otus.socialnetwork.core.author.exceptions.UserNotFoundException;
 import ru.webdl.otus.socialnetwork.core.author.externals.UserExternalService;
-import ru.webdl.otus.socialnetwork.core.author.repositories.UserRepository;
+import ru.webdl.otus.socialnetwork.core.author.repositories.AuthorRepository;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -13,23 +13,23 @@ import java.util.UUID;
 @Service
 @RequiredArgsConstructor
 public class CreateAuthorUseCaseImpl implements CreateAuthorUseCase {
-    private final UserRepository userRepository;
+    private final AuthorRepository authorRepository;
     private final UserExternalService userExternalService;
 
     @Override
     public Optional<Author> findById(UUID authorId) {
-        return userRepository.findById(authorId);
+        return authorRepository.findById(authorId);
     }
 
     @Override
     public Author createIfNotExists(UUID authorId) {
-        return userRepository.findById(authorId)
-                .orElseGet(() -> createUserFromExternalService(authorId));
+        return authorRepository.findById(authorId)
+                .orElseGet(() -> createAuthorFromExternalService(authorId));
     }
 
-    private Author createUserFromExternalService(UUID userId) {
+    private Author createAuthorFromExternalService(UUID userId) {
         Author authorFromService = userExternalService.findById(userId)
                 .orElseThrow(() -> new UserNotFoundException(userId));
-        return userRepository.create(authorFromService);
+        return authorRepository.create(authorFromService);
     }
 }

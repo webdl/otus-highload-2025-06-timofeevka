@@ -2,7 +2,7 @@ package ru.webdl.otus.socialnetwork.core.post.cases.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ru.webdl.otus.socialnetwork.core.post.cases.PostFeedUseCase;
+import ru.webdl.otus.socialnetwork.core.post.cases.FriendPostsFeedUseCase;
 import ru.webdl.otus.socialnetwork.core.post.entities.Post;
 import ru.webdl.otus.socialnetwork.core.post.entities.PostRepository;
 import ru.webdl.otus.socialnetwork.core.author.repositories.FriendRepository;
@@ -12,12 +12,12 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
-class PostFeedUseCaseImpl implements PostFeedUseCase {
+class FriendPostsFeedUseCaseImpl implements FriendPostsFeedUseCase {
     private final FriendRepository friendRepository;
     private final PostRepository postRepository;
 
     @Autowired
-    PostFeedUseCaseImpl(FriendRepository friendRepository, PostRepository postRepository) {
+    FriendPostsFeedUseCaseImpl(FriendRepository friendRepository, PostRepository postRepository) {
         this.friendRepository = friendRepository;
         this.postRepository = postRepository;
     }

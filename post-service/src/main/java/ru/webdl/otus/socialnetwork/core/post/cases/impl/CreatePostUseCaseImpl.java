@@ -2,7 +2,7 @@ package ru.webdl.otus.socialnetwork.core.post.cases.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import ru.webdl.otus.socialnetwork.core.post.cases.PostCreateUseCase;
+import ru.webdl.otus.socialnetwork.core.post.cases.CreatePostUseCase;
 import ru.webdl.otus.socialnetwork.core.post.entities.Post;
 import ru.webdl.otus.socialnetwork.core.post.entities.PostRepository;
 import ru.webdl.otus.socialnetwork.core.author.cases.CreateAuthorUseCase;
@@ -12,7 +12,7 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
-class PostCreateUseCaseImpl implements PostCreateUseCase {
+class CreatePostUseCaseImpl implements CreatePostUseCase {
     private final PostRepository postRepository;
     private final CreateAuthorUseCase createAuthorUseCase;
 
