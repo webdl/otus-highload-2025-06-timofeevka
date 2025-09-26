@@ -24,7 +24,6 @@ import ru.webdl.otus.socialnetwork.infra.security.login.LoginAuthenticationFilte
 import ru.webdl.otus.socialnetwork.infra.security.login.LoginAuthenticationProvider;
 import ru.webdl.otus.socialnetwork.infra.security.matcher.SkipPathRequestMatcher;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -33,7 +32,8 @@ import java.util.List;
 @Order(SecurityProperties.BASIC_AUTH_ORDER)
 public class SecurityConfiguration {
     private static final String SIGNIN_ENTRY_POINT = "/login";
-    private static final String SIGNUP_ENTRY_POINT = "/user/register";
+    private static final String SIGNUP_ENTRY_POINT = "/api/v1/user/register";
+    private static final String PUBLIC_ENTRY_POINT = "/api/v1/public/**";
     public static final String SWAGGER_ENTRY_POINT = "/swagger-ui/**";
     public static final String TOKEN_REFRESH_ENTRY_POINT = "/auth/refreshToken";
     private final JwtTokenProvider jwtTokenProvider;
@@ -87,6 +87,7 @@ public class SecurityConfiguration {
                 .sessionManagement(configurer -> configurer
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
+                        .requestMatchers(PUBLIC_ENTRY_POINT).permitAll()
                         .requestMatchers(SIGNIN_ENTRY_POINT).permitAll()
                         .requestMatchers(SIGNUP_ENTRY_POINT).permitAll()
                         .requestMatchers(SWAGGER_ENTRY_POINT).permitAll()
@@ -107,7 +108,7 @@ public class SecurityConfiguration {
     }
 
     protected TokenAuthenticationFilter buildTokenAuthenticationFilter(AuthenticationManager authenticationManager) {
-        List<String> pathsToSkip = new ArrayList<>(Arrays.asList(SIGNIN_ENTRY_POINT, SIGNUP_ENTRY_POINT, SWAGGER_ENTRY_POINT));
+        List<String> pathsToSkip = Arrays.asList(PUBLIC_ENTRY_POINT, SIGNIN_ENTRY_POINT, SIGNUP_ENTRY_POINT, SWAGGER_ENTRY_POINT);
         SkipPathRequestMatcher matcher = new SkipPathRequestMatcher(pathsToSkip);
         TokenAuthenticationFilter filter = new TokenAuthenticationFilter(jwtTokenProvider, matcher, failureHandler);
         filter.setAuthenticationManager(authenticationManager);

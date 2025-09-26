@@ -7,6 +7,6 @@ import java.util.UUID;
 
 @Data
 @AllArgsConstructor
-public class UserTokenDTO {
+public class UserIdResponse {
     private UUID userId;
 }

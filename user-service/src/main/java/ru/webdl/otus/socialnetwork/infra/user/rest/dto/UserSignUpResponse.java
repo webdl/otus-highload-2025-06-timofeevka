@@ -7,7 +7,7 @@ import ru.webdl.otus.socialnetwork.core.user.entities.impl.UserImpl;
 import java.time.LocalDate;
 
 @Data
-public class UserSignUpDTO {
+public class UserSignUpResponse {
     private String firstName;
     private String lastName;
     private LocalDate birthDate;

@@ -9,14 +9,14 @@ import ru.webdl.otus.socialnetwork.core.user.cases.UserFriendsheepUseCase;
 import ru.webdl.otus.socialnetwork.core.user.cases.exceptions.UserNotFoundException;
 import ru.webdl.otus.socialnetwork.core.user.entities.User;
 import ru.webdl.otus.socialnetwork.infra.user.CurrentUser;
-import ru.webdl.otus.socialnetwork.infra.user.rest.dto.FriendDTO;
+import ru.webdl.otus.socialnetwork.infra.user.rest.dto.FriendResponse;
 
 import java.util.List;
 import java.util.UUID;
 
 @Log4j2
 @RestController
-@RequestMapping("/friend")
+@RequestMapping({"/api/v1/user/friend", "/api/v1/public/user/friend"})
 class UserFriendsheepController {
     private final UserFindUseCase userFindUseCase;
     private final UserFriendsheepUseCase userFriendsheepUseCase;
@@ -29,9 +29,9 @@ class UserFriendsheepController {
     }
 
     @GetMapping("/all")
-    ResponseEntity<List<FriendDTO>> getFriends(@CurrentUser User user) {
+    ResponseEntity<List<FriendResponse>> getFriends(@CurrentUser User user) {
         return ResponseEntity.ok(userFriendsheepUseCase.getFriends(user).stream()
-                .map(FriendDTO::new)
+                .map(FriendResponse::new)
                 .toList()
         );
     }

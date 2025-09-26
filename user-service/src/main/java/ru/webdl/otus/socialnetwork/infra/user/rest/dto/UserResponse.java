@@ -7,7 +7,7 @@ import java.time.LocalDate;
 import java.util.UUID;
 
 @Data
-public class UserDTO {
+public class UserResponse {
     private UUID id;
     private String firstName;
     private String lastName;
@@ -17,7 +17,7 @@ public class UserDTO {
     private Integer cityId;
     private String username;
 
-    public UserDTO(User user) {
+    public UserResponse(User user) {
         this.id = user.getId();
         this.firstName = user.getFirstName();
         this.lastName = user.getLastName();
