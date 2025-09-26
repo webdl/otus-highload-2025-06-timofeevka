@@ -158,7 +158,7 @@
 			"name": "Friends",
 			"item": [
 				{
-					"name": "Get all",
+					"name": "Get my",
 					"request": {
 						"method": "GET",
 						"header": [],
@@ -175,6 +175,30 @@
 								"user",
 								"friend",
 								"all"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get by UUID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/user/friend/get/019972cd-8005-7bac-b007-219e40c1d9d2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"user",
+								"friend",
+								"get",
+								"019972cd-8005-7bac-b007-219e40c1d9d2"
 							]
 						}
 					},
