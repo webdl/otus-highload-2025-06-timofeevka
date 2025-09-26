@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import ru.webdl.otus.socialnetwork.core.post.cases.PostFeedUseCase;
 import ru.webdl.otus.socialnetwork.core.post.entities.Post;
 import ru.webdl.otus.socialnetwork.core.post.entities.PostRepository;
-import ru.webdl.otus.socialnetwork.core.user.entities.FriendRepository;
+import ru.webdl.otus.socialnetwork.core.user.repositories.FriendRepository;
 import ru.webdl.otus.socialnetwork.core.user.entities.User;
 
 import java.util.List;

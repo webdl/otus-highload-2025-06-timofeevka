@@ -1,25 +1,24 @@
 package ru.webdl.otus.socialnetwork.core.post.cases.impl;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import ru.webdl.otus.socialnetwork.core.post.cases.PostCrudUseCase;
+import ru.webdl.otus.socialnetwork.core.post.cases.PostCreateUseCase;
 import ru.webdl.otus.socialnetwork.core.post.entities.Post;
 import ru.webdl.otus.socialnetwork.core.post.entities.PostRepository;
+import ru.webdl.otus.socialnetwork.core.user.cases.CreateUserUseCase;
 
 import java.util.Optional;
 import java.util.UUID;
 
 @Service
-class PostCrudUseCaseImpl implements PostCrudUseCase {
+@RequiredArgsConstructor
+class PostCreateUseCaseImpl implements PostCreateUseCase {
     private final PostRepository postRepository;
-
-    @Autowired
-    PostCrudUseCaseImpl(PostRepository postRepository) {
-        this.postRepository = postRepository;
-    }
+    private final CreateUserUseCase createUserUseCase;
 
     @Override
     public UUID create(Post post) {
+        createUserUseCase.createIfNotExists(post.getAuthorId());
         return postRepository.create(post);
     }
 

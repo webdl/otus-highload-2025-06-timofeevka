@@ -7,8 +7,8 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import ru.webdl.otus.socialnetwork.core.user.entities.User;
-import ru.webdl.otus.socialnetwork.core.user.entities.UserRepository;
-import ru.webdl.otus.socialnetwork.core.user.entities.impl.UserImpl;
+import ru.webdl.otus.socialnetwork.core.user.entities.UserImpl;
+import ru.webdl.otus.socialnetwork.core.user.repositories.UserRepository;
 
 import java.time.OffsetDateTime;
 import java.util.Optional;
@@ -32,10 +32,9 @@ public class UserRepositoryImpl implements UserRepository {
     );
 
     @Override
-    public UUID create(User user) {
-        String sql = "INSERT INTO users (user_id, display_name) VALUES (?, ?);";
-        jdbcTemplate.update(sql, user.getUserId(), user.getDisplayName());
-        return user.getUserId();
+    public User create(User user) {
+        String sql = "INSERT INTO users (user_id, display_name) VALUES (?, ?) RETURNING *";
+        return jdbcTemplate.queryForObject(sql, userRowMapper, user.getUserId(), user.getDisplayName());
     }
 
     @Override

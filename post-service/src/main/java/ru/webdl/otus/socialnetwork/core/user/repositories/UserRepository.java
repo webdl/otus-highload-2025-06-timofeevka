@@ -1,14 +1,14 @@
-package ru.webdl.otus.socialnetwork.core.user.entities.cases;
+package ru.webdl.otus.socialnetwork.core.user.repositories;
 
 import ru.webdl.otus.socialnetwork.core.user.entities.User;
 
 import java.util.Optional;
 import java.util.UUID;
 
-public interface GetUserUseCase {
+public interface UserRepository {
 
     Optional<User> findById(UUID id);
 
-    UUID create(User user);
+    User create(User user);
 
 }

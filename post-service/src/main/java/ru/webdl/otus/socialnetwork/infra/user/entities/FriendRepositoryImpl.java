@@ -1,7 +1,7 @@
 package ru.webdl.otus.socialnetwork.infra.user.entities;
 
 import org.springframework.stereotype.Repository;
-import ru.webdl.otus.socialnetwork.core.user.entities.FriendRepository;
+import ru.webdl.otus.socialnetwork.core.user.repositories.FriendRepository;
 import ru.webdl.otus.socialnetwork.core.user.entities.User;
 
 import java.util.List;

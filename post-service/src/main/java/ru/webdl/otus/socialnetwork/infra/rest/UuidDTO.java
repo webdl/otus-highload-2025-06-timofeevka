@@ -1,4 +1,4 @@
-package ru.webdl.otus.socialnetwork.infra.post.rest.dto;
+package ru.webdl.otus.socialnetwork.infra.rest;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
