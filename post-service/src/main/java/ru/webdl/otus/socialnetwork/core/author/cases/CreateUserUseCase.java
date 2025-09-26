@@ -1,6 +1,6 @@
-package ru.webdl.otus.socialnetwork.core.user.cases;
+package ru.webdl.otus.socialnetwork.core.author.cases;
 
-import ru.webdl.otus.socialnetwork.core.user.entities.User;
+import ru.webdl.otus.socialnetwork.core.author.entities.User;
 
 import java.util.Optional;
 import java.util.UUID;

@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.webdl.otus.socialnetwork.core.post.entities.Post;
 import ru.webdl.otus.socialnetwork.core.post.entities.PostRepository;
 import ru.webdl.otus.socialnetwork.core.post.entities.impl.PostImpl;
-import ru.webdl.otus.socialnetwork.core.user.entities.User;
+import ru.webdl.otus.socialnetwork.core.author.entities.User;
 
 import java.sql.PreparedStatement;
 import java.sql.Statement;

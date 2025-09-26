@@ -1,6 +1,6 @@
 package ru.webdl.otus.socialnetwork.core.post.entities;
 
-import ru.webdl.otus.socialnetwork.core.user.entities.User;
+import ru.webdl.otus.socialnetwork.core.author.entities.User;
 
 import java.util.List;
 import java.util.Optional;

@@ -1,4 +1,4 @@
-package ru.webdl.otus.socialnetwork.core.user.entities;
+package ru.webdl.otus.socialnetwork.core.author.entities;
 
 import java.time.OffsetDateTime;
 import java.util.UUID;

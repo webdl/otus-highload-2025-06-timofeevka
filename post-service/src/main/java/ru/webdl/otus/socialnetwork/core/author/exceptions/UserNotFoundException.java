@@ -1,4 +1,4 @@
-package ru.webdl.otus.socialnetwork.core.user.exceptions;
+package ru.webdl.otus.socialnetwork.core.author.exceptions;
 
 import java.util.UUID;
 

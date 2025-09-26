@@ -7,9 +7,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
-import ru.webdl.otus.socialnetwork.core.user.entities.User;
-import ru.webdl.otus.socialnetwork.core.user.entities.UserImpl;
-import ru.webdl.otus.socialnetwork.core.user.externals.UserExternalService;
+import ru.webdl.otus.socialnetwork.core.author.entities.User;
+import ru.webdl.otus.socialnetwork.core.author.entities.UserImpl;
+import ru.webdl.otus.socialnetwork.core.author.externals.UserExternalService;
 import ru.webdl.otus.socialnetwork.infra.user.externals.dto.ExternalUserRequest;
 
 import java.util.Optional;

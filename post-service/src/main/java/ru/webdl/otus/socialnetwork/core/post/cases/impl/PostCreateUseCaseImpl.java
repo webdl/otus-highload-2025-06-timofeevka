@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import ru.webdl.otus.socialnetwork.core.post.cases.PostCreateUseCase;
 import ru.webdl.otus.socialnetwork.core.post.entities.Post;
 import ru.webdl.otus.socialnetwork.core.post.entities.PostRepository;
-import ru.webdl.otus.socialnetwork.core.user.cases.CreateUserUseCase;
+import ru.webdl.otus.socialnetwork.core.author.cases.CreateUserUseCase;
 
 import java.util.Optional;
 import java.util.UUID;

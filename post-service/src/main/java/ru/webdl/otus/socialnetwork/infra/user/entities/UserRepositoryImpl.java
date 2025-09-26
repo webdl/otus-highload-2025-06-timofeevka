@@ -6,9 +6,9 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-import ru.webdl.otus.socialnetwork.core.user.entities.User;
-import ru.webdl.otus.socialnetwork.core.user.entities.UserImpl;
-import ru.webdl.otus.socialnetwork.core.user.repositories.UserRepository;
+import ru.webdl.otus.socialnetwork.core.author.entities.User;
+import ru.webdl.otus.socialnetwork.core.author.entities.UserImpl;
+import ru.webdl.otus.socialnetwork.core.author.repositories.UserRepository;
 
 import java.time.OffsetDateTime;
 import java.util.Optional;

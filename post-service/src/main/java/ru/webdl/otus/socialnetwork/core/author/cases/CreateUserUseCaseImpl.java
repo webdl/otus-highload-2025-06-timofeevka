@@ -1,11 +1,11 @@
-package ru.webdl.otus.socialnetwork.core.user.cases;
+package ru.webdl.otus.socialnetwork.core.author.cases;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import ru.webdl.otus.socialnetwork.core.user.entities.User;
-import ru.webdl.otus.socialnetwork.core.user.exceptions.UserNotFoundException;
-import ru.webdl.otus.socialnetwork.core.user.externals.UserExternalService;
-import ru.webdl.otus.socialnetwork.core.user.repositories.UserRepository;
+import ru.webdl.otus.socialnetwork.core.author.entities.User;
+import ru.webdl.otus.socialnetwork.core.author.exceptions.UserNotFoundException;
+import ru.webdl.otus.socialnetwork.core.author.externals.UserExternalService;
+import ru.webdl.otus.socialnetwork.core.author.repositories.UserRepository;
 
 import java.util.Optional;
 import java.util.UUID;
