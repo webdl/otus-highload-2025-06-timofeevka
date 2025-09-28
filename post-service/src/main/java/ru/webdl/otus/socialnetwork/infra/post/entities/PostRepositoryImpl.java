@@ -1,6 +1,7 @@
 package ru.webdl.otus.socialnetwork.infra.post.entities;
 
 import com.baomidou.dynamic.datasource.annotation.DS;
+import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -20,23 +21,20 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
+@RequiredArgsConstructor
 public class PostRepositoryImpl implements PostRepository {
     private final JdbcTemplate jdbcTemplate;
 
-    public PostRepositoryImpl(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
-    }
-
     private final RowMapper<Post> postRowMapper = (rs, rowNum) -> new PostImpl(
             rs.getObject("post_id", UUID.class),
-            rs.getObject("author_id", UUID.class),
+            rs.getObject("user_id", UUID.class),
             rs.getString("content"),
             rs.getObject("created", OffsetDateTime.class)
     );
 
     @Override
     public UUID create(Post post) {
-        String sql = "INSERT INTO posts (author_id, content) VALUES (?, ?) RETURNING post_id;";
+        String sql = "INSERT INTO posts (user_id, content) VALUES (?, ?) RETURNING post_id;";
         KeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(connection -> {
             PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
@@ -49,7 +47,7 @@ public class PostRepositoryImpl implements PostRepository {
 
     @Override
     public void update(Post post) {
-        String sql = "UPDATE posts SET author_id = ?, content = ? WHERE post_id = ?";
+        String sql = "UPDATE posts SET user_id = ?, content = ? WHERE post_id = ?";
         jdbcTemplate.update(sql, post.getAuthorId(), post.getContent(), post.getPostId());
     }
 

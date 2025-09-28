@@ -11,4 +11,5 @@ public interface AuthorRepository {
 
     Author create(Author author);
 
+    void save(Author author);
 }

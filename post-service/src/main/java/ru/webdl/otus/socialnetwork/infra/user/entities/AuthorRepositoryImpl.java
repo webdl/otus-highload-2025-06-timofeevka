@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 import ru.webdl.otus.socialnetwork.core.author.entities.Author;
 import ru.webdl.otus.socialnetwork.core.author.entities.AuthorImpl;
 import ru.webdl.otus.socialnetwork.core.author.repositories.AuthorRepository;
@@ -38,8 +37,13 @@ public class AuthorRepositoryImpl implements AuthorRepository {
     }
 
     @Override
+    public void save(Author author) {
+        String sql = "UPDATE authors SET display_name = ?, total_posts = ? WHERE user_id = ?";
+        jdbcTemplate.update(sql, author.getDisplayName(), author.getTotalPosts(), author.getAuthorId());
+    }
+
+    @Override
     @DS("slave_1")
-    @Transactional(readOnly = true)
     public Optional<Author> findById(UUID authorId) {
         String sql = "SELECT * FROM authors WHERE user_id = ?";
         return jdbcTemplate.query(sql, authorRowMapper, authorId).stream().findFirst();

@@ -21,4 +21,9 @@ public class AuthorImpl implements Author {
         this.authorId = authorId;
         this.displayName = displayName;
     }
+
+    @Override
+    public void incrementTotalPosts() {
+        this.totalPosts += 1;
+    }
 }

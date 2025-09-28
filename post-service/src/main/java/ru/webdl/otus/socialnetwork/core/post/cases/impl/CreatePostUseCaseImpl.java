@@ -2,6 +2,9 @@ package ru.webdl.otus.socialnetwork.core.post.cases.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import ru.webdl.otus.socialnetwork.core.author.cases.IncrementTotalPostsUseCase;
+import ru.webdl.otus.socialnetwork.core.author.entities.Author;
 import ru.webdl.otus.socialnetwork.core.post.cases.CreatePostUseCase;
 import ru.webdl.otus.socialnetwork.core.post.entities.Post;
 import ru.webdl.otus.socialnetwork.core.post.entities.PostRepository;
@@ -15,10 +18,13 @@ import java.util.UUID;
 class CreatePostUseCaseImpl implements CreatePostUseCase {
     private final PostRepository postRepository;
     private final CreateAuthorUseCase createAuthorUseCase;
+    private final IncrementTotalPostsUseCase incrementTotalPostsUseCase;
 
     @Override
+    @Transactional
     public UUID create(Post post) {
-        createAuthorUseCase.createIfNotExists(post.getAuthorId());
+        Author author = createAuthorUseCase.createIfNotExists(post.getAuthorId());
+        incrementTotalPostsUseCase.incrementTotalPosts(author);
         return postRepository.create(post);
     }
 

@@ -15,4 +15,6 @@ public interface Author {
 
     String getStatus();
 
+    void incrementTotalPosts();
+
 }
