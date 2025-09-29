@@ -1,12 +1,9 @@
-package ru.webdl.otus.socialnetwork.core.post.cases.impl;
+package ru.webdl.otus.socialnetwork.core.post;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ru.webdl.otus.socialnetwork.core.post.cases.FriendPostsFeedUseCase;
-import ru.webdl.otus.socialnetwork.core.post.entities.Post;
-import ru.webdl.otus.socialnetwork.core.post.entities.PostRepository;
-import ru.webdl.otus.socialnetwork.core.author.repositories.FriendRepository;
-import ru.webdl.otus.socialnetwork.core.author.entities.Author;
+import ru.webdl.otus.socialnetwork.core.author.FriendRepository;
+import ru.webdl.otus.socialnetwork.core.author.Author;
 
 import java.util.List;
 import java.util.UUID;

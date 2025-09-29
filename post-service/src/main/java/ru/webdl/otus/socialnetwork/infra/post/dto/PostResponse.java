@@ -1,23 +1,23 @@
-package ru.webdl.otus.socialnetwork.infra.post.rest.dto;
+package ru.webdl.otus.socialnetwork.infra.post.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import ru.webdl.otus.socialnetwork.core.post.entities.Post;
+import ru.webdl.otus.socialnetwork.core.post.Post;
 
 import java.time.OffsetDateTime;
 import java.util.UUID;
 
 @Data
 @AllArgsConstructor
-public class PostDTO {
+public class PostResponse {
     private UUID postId;
     private UUID authorId;
     private String content;
     private OffsetDateTime created;
 
-    public PostDTO(Post post) {
+    public PostResponse(Post post) {
         this.postId = post.getPostId();
-        this.authorId = post.getAuthorId();
+        this.authorId = post.getUserId();
         this.content = post.getContent();
         this.created = post.getCreated();
     }

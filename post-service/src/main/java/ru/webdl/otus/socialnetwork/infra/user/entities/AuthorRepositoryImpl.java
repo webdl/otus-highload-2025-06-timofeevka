@@ -5,9 +5,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
-import ru.webdl.otus.socialnetwork.core.author.entities.Author;
-import ru.webdl.otus.socialnetwork.core.author.entities.AuthorImpl;
-import ru.webdl.otus.socialnetwork.core.author.repositories.AuthorRepository;
+import ru.webdl.otus.socialnetwork.core.author.Author;
+import ru.webdl.otus.socialnetwork.core.author.AuthorImpl;
+import ru.webdl.otus.socialnetwork.core.author.AuthorRepository;
 
 import java.time.OffsetDateTime;
 import java.util.Optional;

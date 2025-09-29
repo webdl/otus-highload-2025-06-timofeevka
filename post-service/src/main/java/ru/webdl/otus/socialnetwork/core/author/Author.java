@@ -1,20 +1,16 @@
-package ru.webdl.otus.socialnetwork.core.author.entities;
+package ru.webdl.otus.socialnetwork.core.author;
 
 import java.time.OffsetDateTime;
 import java.util.UUID;
 
 public interface Author {
-
     UUID getAuthorId();
 
     String getDisplayName();
 
-    int getTotalPosts();
+    Integer getTotalPosts();
 
     OffsetDateTime getCreated();
 
     String getStatus();
-
-    void incrementTotalPosts();
-
 }

@@ -7,17 +7,18 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
-import ru.webdl.otus.socialnetwork.core.author.entities.Author;
-import ru.webdl.otus.socialnetwork.core.author.entities.AuthorImpl;
-import ru.webdl.otus.socialnetwork.core.author.externals.UserExternalService;
+import ru.webdl.otus.socialnetwork.core.user.ExternalUser;
+import ru.webdl.otus.socialnetwork.core.user.ExternalUserImpl;
+import ru.webdl.otus.socialnetwork.core.user.ExternalUserService;
+import ru.webdl.otus.socialnetwork.core.user.UserNotFoundException;
 import ru.webdl.otus.socialnetwork.infra.user.externals.dto.ExternalUserRequest;
 
-import java.util.Optional;
+import java.util.List;
 import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor
-public class ExternalUserServiceImpl implements UserExternalService {
+public class ExternalUserServiceImpl implements ExternalUserService {
     private final RestTemplate restTemplate;
     @Value("${externals.user-service.url}")
     private String userServiceBaseUrl;
@@ -25,28 +26,29 @@ public class ExternalUserServiceImpl implements UserExternalService {
     private String userServiceGetUserPath;
 
     @Override
-    public Optional<Author> findById(UUID userId) {
+    public ExternalUser findById(UUID userId) {
         try {
             String url = buildUserUrl(userId);
             HttpHeaders headers = createHeaders();
-
             ResponseEntity<ExternalUserRequest> response = restTemplate.exchange(
                     url,
                     HttpMethod.GET,
                     new HttpEntity<>(headers),
                     ExternalUserRequest.class
             );
-
             if (response.getStatusCode() == HttpStatus.OK && response.getBody() != null) {
-                Author domainAuthor = convertToDomainUser(response.getBody());
-                return Optional.of(domainAuthor);
+                return convertToExternalUser(response.getBody());
             } else {
-                return Optional.empty();
+                throw new UserNotFoundException(userId, "User service didn't return a result. Status: " + response.getStatusCode());
             }
-
         } catch (RestClientException e) {
-            return Optional.empty();
+            throw new UserNotFoundException(userId, e.getMessage());
         }
+    }
+
+    @Override
+    public List<ExternalUser> findUserFriends(UUID userId) {
+        return List.of();
     }
 
     private String buildUserUrl(UUID userId) {
@@ -63,8 +65,7 @@ public class ExternalUserServiceImpl implements UserExternalService {
         return headers;
     }
 
-    private Author convertToDomainUser(ExternalUserRequest externalUser) {
-        return new AuthorImpl(externalUser.getId(), externalUser.getFirstName() + externalUser.getLastName());
+    private ExternalUser convertToExternalUser(ExternalUserRequest externalUser) {
+        return new ExternalUserImpl(externalUser.getId(), externalUser.getFirstName(), externalUser.getLastName());
     }
-
 }

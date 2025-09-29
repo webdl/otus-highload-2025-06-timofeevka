@@ -1,8 +1,8 @@
 package ru.webdl.otus.socialnetwork.infra.user.entities;
 
 import org.springframework.stereotype.Repository;
-import ru.webdl.otus.socialnetwork.core.author.entities.Author;
-import ru.webdl.otus.socialnetwork.core.author.repositories.FriendRepository;
+import ru.webdl.otus.socialnetwork.core.author.Author;
+import ru.webdl.otus.socialnetwork.core.author.FriendRepository;
 
 import java.util.List;
 import java.util.UUID;

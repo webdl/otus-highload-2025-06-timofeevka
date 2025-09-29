@@ -1,14 +1,11 @@
-package ru.webdl.otus.socialnetwork.core.post.cases.impl;
+package ru.webdl.otus.socialnetwork.core.post;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.webdl.otus.socialnetwork.core.author.cases.IncrementTotalPostsUseCase;
-import ru.webdl.otus.socialnetwork.core.author.entities.Author;
-import ru.webdl.otus.socialnetwork.core.post.cases.CreatePostUseCase;
-import ru.webdl.otus.socialnetwork.core.post.entities.Post;
-import ru.webdl.otus.socialnetwork.core.post.entities.PostRepository;
-import ru.webdl.otus.socialnetwork.core.author.cases.CreateAuthorUseCase;
+import ru.webdl.otus.socialnetwork.core.author.Author;
+import ru.webdl.otus.socialnetwork.core.author.CreateAuthorUseCase;
+import ru.webdl.otus.socialnetwork.core.author.IncrementTotalPostsUseCase;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -22,20 +19,24 @@ class CreatePostUseCaseImpl implements CreatePostUseCase {
 
     @Override
     @Transactional
-    public UUID create(Post post) {
-        Author author = createAuthorUseCase.createIfNotExists(post.getAuthorId());
+    public Post create(Author author, String content) {
+        PostImpl post = new PostImpl(author.getAuthorId(), content);
         incrementTotalPostsUseCase.incrementTotalPosts(author);
         return postRepository.create(post);
     }
 
     @Override
-    public void update(Post post) {
-        postRepository.update(post);
+    public void update(UUID postId, String content) {
+        Post post = findById(postId).orElseThrow(() -> new PostNotFoundException(postId));
+        if (!post.getContent().equals(content)) {
+            post.setContent(content);
+            postRepository.update(post);
+        }
     }
 
     @Override
-    public void delete(Post post) {
-        postRepository.delete(post);
+    public void delete(UUID postId) {
+        postRepository.delete(postId);
     }
 
     @Override

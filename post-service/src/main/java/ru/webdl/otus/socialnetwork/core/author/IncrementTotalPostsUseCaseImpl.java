@@ -1,9 +1,7 @@
-package ru.webdl.otus.socialnetwork.core.author.cases;
+package ru.webdl.otus.socialnetwork.core.author;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import ru.webdl.otus.socialnetwork.core.author.entities.Author;
-import ru.webdl.otus.socialnetwork.core.author.repositories.AuthorRepository;
 
 @Service
 @RequiredArgsConstructor
@@ -12,8 +10,8 @@ public class IncrementTotalPostsUseCaseImpl implements IncrementTotalPostsUseCas
 
     @Override
     public void incrementTotalPosts(Author author) {
-        author.incrementTotalPosts();
+        var authorImpl = (AuthorImpl) author;
+        authorImpl.incrementTotalPosts();
         authorRepository.save(author);
     }
-
 }

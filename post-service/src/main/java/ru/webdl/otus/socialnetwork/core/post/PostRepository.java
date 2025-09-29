@@ -1,6 +1,6 @@
-package ru.webdl.otus.socialnetwork.core.post.entities;
+package ru.webdl.otus.socialnetwork.core.post;
 
-import ru.webdl.otus.socialnetwork.core.author.entities.Author;
+import ru.webdl.otus.socialnetwork.core.author.Author;
 
 import java.util.List;
 import java.util.Optional;
@@ -8,11 +8,11 @@ import java.util.UUID;
 
 public interface PostRepository {
 
-    UUID create(Post post);
+    Post create(Post post);
 
     void update(Post post);
 
-    void delete(Post post);
+    void delete(UUID postId);
 
     Optional<Post> getPost(UUID postId);
 
