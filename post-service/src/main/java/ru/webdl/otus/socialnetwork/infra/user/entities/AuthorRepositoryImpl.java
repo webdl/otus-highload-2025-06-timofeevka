@@ -1,26 +1,23 @@
 package ru.webdl.otus.socialnetwork.infra.user.entities;
 
 import com.baomidou.dynamic.datasource.annotation.DS;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 import ru.webdl.otus.socialnetwork.core.author.Author;
 import ru.webdl.otus.socialnetwork.core.author.AuthorImpl;
 import ru.webdl.otus.socialnetwork.core.author.AuthorRepository;
 
 import java.time.OffsetDateTime;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @Repository
+@RequiredArgsConstructor
 public class AuthorRepositoryImpl implements AuthorRepository {
     private final JdbcTemplate jdbcTemplate;
-
-    @Autowired
-    public AuthorRepositoryImpl(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
-    }
+    private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
     private final RowMapper<Author> authorRowMapper = (rs, rowNum) -> new AuthorImpl(
             rs.getObject("user_id", UUID.class),
@@ -47,5 +44,12 @@ public class AuthorRepositoryImpl implements AuthorRepository {
     public Optional<Author> findById(UUID authorId) {
         String sql = "SELECT * FROM authors WHERE user_id = ?";
         return jdbcTemplate.query(sql, authorRowMapper, authorId).stream().findFirst();
+    }
+
+    @Override
+    public List<Author> getAuthors(List<UUID> authorIds) {
+        String sql = "SELECT * FROM authors WHERE user_id IN (:authorIds)";
+        Map<String, Object> params = Collections.singletonMap("authorIds", authorIds);
+        return namedParameterJdbcTemplate.query(sql, params, authorRowMapper);
     }
 }

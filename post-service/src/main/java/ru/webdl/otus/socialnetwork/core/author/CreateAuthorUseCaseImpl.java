@@ -21,8 +21,8 @@ class CreateAuthorUseCaseImpl implements CreateAuthorUseCase {
 
     private Author createAuthorFromExternalService(UUID userId) {
         ExternalUser externalUser = externalUserService.findById(userId);
-        AuthorImpl author = new AuthorImpl(externalUser.getUserId(),
-                externalUser.getFirstName() + " " + externalUser.getLastName());
+        AuthorImpl author = new AuthorImpl(externalUser.userId(),
+                externalUser.firstName() + " " + externalUser.lastName());
         return authorRepository.create(author);
     }
 }

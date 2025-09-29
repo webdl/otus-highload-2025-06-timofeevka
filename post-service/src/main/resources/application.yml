@@ -2,8 +2,9 @@ server.port: 8081
 
 externals:
   user-service:
-    url: http://localhost:8080
-    get-user-path: /api/v1/public/user/get/{userId}
+    url: http://localhost:8080/
+    get-user-path: api/v1/public/user/get/{userId}
+    get-friends-path: api/v1/public/user/friend/get/{userId}
 
 spring:
   application.name: Post Service

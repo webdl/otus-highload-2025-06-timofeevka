@@ -2,7 +2,6 @@ package ru.webdl.otus.socialnetwork.core.post;
 
 import ru.webdl.otus.socialnetwork.core.author.Author;
 
-import java.util.Optional;
 import java.util.UUID;
 
 public interface CreatePostUseCase {
@@ -11,6 +10,4 @@ public interface CreatePostUseCase {
     void update(UUID postId, String content);
 
     void delete(UUID postId);
-
-    Optional<Post> findById(UUID postId);
 }

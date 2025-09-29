@@ -4,18 +4,16 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.webdl.otus.socialnetwork.core.author.Author;
-import ru.webdl.otus.socialnetwork.core.author.CreateAuthorUseCase;
 import ru.webdl.otus.socialnetwork.core.author.IncrementTotalPostsUseCase;
 
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
 class CreatePostUseCaseImpl implements CreatePostUseCase {
     private final PostRepository postRepository;
-    private final CreateAuthorUseCase createAuthorUseCase;
     private final IncrementTotalPostsUseCase incrementTotalPostsUseCase;
+    private final FindPostsUseCase findPostsUseCase;
 
     @Override
     @Transactional
@@ -27,7 +25,7 @@ class CreatePostUseCaseImpl implements CreatePostUseCase {
 
     @Override
     public void update(UUID postId, String content) {
-        Post post = findById(postId).orElseThrow(() -> new PostNotFoundException(postId));
+        Post post = findPostsUseCase.findById(postId).orElseThrow(() -> new PostNotFoundException(postId));
         if (!post.getContent().equals(content)) {
             post.setContent(content);
             postRepository.update(post);
@@ -37,10 +35,5 @@ class CreatePostUseCaseImpl implements CreatePostUseCase {
     @Override
     public void delete(UUID postId) {
         postRepository.delete(postId);
-    }
-
-    @Override
-    public Optional<Post> findById(UUID postId) {
-        return postRepository.getPost(postId);
     }
 }

@@ -1,0 +1,22 @@
+package ru.webdl.otus.socialnetwork.core.author;
+
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import ru.webdl.otus.socialnetwork.core.user.ExternalUser;
+import ru.webdl.otus.socialnetwork.core.user.ExternalUserService;
+
+import java.util.List;
+import java.util.UUID;
+
+@Service
+@RequiredArgsConstructor
+public class FriendAuthorsUseCaseImpl implements FriendAuthorsUseCase {
+    private final ExternalUserService externalUserService;
+    private final AuthorRepository authorRepository;
+
+    @Override
+    public List<Author> getAuthors(UUID userId) {
+        List<ExternalUser> userFriends = externalUserService.findUserFriends(userId);
+        return authorRepository.getAuthors(userFriends.stream().map(ExternalUser::userId).toList());
+    }
+}

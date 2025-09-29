@@ -13,6 +13,7 @@ import ru.webdl.otus.socialnetwork.core.user.ExternalUserService;
 import ru.webdl.otus.socialnetwork.core.user.UserNotFoundException;
 import ru.webdl.otus.socialnetwork.infra.user.externals.dto.ExternalUserRequest;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -24,11 +25,13 @@ public class ExternalUserServiceImpl implements ExternalUserService {
     private String userServiceBaseUrl;
     @Value("${externals.user-service.get-user-path}")
     private String userServiceGetUserPath;
+    @Value("${externals.user-service.get-friends-path}")
+    private String userServiceGetFriendsPath;
 
     @Override
     public ExternalUser findById(UUID userId) {
         try {
-            String url = buildUserUrl(userId);
+            String url = buildUserUrl(userServiceGetUserPath, userId);
             HttpHeaders headers = createHeaders();
             ResponseEntity<ExternalUserRequest> response = restTemplate.exchange(
                     url,
@@ -48,12 +51,28 @@ public class ExternalUserServiceImpl implements ExternalUserService {
 
     @Override
     public List<ExternalUser> findUserFriends(UUID userId) {
-        return List.of();
+        try {
+            String url = buildUserUrl(userServiceGetFriendsPath, userId);
+            HttpHeaders headers = createHeaders();
+            ResponseEntity<ExternalUserRequest[]> response = restTemplate.exchange(
+                    url,
+                    HttpMethod.GET,
+                    new HttpEntity<>(headers),
+                    ExternalUserRequest[].class
+            );
+            if (response.getStatusCode() == HttpStatus.OK && response.getBody() != null) {
+                return convertToExternalUser(Arrays.asList(response.getBody()));
+            } else {
+                throw new UserNotFoundException(userId, "User service didn't return a result. Status: " + response.getStatusCode());
+            }
+        } catch (RestClientException e) {
+            throw new UserNotFoundException(userId, e.getMessage());
+        }
     }
 
-    private String buildUserUrl(UUID userId) {
+    private String buildUserUrl(String path, UUID userId) {
         return UriComponentsBuilder.fromUriString(userServiceBaseUrl)
-                .path(userServiceGetUserPath)
+                .path(path)
                 .buildAndExpand(userId)
                 .toUriString();
     }
@@ -63,6 +82,10 @@ public class ExternalUserServiceImpl implements ExternalUserService {
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.set("User-Agent", "PostService/1.0");
         return headers;
+    }
+
+    private List<ExternalUser> convertToExternalUser(List<ExternalUserRequest> externalUsers) {
+        return externalUsers.stream().map(this::convertToExternalUser).toList();
     }
 
     private ExternalUser convertToExternalUser(ExternalUserRequest externalUser) {

@@ -3,9 +3,9 @@ package ru.webdl.otus.socialnetwork.core.user;
 import java.util.UUID;
 
 public interface ExternalUser {
-    UUID getUserId();
+    UUID userId();
 
-    String getFirstName();
+    String firstName();
 
-    String getLastName();
+    String lastName();
 }

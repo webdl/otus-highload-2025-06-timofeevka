@@ -4,6 +4,7 @@ import com.baomidou.dynamic.datasource.annotation.DS;
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 import ru.webdl.otus.socialnetwork.core.author.Author;
 import ru.webdl.otus.socialnetwork.core.post.Post;
@@ -11,14 +12,13 @@ import ru.webdl.otus.socialnetwork.core.post.PostImpl;
 import ru.webdl.otus.socialnetwork.core.post.PostRepository;
 
 import java.time.OffsetDateTime;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @Repository
 @RequiredArgsConstructor
 public class PostRepositoryImpl implements PostRepository {
     private final JdbcTemplate jdbcTemplate;
+    private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
     private final RowMapper<Post> postRowMapper = (rs, rowNum) -> new PostImpl(
             rs.getObject("post_id", UUID.class),
@@ -55,7 +55,8 @@ public class PostRepositoryImpl implements PostRepository {
     @Override
     @DS("slave_1")
     public List<Post> getPosts(List<Author> authors) {
-        String sql = "SELECT * FROM posts WHERE user_id in (?) ORDER BY created DESC";
-        return jdbcTemplate.query(sql, postRowMapper, authors.stream().map(Author::getAuthorId).toList());
+        String sql = "SELECT * FROM posts WHERE user_id IN (:authorIds) ORDER BY created DESC";
+        Map<String, Object> params = Collections.singletonMap("authorIds", authors.stream().map(Author::getAuthorId).toList());
+        return namedParameterJdbcTemplate.query(sql, params, postRowMapper);
     }
 }

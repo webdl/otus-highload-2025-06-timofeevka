@@ -1,4 +1,4 @@
-package ru.webdl.otus.socialnetwork.infra;
+package ru.webdl.otus.socialnetwork.infra.post;
 
 import ru.webdl.otus.socialnetwork.core.post.Post;
 
