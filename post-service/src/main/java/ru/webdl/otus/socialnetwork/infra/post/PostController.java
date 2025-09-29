@@ -1,6 +1,7 @@
 package ru.webdl.otus.socialnetwork.infra.post;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.webdl.otus.socialnetwork.core.post.FindPostsUseCase;
@@ -34,7 +35,8 @@ public class PostController {
     }
 
     @GetMapping("/feed/{userId}")
-    ResponseEntity<List<PostResponse>> getFeed(@PathVariable UUID userId) {
+    @Cacheable(value = "userFeed", key = "#userId", unless = "#result == null || #result.body.isEmpty()")
+    public ResponseEntity<List<PostResponse>> getFeed(@PathVariable UUID userId) {
         return ResponseEntity.ok(
                 findPostsUseCase.getFriendsPosts(userId).stream()
                         .map(PostResponse::new)
