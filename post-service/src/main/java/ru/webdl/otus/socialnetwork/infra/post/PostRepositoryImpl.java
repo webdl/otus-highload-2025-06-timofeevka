@@ -55,7 +55,7 @@ public class PostRepositoryImpl implements PostRepository {
     @Override
     @DS("slave_1")
     public List<Post> getPosts(List<Author> authors) {
-        String sql = "SELECT * FROM posts WHERE user_id IN (:authorIds) ORDER BY created DESC";
+        String sql = "SELECT * FROM posts WHERE user_id IN (:authorIds) ORDER BY created DESC LIMIT 1000";
         Map<String, Object> params = Collections.singletonMap("authorIds", authors.stream().map(Author::getAuthorId).toList());
         return namedParameterJdbcTemplate.query(sql, params, postRowMapper);
     }
