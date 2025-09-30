@@ -18,7 +18,12 @@ public class PostImpl implements Post {
     private String content;
     private final OffsetDateTime created;
 
-    PostImpl(UUID userId, String content) {
+    public PostImpl(UUID userId, String content) {
         this(null, userId, content, null);
+    }
+
+    @Override
+    public int compareTo(Post o) {
+        return this.created.compareTo(o.getCreated());
     }
 }

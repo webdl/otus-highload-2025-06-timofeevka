@@ -20,7 +20,7 @@ public class CacheConfig {
     public CacheManager cacheManager() {
         CaffeineCacheManager cacheManager = new CaffeineCacheManager();
         cacheManager.setCaffeine(caffeineCacheBuilder());
-        cacheManager.setCacheNames(List.of("userFeed"));
+        cacheManager.setCacheNames(List.of("authorPosts"));
         return cacheManager;
     }
 
@@ -28,18 +28,18 @@ public class CacheConfig {
         return Caffeine.newBuilder()
                 .initialCapacity(1000)
                 .maximumSize(10000)
-                .expireAfterWrite(30, TimeUnit.MINUTES)
+                .expireAfterAccess(30, TimeUnit.MINUTES)
                 .recordStats();
     }
 
     @Bean
     public CacheManager userFeedCacheManager() {
-        CaffeineCacheManager cacheManager = new CaffeineCacheManager("userFeed");
+        CaffeineCacheManager cacheManager = new CaffeineCacheManager("authorPosts");
         cacheManager.setCaffeine(Caffeine.newBuilder()
                 .initialCapacity(500)
                 .maximumSize(2000)
                 .expireAfterWrite(15, TimeUnit.MINUTES)
-                .expireAfterAccess(10, TimeUnit.MINUTES)
+                .expireAfterAccess(5, TimeUnit.MINUTES)
                 .recordStats());
         return cacheManager;
     }

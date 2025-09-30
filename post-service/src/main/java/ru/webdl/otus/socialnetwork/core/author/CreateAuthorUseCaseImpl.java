@@ -2,8 +2,8 @@ package ru.webdl.otus.socialnetwork.core.author;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import ru.webdl.otus.socialnetwork.core.user.ExternalUser;
-import ru.webdl.otus.socialnetwork.core.user.ExternalUserService;
+import ru.webdl.otus.socialnetwork.core.user.User;
+import ru.webdl.otus.socialnetwork.core.user.UserService;
 
 import java.util.UUID;
 
@@ -11,7 +11,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 class CreateAuthorUseCaseImpl implements CreateAuthorUseCase {
     private final AuthorRepository authorRepository;
-    private final ExternalUserService externalUserService;
+    private final UserService userService;
 
     @Override
     public Author createIfNotExists(UUID authorId) {
@@ -20,9 +20,9 @@ class CreateAuthorUseCaseImpl implements CreateAuthorUseCase {
     }
 
     private Author createAuthorFromExternalService(UUID userId) {
-        ExternalUser externalUser = externalUserService.findById(userId);
-        AuthorImpl author = new AuthorImpl(externalUser.userId(),
-                externalUser.firstName() + " " + externalUser.lastName());
+        User user = userService.findById(userId);
+        String displayName = user.firstName() + " " + user.lastName();
+        AuthorImpl author = new AuthorImpl(user.userId(), displayName);
         return authorRepository.create(author);
     }
 }

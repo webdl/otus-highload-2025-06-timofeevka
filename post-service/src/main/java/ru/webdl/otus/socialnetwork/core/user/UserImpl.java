@@ -4,9 +4,9 @@ import lombok.NonNull;
 
 import java.util.UUID;
 
-public record ExternalUserImpl(
+public record UserImpl(
         @NonNull UUID userId,
         @NonNull String firstName,
         @NonNull String lastName
-) implements ExternalUser {
+) implements User {
 }

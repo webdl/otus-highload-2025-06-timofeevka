@@ -7,9 +7,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
-import ru.webdl.otus.socialnetwork.core.user.ExternalUser;
-import ru.webdl.otus.socialnetwork.core.user.ExternalUserImpl;
-import ru.webdl.otus.socialnetwork.core.user.ExternalUserService;
+import ru.webdl.otus.socialnetwork.core.user.User;
+import ru.webdl.otus.socialnetwork.core.user.UserImpl;
+import ru.webdl.otus.socialnetwork.core.user.UserService;
 import ru.webdl.otus.socialnetwork.core.user.UserNotFoundException;
 import ru.webdl.otus.socialnetwork.infra.user.externals.dto.ExternalUserRequest;
 
@@ -19,7 +19,7 @@ import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor
-public class ExternalUserServiceImpl implements ExternalUserService {
+public class ExternalUserServiceImpl implements UserService {
     private final RestTemplate restTemplate;
     @Value("${externals.user-service.url}")
     private String userServiceBaseUrl;
@@ -29,7 +29,7 @@ public class ExternalUserServiceImpl implements ExternalUserService {
     private String userServiceGetFriendsPath;
 
     @Override
-    public ExternalUser findById(UUID userId) {
+    public User findById(UUID userId) {
         try {
             String url = buildUserUrl(userServiceGetUserPath, userId);
             HttpHeaders headers = createHeaders();
@@ -50,7 +50,7 @@ public class ExternalUserServiceImpl implements ExternalUserService {
     }
 
     @Override
-    public List<ExternalUser> findUserFriends(UUID userId) {
+    public List<User> findUserFriends(UUID userId) {
         try {
             String url = buildUserUrl(userServiceGetFriendsPath, userId);
             HttpHeaders headers = createHeaders();
@@ -84,11 +84,11 @@ public class ExternalUserServiceImpl implements ExternalUserService {
         return headers;
     }
 
-    private List<ExternalUser> convertToExternalUser(List<ExternalUserRequest> externalUsers) {
+    private List<User> convertToExternalUser(List<ExternalUserRequest> externalUsers) {
         return externalUsers.stream().map(this::convertToExternalUser).toList();
     }
 
-    private ExternalUser convertToExternalUser(ExternalUserRequest externalUser) {
-        return new ExternalUserImpl(externalUser.getId(), externalUser.getFirstName(), externalUser.getLastName());
+    private User convertToExternalUser(ExternalUserRequest externalUser) {
+        return new UserImpl(externalUser.getId(), externalUser.getFirstName(), externalUser.getLastName());
     }
 }

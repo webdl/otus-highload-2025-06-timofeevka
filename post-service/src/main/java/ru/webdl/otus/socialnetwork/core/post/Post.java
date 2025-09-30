@@ -3,7 +3,7 @@ package ru.webdl.otus.socialnetwork.core.post;
 import java.time.OffsetDateTime;
 import java.util.UUID;
 
-public interface Post {
+public interface Post extends Comparable<Post> {
     UUID getPostId();
 
     UUID getUserId();

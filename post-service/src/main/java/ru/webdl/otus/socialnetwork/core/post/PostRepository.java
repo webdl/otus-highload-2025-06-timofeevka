@@ -16,5 +16,7 @@ public interface PostRepository {
 
     Optional<Post> getPost(UUID postId);
 
+    List<Post> getPosts(UUID authorId);
+
     List<Post> getPosts(List<Author> authors);
 }
