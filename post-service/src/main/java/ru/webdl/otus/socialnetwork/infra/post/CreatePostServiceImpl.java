@@ -20,6 +20,6 @@ public class CreatePostServiceImpl implements CreatePostService {
     @Transactional
     public Post create(UUID authorId, String content) {
         Author author = createAuthorUseCase.createIfNotExists(authorId);
-        return createPostUseCase.create(author, content);
+        return createPostUseCase.create(author.getAuthorId(), content);
     }
 }

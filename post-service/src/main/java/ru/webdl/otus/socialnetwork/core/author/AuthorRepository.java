@@ -5,9 +5,11 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface AuthorRepository {
-    Optional<Author> findById(UUID authorId);
+    Optional<Author> findById(UUID userId);
 
-    List<Author> getAuthors(List<UUID> authorIds);
+    Optional<Author> findByIdWithLock(UUID userId);
+
+    List<Author> getAuthors(List<UUID> userIds);
 
     Author create(Author author);
 
