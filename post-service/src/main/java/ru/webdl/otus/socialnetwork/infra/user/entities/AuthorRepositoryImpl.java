@@ -1,10 +1,7 @@
 package ru.webdl.otus.socialnetwork.infra.user.entities;
 
 import com.baomidou.dynamic.datasource.annotation.DS;
-import jakarta.persistence.LockModeType;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.jpa.repository.Lock;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -50,10 +47,9 @@ public class AuthorRepositoryImpl implements AuthorRepository {
     }
 
     @Override
-    @Lock(LockModeType.PESSIMISTIC_READ)
-    @Query("SELECT a FROM authors a WHERE a.user_id = :userId")
     public Optional<Author> findByIdWithLock(UUID userId) {
-        return findById(userId);
+        String sql = "SELECT * FROM authors WHERE user_id = ? FOR UPDATE";
+        return jdbcTemplate.query(sql, authorRowMapper, userId).stream().findFirst();
     }
 
     @Override

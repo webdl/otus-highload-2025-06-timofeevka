@@ -9,7 +9,7 @@
       <boolProp name="TestPlan.serialize_threadgroups">false</boolProp>
     </TestPlan>
     <hashTree>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Get posts feed">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Get posts feed" enabled="false">
         <intProp name="ThreadGroup.num_threads">50</intProp>
         <intProp name="ThreadGroup.ramp_time">1</intProp>
         <longProp name="ThreadGroup.duration">180</longProp>
@@ -54,7 +54,7 @@
           </HeaderManager>
           <hashTree/>
         </hashTree>
-        <kg.apc.jmeter.vizualizers.CorrectedResultCollector guiclass="kg.apc.jmeter.vizualizers.LatenciesOverTimeGui" testclass="kg.apc.jmeter.vizualizers.CorrectedResultCollector" testname="jp@gc - Response Latencies Over Time">
+        <kg.apc.jmeter.vizualizers.CorrectedResultCollector guiclass="kg.apc.jmeter.vizualizers.LatenciesOverTimeGui" testclass="kg.apc.jmeter.vizualizers.CorrectedResultCollector" testname="jp@gc - Response Latencies Over Time" enabled="true">
           <boolProp name="ResultCollector.error_logging">false</boolProp>
           <objProp>
             <name>saveConfig</name>
@@ -99,7 +99,7 @@
           <boolProp name="exclude_checkbox_state">false</boolProp>
         </kg.apc.jmeter.vizualizers.CorrectedResultCollector>
         <hashTree/>
-        <kg.apc.jmeter.vizualizers.CorrectedResultCollector guiclass="kg.apc.jmeter.vizualizers.TransactionsPerSecondGui" testclass="kg.apc.jmeter.vizualizers.CorrectedResultCollector" testname="jp@gc - Transactions per Second">
+        <kg.apc.jmeter.vizualizers.CorrectedResultCollector guiclass="kg.apc.jmeter.vizualizers.TransactionsPerSecondGui" testclass="kg.apc.jmeter.vizualizers.CorrectedResultCollector" testname="jp@gc - Transactions per Second" enabled="true">
           <boolProp name="ResultCollector.error_logging">false</boolProp>
           <objProp>
             <name>saveConfig</name>
@@ -144,7 +144,7 @@
           <boolProp name="exclude_checkbox_state">false</boolProp>
         </kg.apc.jmeter.vizualizers.CorrectedResultCollector>
         <hashTree/>
-        <ResultCollector guiclass="StatVisualizer" testclass="ResultCollector" testname="Aggregate Report">
+        <ResultCollector guiclass="StatVisualizer" testclass="ResultCollector" testname="Aggregate Report" enabled="true">
           <boolProp name="ResultCollector.error_logging">false</boolProp>
           <objProp>
             <name>saveConfig</name>
@@ -212,6 +212,218 @@
         <stringProp name="ProxyControlGui.content_type_exclude"></stringProp>
       </ProxyControl>
       <hashTree/>
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Create posts">
+        <intProp name="ThreadGroup.num_threads">50</intProp>
+        <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller">
+          <stringProp name="LoopController.loops">1000</stringProp>
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+        </elementProp>
+      </ThreadGroup>
+      <hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/post/create/">
+          <stringProp name="HTTPSampler.domain">localhost</stringProp>
+          <stringProp name="HTTPSampler.port">8081</stringProp>
+          <stringProp name="HTTPSampler.path">/api/v1/post/create</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">{&#xd;
+    &quot;authorId&quot;: &quot;019972cd-8005-7bac-b007-219e40c1d9d2&quot;,&#xd;
+    &quot;content&quot;: &quot;поддержка, функция разработка данные совместимость интеллект документация класс инфраструктура разработка контроллер приложение визуализация интеграция производительность удобство технологии метод доступность плагин тестирование интерфейс, автоматизация запрос оптимизация шаблон развертывание фича отладка профилирование фреймворк развитие компания интерфейс, микросервисы ответ техдолг проектирование инфраструктура безопасность техдолг версия стабильность технологии, виджет баг библиотека представление коммит инфраструктура кэширование результат расширение класс, переменная производительность оптимизация, аутентификация поддержка, объект развертывание мониторинг библиотека качество модель аутентификация эффективность инновации легаси компания кэширование фича токен алгоритм будущее ветка компания фича безопасность мерж данные отладка интерфейс инфраструктура обучение компания оптимизация спринт middleware система документация архитектура, объект json конфигурация, ответ искусственный плагин. задача плагин визуализация визуализация патч надежность интеллект, искусственный баг скрипт облако аналитика токен компонент сеть отладка интерфейс отладка. безопасность алгоритм ответ безопасность улучшение оптимизация обновление трассировка технологии, клиент производительность архитектура кэширование зависимость переменная мерж взаимодействие результат, задача обслуживание конфигурация технологии конфигурация конфигурация обслуживание взаимодействие протокол оптимизация баг аутентификация трассировка класс требования, виджет фреймворк контроллер, поддержка, технологии, оптимизация. технологии переменная коммит проектирование качество клиент, логирование решение компонент аутентификация сервер автоматизация безопасность, метод оптимизация микросервисы производительность скорость middleware, интеграция представление техдолг модуль интеграция спринт. надежность endpoint api спринт middleware будущее бэклог расширение, метод репозиторий трассировка компания большие качество визуализация интеграция, задача, конфигурация интерфейс расширение виджет запрос аналитика результат бэклог скрипт токен конфигурация поддержка масштабируемость развертывание функциональность шифрование автоматизация, решение формат коммит будущее виджет большие json обучение вызов аналитика результат реализация ветка стабильность документация компания, интерфейс рефакторинг надежность библиотека, вызов продукт пакет спецификация база облако библиотека взаимодействие контейнеры скрипт оптимизация, ветка требования шаблон фича шифрование репозиторий продукт контроллер технологии компонент логирование производительность возможность структура инфраструктура машинное техдолг оптимизация коммит интерфейс проектирование будущее продукт, api баг профилирование объект обучение качество. надежность, надежность шаблон архитектура, оптимизация машинное контроллер развертывание модель представление интеграция xml зависимость улучшение коммит масштабируемость микросервисы модуль база, стабильность база легаси сервер данных, шифрование аутентификация функция искусственный разработка json трассировка инновации контроллер. тестирование интерфейс рефакторинг обслуживание представление легаси требования безопасность структура надежность, плагин, компания легаси тестирование микросервисы конфигурация. скорость мерж инновации фича. структура мониторинг бэклог обновление задача интерфейс токен машинное решение конфигурация потенциал спецификация, техдолг фича токен интеграция представление удобство сеть поддержка модель объект. api реализация профилирование баг контроллер оптимизация структура формат, обучение анализ вызов, формат, библиотека протокол, машинное обслуживание удобство платформа зависимость платформа инновации запрос, коммит аутентификация возможность класс скрипт фича легаси аутентификация безопасность профилирование инфраструктура версия эффективность приложение производительность конфликт, машинное возможность приложение развертывание оптимизация автоматизация представление техдолг тестирование xml. совместимость функциональность платформа, компания потенциал надежность, тренды оптимизация развитие, улучшение, решение визуализация фича совместимость endpoint. интеграция платформа оптимизация продукт репозиторий стабильность функция endpoint удобство представление безопасность профилирование, структура стабильность легаси микросервисы, инновации сервер развитие, потенциал мерж продукт middleware тренды токен бэклог потенциал аутентификация надежность,. продукт вызов, совместимость технологии json, технологии взаимодействие конфликт. надежность компания реализация будущее совместимость интерфейс возможность профилирование эффективность поддержка вызов версия алгоритм, улучшение. вызов функциональность реализация совместимость. json объект спринт кэширование контейнеры данные продукт результат. middleware поддержка техдолг api качество решение реализация. оптимизация функциональность поддержка, проектирование формат поддержка модель скорость модель ветка инфраструктура оптимизация протокол обслуживание фича технологии функция оптимизация сервер развитие обслуживание json аутентификация токен спринт спецификация контроллер фича обслуживание обслуживание легаси стабильность контроллер платформа отладка, эффективность архитектура токен платформа требования бэклог версия, контейнеры удобство коммит бэклог шаблон функция задача интеграция, отладка интеграция мониторинг компонент программирование класс, скорость, баг шаблон контейнеры легаси фича запрос. класс безопасность запрос коммит масштабируемость безопасность инфраструктура эффективность, масштабируемость большие, легаси скрипт json возможность требования шифрование вызов виджет логирование совместимость, библиотека версия интерфейс спринт взаимодействие реализация безопасность шифрование обучение репозиторий зависимость безопасность стабильность обучение, логирование, xml json аналитика авторизация интерфейс протокол решение сервер удобство, ответ модуль фреймворк технологии машинное, вызов xml кэширование развитие клиент, авторизация. разработка задача плагин запрос интерфейс результат тренды надежность структура данные зависимость, объект, структура масштабируемость надежность модель обучение. объект пакет развитие конфликт, представление спринт, производительность класс оптимизация инфраструктура конфигурация, ветка ветка фича, инфраструктура профилирование обновление компания версия логирование инновации спринт json версия профилирование проблема результат результат облако профилирование улучшение. интеграция токен, переменная задача протокол. структура стабильность сервер json отладка, эффективность анализ документация интеграция интеграция. безопасность версия реализация алгоритм запрос производительность скрипт тестирование данные легаси патч шифрование большие приложение производительность доступность объект микросервисы машинное шифрование архитектура обучение программирование коммит алгоритм авторизация сеть функциональность аналитика фреймворк протокол мерж легаси запрос. оптимизация, инновации переменная архитектура машинное инновации развитие патч аналитика взаимодействие мониторинг, доступность зависимость, безопасность тренды вызов коммит интеллект кэширование, мониторинг модель проектирование мерж аналитика интеграция функция переменная функция сеть функциональность масштабируемость микросервисы endpoint спецификация оптимизация результат тренды данных оптимизация надежность пакет оптимизация функциональность улучшение возможность оптимизация формат решение качество патч данных инфраструктура. документация. авторизация ответ скрипт контейнеры логирование,. интеллект автоматизация кэширование эффективность json продукт, развитие качество, эффективность алгоритм надежность проектирование контроллер масштабируемость разработка ответ api данные фреймворк библиотека. токен плагин патч проектирование модуль, доступность технологии модель кэширование формат, производительность объект json, развертывание, расширение эффективность надежность качество тестирование проблема запрос представление api. репозиторий профилирование метод программирование аутентификация.&quot;&#xd;
+}&#xd;
+</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager">
+            <collectionProp name="HeaderManager.headers">
+              <elementProp name="" elementType="Header">
+                <stringProp name="Header.name">Cache-Control</stringProp>
+                <stringProp name="Header.value">no-cache</stringProp>
+              </elementProp>
+              <elementProp name="" elementType="Header">
+                <stringProp name="Header.name">Content-Type</stringProp>
+                <stringProp name="Header.value">application/json</stringProp>
+              </elementProp>
+            </collectionProp>
+          </HeaderManager>
+          <hashTree/>
+        </hashTree>
+        <ResultCollector guiclass="StatVisualizer" testclass="ResultCollector" testname="Aggregate Report">
+          <boolProp name="ResultCollector.error_logging">false</boolProp>
+          <objProp>
+            <name>saveConfig</name>
+            <value class="SampleSaveConfiguration">
+              <time>true</time>
+              <latency>true</latency>
+              <timestamp>true</timestamp>
+              <success>true</success>
+              <label>true</label>
+              <code>true</code>
+              <message>true</message>
+              <threadName>true</threadName>
+              <dataType>true</dataType>
+              <encoding>false</encoding>
+              <assertions>true</assertions>
+              <subresults>true</subresults>
+              <responseData>false</responseData>
+              <samplerData>false</samplerData>
+              <xml>false</xml>
+              <fieldNames>true</fieldNames>
+              <responseHeaders>false</responseHeaders>
+              <requestHeaders>false</requestHeaders>
+              <responseDataOnError>false</responseDataOnError>
+              <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+              <assertionsResultsToSave>0</assertionsResultsToSave>
+              <bytes>true</bytes>
+              <sentBytes>true</sentBytes>
+              <url>true</url>
+              <threadCounts>true</threadCounts>
+              <idleTime>true</idleTime>
+              <connectTime>true</connectTime>
+            </value>
+          </objProp>
+          <stringProp name="filename"></stringProp>
+        </ResultCollector>
+        <hashTree/>
+        <kg.apc.jmeter.vizualizers.CorrectedResultCollector guiclass="kg.apc.jmeter.vizualizers.TransactionsPerSecondGui" testclass="kg.apc.jmeter.vizualizers.CorrectedResultCollector" testname="jp@gc - Transactions per Second">
+          <boolProp name="ResultCollector.error_logging">false</boolProp>
+          <objProp>
+            <name>saveConfig</name>
+            <value class="SampleSaveConfiguration">
+              <time>true</time>
+              <latency>true</latency>
+              <timestamp>true</timestamp>
+              <success>true</success>
+              <label>true</label>
+              <code>true</code>
+              <message>true</message>
+              <threadName>true</threadName>
+              <dataType>true</dataType>
+              <encoding>false</encoding>
+              <assertions>true</assertions>
+              <subresults>true</subresults>
+              <responseData>false</responseData>
+              <samplerData>false</samplerData>
+              <xml>false</xml>
+              <fieldNames>true</fieldNames>
+              <responseHeaders>false</responseHeaders>
+              <requestHeaders>false</requestHeaders>
+              <responseDataOnError>false</responseDataOnError>
+              <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+              <assertionsResultsToSave>0</assertionsResultsToSave>
+              <bytes>true</bytes>
+              <sentBytes>true</sentBytes>
+              <url>true</url>
+              <threadCounts>true</threadCounts>
+              <idleTime>true</idleTime>
+              <connectTime>true</connectTime>
+            </value>
+          </objProp>
+          <stringProp name="filename"></stringProp>
+          <longProp name="interval_grouping">1000</longProp>
+          <boolProp name="graph_aggregated">false</boolProp>
+          <stringProp name="include_sample_labels"></stringProp>
+          <stringProp name="exclude_sample_labels"></stringProp>
+          <stringProp name="start_offset"></stringProp>
+          <stringProp name="end_offset"></stringProp>
+          <boolProp name="include_checkbox_state">false</boolProp>
+          <boolProp name="exclude_checkbox_state">false</boolProp>
+        </kg.apc.jmeter.vizualizers.CorrectedResultCollector>
+        <hashTree/>
+        <kg.apc.jmeter.vizualizers.CorrectedResultCollector guiclass="kg.apc.jmeter.vizualizers.LatenciesOverTimeGui" testclass="kg.apc.jmeter.vizualizers.CorrectedResultCollector" testname="jp@gc - Response Latencies Over Time">
+          <boolProp name="ResultCollector.error_logging">false</boolProp>
+          <objProp>
+            <name>saveConfig</name>
+            <value class="SampleSaveConfiguration">
+              <time>true</time>
+              <latency>true</latency>
+              <timestamp>true</timestamp>
+              <success>true</success>
+              <label>true</label>
+              <code>true</code>
+              <message>true</message>
+              <threadName>true</threadName>
+              <dataType>true</dataType>
+              <encoding>false</encoding>
+              <assertions>true</assertions>
+              <subresults>true</subresults>
+              <responseData>false</responseData>
+              <samplerData>false</samplerData>
+              <xml>false</xml>
+              <fieldNames>true</fieldNames>
+              <responseHeaders>false</responseHeaders>
+              <requestHeaders>false</requestHeaders>
+              <responseDataOnError>false</responseDataOnError>
+              <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+              <assertionsResultsToSave>0</assertionsResultsToSave>
+              <bytes>true</bytes>
+              <sentBytes>true</sentBytes>
+              <url>true</url>
+              <threadCounts>true</threadCounts>
+              <idleTime>true</idleTime>
+              <connectTime>true</connectTime>
+            </value>
+          </objProp>
+          <stringProp name="filename"></stringProp>
+          <longProp name="interval_grouping">500</longProp>
+          <boolProp name="graph_aggregated">false</boolProp>
+          <stringProp name="include_sample_labels"></stringProp>
+          <stringProp name="exclude_sample_labels"></stringProp>
+          <stringProp name="start_offset"></stringProp>
+          <stringProp name="end_offset"></stringProp>
+          <boolProp name="include_checkbox_state">false</boolProp>
+          <boolProp name="exclude_checkbox_state">false</boolProp>
+        </kg.apc.jmeter.vizualizers.CorrectedResultCollector>
+        <hashTree/>
+        <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="false">
+          <boolProp name="ResultCollector.error_logging">false</boolProp>
+          <objProp>
+            <name>saveConfig</name>
+            <value class="SampleSaveConfiguration">
+              <time>true</time>
+              <latency>true</latency>
+              <timestamp>true</timestamp>
+              <success>true</success>
+              <label>true</label>
+              <code>true</code>
+              <message>true</message>
+              <threadName>true</threadName>
+              <dataType>true</dataType>
+              <encoding>false</encoding>
+              <assertions>true</assertions>
+              <subresults>true</subresults>
+              <responseData>false</responseData>
+              <samplerData>false</samplerData>
+              <xml>false</xml>
+              <fieldNames>true</fieldNames>
+              <responseHeaders>false</responseHeaders>
+              <requestHeaders>false</requestHeaders>
+              <responseDataOnError>false</responseDataOnError>
+              <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+              <assertionsResultsToSave>0</assertionsResultsToSave>
+              <bytes>true</bytes>
+              <sentBytes>true</sentBytes>
+              <url>true</url>
+              <threadCounts>true</threadCounts>
+              <idleTime>true</idleTime>
+              <connectTime>true</connectTime>
+            </value>
+          </objProp>
+          <stringProp name="filename"></stringProp>
+        </ResultCollector>
+        <hashTree/>
+      </hashTree>
     </hashTree>
   </hashTree>
 </jmeterTestPlan>
