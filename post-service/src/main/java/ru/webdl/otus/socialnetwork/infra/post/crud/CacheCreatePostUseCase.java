@@ -6,8 +6,7 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 import ru.webdl.otus.socialnetwork.core.post.Post;
 import ru.webdl.otus.socialnetwork.core.post.crud.CreatePostUseCase;
-
-import java.util.UUID;
+import ru.webdl.otus.socialnetwork.core.user.User;
 
 @Primary
 @Component
@@ -16,8 +15,8 @@ public class CacheCreatePostUseCase implements CreatePostUseCase {
     private final CreatePostUseCase delegate;
 
     @Override
-    @CacheEvict(value = "authorPosts", key = "#userId", cacheManager = "userFeedCacheManager")
-    public Post create(UUID userId, String content) {
-        return delegate.create(userId, content);
+    @CacheEvict(value = "authorPosts", key = "#user.userId()", cacheManager = "userFeedCacheManager")
+    public Post create(User user, String content) {
+        return delegate.create(user, content);
     }
 }

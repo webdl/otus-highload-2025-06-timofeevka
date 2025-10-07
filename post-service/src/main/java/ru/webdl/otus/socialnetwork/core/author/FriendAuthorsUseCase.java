@@ -1,8 +1,9 @@
 package ru.webdl.otus.socialnetwork.core.author;
 
+import ru.webdl.otus.socialnetwork.core.user.User;
+
 import java.util.List;
-import java.util.UUID;
 
 public interface FriendAuthorsUseCase {
-    List<Author> getAuthors(UUID userId);
+    List<Author> getAuthors(User user);
 }

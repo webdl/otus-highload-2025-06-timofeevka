@@ -3,23 +3,23 @@ package ru.webdl.otus.socialnetwork.infra.user.externals;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 import ru.webdl.otus.socialnetwork.core.user.User;
 import ru.webdl.otus.socialnetwork.core.user.UserImpl;
-import ru.webdl.otus.socialnetwork.core.user.UserService;
 import ru.webdl.otus.socialnetwork.core.user.UserNotFoundException;
+import ru.webdl.otus.socialnetwork.core.user.UserRepository;
 import ru.webdl.otus.socialnetwork.infra.user.externals.dto.ExternalUserRequest;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
-@Component
+@Service
 @RequiredArgsConstructor
-public class ExternalUserServiceImpl implements UserService {
+public class RemoteUserServiceImpl implements UserRepository {
     private final RestTemplate restTemplate;
     @Value("${externals.user-service.url}")
     private String userServiceBaseUrl;
@@ -29,7 +29,7 @@ public class ExternalUserServiceImpl implements UserService {
     private String userServiceGetFriendsPath;
 
     @Override
-    public User findById(UUID userId) {
+    public User getBy(UUID userId) {
         try {
             String url = buildUserUrl(userServiceGetUserPath, userId);
             HttpHeaders headers = createHeaders();
@@ -50,9 +50,9 @@ public class ExternalUserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> findUserFriends(UUID userId) {
+    public List<User> getUserFriends(User user) {
         try {
-            String url = buildUserUrl(userServiceGetFriendsPath, userId);
+            String url = buildUserUrl(userServiceGetFriendsPath, user.userId());
             HttpHeaders headers = createHeaders();
             ResponseEntity<ExternalUserRequest[]> response = restTemplate.exchange(
                     url,
@@ -63,10 +63,10 @@ public class ExternalUserServiceImpl implements UserService {
             if (response.getStatusCode() == HttpStatus.OK && response.getBody() != null) {
                 return convertToExternalUser(Arrays.asList(response.getBody()));
             } else {
-                throw new UserNotFoundException(userId, "User service didn't return a result. Status: " + response.getStatusCode());
+                throw new UserNotFoundException(user.userId(), "User service didn't return a result. Status: " + response.getStatusCode());
             }
         } catch (RestClientException e) {
-            throw new UserNotFoundException(userId, e.getMessage());
+            throw new UserNotFoundException(user.userId(), e.getMessage());
         }
     }
 

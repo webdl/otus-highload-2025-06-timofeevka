@@ -1,7 +1,7 @@
 package ru.webdl.otus.socialnetwork.core.author;
 
-import java.util.UUID;
+import ru.webdl.otus.socialnetwork.core.user.User;
 
 public interface CreateAuthorUseCase {
-    Author createIfNotExists(UUID authorId);
+    Author createIfNotExists(User user);
 }

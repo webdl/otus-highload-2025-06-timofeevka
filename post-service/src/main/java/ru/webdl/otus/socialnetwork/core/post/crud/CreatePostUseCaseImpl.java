@@ -10,8 +10,7 @@ import ru.webdl.otus.socialnetwork.core.author.IncrementTotalPostsUseCase;
 import ru.webdl.otus.socialnetwork.core.post.Post;
 import ru.webdl.otus.socialnetwork.core.post.PostImpl;
 import ru.webdl.otus.socialnetwork.core.post.PostRepository;
-
-import java.util.UUID;
+import ru.webdl.otus.socialnetwork.core.user.User;
 
 @Service
 @RequiredArgsConstructor
@@ -23,11 +22,10 @@ class CreatePostUseCaseImpl implements CreatePostUseCase {
 
     @Override
     @Transactional
-    public Post create(UUID userId, String content) {
-        // TODO: Разобраться с этим
-        Author author = createAuthorUseCase.createIfNotExists(userId);
-        author = authorRepository.findByIdWithLock(userId).orElseThrow();
-        PostImpl post = new PostImpl(userId, content);
+    public Post create(User user, String content) {
+        Author author = createAuthorUseCase.createIfNotExists(user);
+        author = authorRepository.findByIdWithLock(author.getAuthorId()).orElseThrow();
+        PostImpl post = new PostImpl(author.getAuthorId(), content);
         Post result = postRepository.create(post);
         incrementTotalPostsUseCase.incrementTotalPosts(author);
         return result;

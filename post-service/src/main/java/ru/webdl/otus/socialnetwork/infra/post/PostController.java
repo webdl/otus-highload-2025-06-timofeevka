@@ -8,7 +8,7 @@ import ru.webdl.otus.socialnetwork.core.post.author.AuthorPostsFeedUseCase;
 import ru.webdl.otus.socialnetwork.core.post.crud.CreatePostUseCase;
 import ru.webdl.otus.socialnetwork.core.post.friend.FriendsPostsFeedUseCase;
 import ru.webdl.otus.socialnetwork.core.user.User;
-import ru.webdl.otus.socialnetwork.core.user.UserService;
+import ru.webdl.otus.socialnetwork.core.user.UserRepository;
 import ru.webdl.otus.socialnetwork.infra.post.dto.CreatePostRequest;
 import ru.webdl.otus.socialnetwork.infra.post.dto.PostResponse;
 import ru.webdl.otus.socialnetwork.infra.rest.UuidDTO;
@@ -23,11 +23,13 @@ public class PostController {
     private final CreatePostUseCase createPostUseCase;
     private final AuthorPostsFeedUseCase authorPostsFeedUseCase;
     private final FriendsPostsFeedUseCase friendsPostsFeedUseCase;
-    private final UserService userService;
+    private final UserRepository userRepository;
 
     @PostMapping("/create")
-    ResponseEntity<UuidDTO> create(@RequestBody CreatePostRequest postData) {
-        Post post = createPostUseCase.create(postData.getAuthorId(), postData.getContent());
+    ResponseEntity<UuidDTO> create(@RequestHeader("userId") String userId,
+                                   @RequestBody CreatePostRequest postData) {
+        User user = getUser(userId);
+        Post post = createPostUseCase.create(user, postData.getContent());
         return ResponseEntity.ok(new UuidDTO(post.getPostId()));
     }
 
@@ -39,13 +41,18 @@ public class PostController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @GetMapping("/feed/{userId}")
-    public ResponseEntity<List<PostResponse>> getFeed(@PathVariable UUID userId) {
-        User user = userService.findById(userId);
+    @GetMapping("/feed/")
+    public ResponseEntity<List<PostResponse>> getFeed(@RequestHeader("userId") String userId) {
+        User user = getUser(userId);
         return ResponseEntity.ok(
                 friendsPostsFeedUseCase.getFriendsPosts(user).stream()
                         .map(PostResponse::new)
                         .toList()
         );
+    }
+
+    private User getUser(String userId) {
+        UUID uuid = UUID.fromString(userId);
+        return userRepository.getBy(uuid);
     }
 }

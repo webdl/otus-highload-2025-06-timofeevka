@@ -21,7 +21,7 @@ public class FriendsPostsFeedUseCaseImpl implements FriendsPostsFeedUseCase {
 
     @Override
     public List<Post> getFriendsPosts(User user) {
-        List<Author> authors = friendAuthorsUseCase.getAuthors(user.userId());
+        List<Author> authors = friendAuthorsUseCase.getAuthors(user);
         return authors.stream()
                 .flatMap(author -> authorPostsFeedUseCase.getByAuthor(author).stream())
                 .sorted(Comparator.reverseOrder())
