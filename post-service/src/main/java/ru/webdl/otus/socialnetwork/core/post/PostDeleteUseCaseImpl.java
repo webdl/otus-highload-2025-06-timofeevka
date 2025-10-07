@@ -1,14 +1,13 @@
-package ru.webdl.otus.socialnetwork.core.post.crud;
+package ru.webdl.otus.socialnetwork.core.post;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import ru.webdl.otus.socialnetwork.core.post.PostRepository;
 
 import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
-class DeletePostUseCaseImpl implements DeletePostUseCase {
+class PostDeleteUseCaseImpl implements PostDeleteUseCase {
     private final PostRepository postRepository;
 
     @Override

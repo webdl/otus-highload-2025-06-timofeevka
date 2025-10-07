@@ -5,14 +5,14 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 import ru.webdl.otus.socialnetwork.core.post.Post;
-import ru.webdl.otus.socialnetwork.core.post.crud.CreatePostUseCase;
+import ru.webdl.otus.socialnetwork.core.post.PostCreationUseCase;
 import ru.webdl.otus.socialnetwork.core.user.User;
 
 @Primary
 @Component
 @RequiredArgsConstructor
-public class CacheCreatePostUseCase implements CreatePostUseCase {
-    private final CreatePostUseCase delegate;
+public class CachePostCreationUseCase implements PostCreationUseCase {
+    private final PostCreationUseCase delegate;
 
     @Override
     @CacheEvict(value = "authorPosts", key = "#user.userId()", cacheManager = "userFeedCacheManager")

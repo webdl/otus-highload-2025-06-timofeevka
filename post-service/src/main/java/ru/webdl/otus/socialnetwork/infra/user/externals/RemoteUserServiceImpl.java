@@ -50,7 +50,7 @@ public class RemoteUserServiceImpl implements UserRepository {
     }
 
     @Override
-    public List<User> getUserFriends(User user) {
+    public List<User> getFriendsFor(User user) {
         try {
             String url = buildUserUrl(userServiceGetFriendsPath, user.userId());
             HttpHeaders headers = createHeaders();

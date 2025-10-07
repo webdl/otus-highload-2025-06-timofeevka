@@ -6,5 +6,5 @@ import java.util.UUID;
 public interface UserRepository {
     User getBy(UUID userId);
 
-    List<User> getUserFriends(User user);
+    List<User> getFriendsFor(User user);
 }
