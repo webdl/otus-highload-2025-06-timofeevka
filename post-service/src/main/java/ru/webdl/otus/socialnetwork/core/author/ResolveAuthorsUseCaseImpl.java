@@ -10,7 +10,7 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
-class ResolvePostAuthorUseCaseImpl implements ResolvePostAuthorUseCase {
+class ResolveAuthorsUseCaseImpl implements ResolveAuthorsUseCase {
     private final UserRepository userRepository;
     private final AuthorRepository authorRepository;
 

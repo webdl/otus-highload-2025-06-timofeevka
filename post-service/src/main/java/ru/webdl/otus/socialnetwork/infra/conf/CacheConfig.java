@@ -1,4 +1,4 @@
-package ru.webdl.otus.socialnetwork;
+package ru.webdl.otus.socialnetwork.infra.conf;
 
 import com.github.benmanes.caffeine.cache.Caffeine;
 import org.springframework.cache.CacheManager;

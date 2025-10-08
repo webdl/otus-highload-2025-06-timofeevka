@@ -1,4 +1,4 @@
-package ru.webdl.otus.socialnetwork.infra.post.crud;
+package ru.webdl.otus.socialnetwork.infra.post;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
@@ -11,7 +11,7 @@ import ru.webdl.otus.socialnetwork.core.user.User;
 @Primary
 @Component
 @RequiredArgsConstructor
-public class CachePostCreationUseCase implements PostCreationUseCase {
+public class CachePostCreationUseCaseImpl implements PostCreationUseCase {
     private final PostCreationUseCase delegate;
 
     @Override

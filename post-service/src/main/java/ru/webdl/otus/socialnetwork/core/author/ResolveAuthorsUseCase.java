@@ -4,7 +4,7 @@ import ru.webdl.otus.socialnetwork.core.user.User;
 
 import java.util.List;
 
-public interface ResolvePostAuthorUseCase {
+public interface ResolveAuthorsUseCase {
     Author getOrCreate(User user);
 
     List<Author> findFriendsWhoAreAuthors(User user);

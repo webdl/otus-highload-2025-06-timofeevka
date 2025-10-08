@@ -18,7 +18,7 @@ import java.util.List;
 @Configuration
 @EnableWebSecurity
 @Order(SecurityProperties.BASIC_AUTH_ORDER)
-public class SecurityConfiguration {
+public class SecurityConfig {
 
     @Bean
     CorsConfigurationSource corsConfigurationSource() {

@@ -4,7 +4,7 @@
 		"name": "OTUS Highload",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "48204340",
-		"_collection_link": "https://web.postman.co/workspace/Kirill's-Workspace~17d2aa37-342e-41b7-8e92-c1b12559cb35/collection/48204340-94d245a7-bff8-4d44-8911-58dc6f775f26?action=share&source=collection_link&creator=48204340"
+		"_collection_link": "https://timofeev-kirill-7396932.postman.co/workspace/Kirill's-Workspace~17d2aa37-342e-41b7-8e92-c1b12559cb35/collection/48204340-94d245a7-bff8-4d44-8911-58dc6f775f26?action=share&source=collection_link&creator=48204340"
 	},
 	"item": [
 		{
@@ -264,10 +264,16 @@
 							"type": "noauth"
 						},
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "userId",
+								"value": "{{userId}}",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"authorId\": \"019975d1-7db7-7349-9077-b51c1e627b99\",\n    \"content\": \"Дориан пишет\"\n}\n",
+							"raw": "{\n    \"content\": \"6 пишет!!!!!\"\n}\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -275,7 +281,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8081/api/v1/post/create",
+							"raw": "http://localhost:8081/api/v1/posts",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -284,8 +290,7 @@
 							"path": [
 								"api",
 								"v1",
-								"post",
-								"create"
+								"posts"
 							]
 						}
 					},
@@ -298,9 +303,15 @@
 							"type": "noauth"
 						},
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "userId",
+								"value": "{{userId}}",
+								"type": "text"
+							}
+						],
 						"url": {
-							"raw": "http://localhost:8081/api/v1/post/get/0199862c-8bd8-7a40-b043-bef715627a77",
+							"raw": "http://localhost:8081/api/v1/posts/019999f2-35c2-741d-8533-073645c1f900",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -309,9 +320,8 @@
 							"path": [
 								"api",
 								"v1",
-								"post",
-								"get",
-								"0199941a-f76d-7603-8470-4db6f50961d5"
+								"posts",
+								"019999f2-35c2-741d-8533-073645c1f900"
 							]
 						}
 					},
@@ -324,9 +334,15 @@
 							"type": "noauth"
 						},
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "userId",
+								"value": "{{userId}}",
+								"type": "text"
+							}
+						],
 						"url": {
-							"raw": "http://localhost:8081/api/v1/post/feed/019975d4-4874-77da-9845-914b1904ca93",
+							"raw": "http://localhost:8081/api/v1/posts/feed",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -335,9 +351,8 @@
 							"path": [
 								"api",
 								"v1",
-								"post",
-								"feed",
-								"019975d4-4874-77da-9845-914b1904ca93"
+								"posts",
+								"feed"
 							]
 						}
 					},
@@ -370,7 +385,7 @@
 		"bearer": [
 			{
 				"key": "token",
-				"value": "<token from login>",
+				"value": "{{token}}",
 				"type": "string"
 			}
 		]
@@ -397,6 +412,16 @@
 					""
 				]
 			}
+		}
+	],
+	"variable": [
+		{
+			"key": "token",
+			"value": ""
+		},
+		{
+			"key": "userId",
+			"value": ""
 		}
 	]
 }

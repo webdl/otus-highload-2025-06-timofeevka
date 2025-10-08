@@ -1,4 +1,4 @@
-package ru.webdl.otus.socialnetwork.infra.user.entities;
+package ru.webdl.otus.socialnetwork.infra.author;
 
 import com.baomidou.dynamic.datasource.annotation.DS;
 import lombok.RequiredArgsConstructor;

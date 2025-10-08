@@ -1,4 +1,4 @@
-package ru.webdl.otus.socialnetwork.infra.user.externals;
+package ru.webdl.otus.socialnetwork.infra.user;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -11,7 +11,7 @@ import ru.webdl.otus.socialnetwork.core.user.User;
 import ru.webdl.otus.socialnetwork.core.user.UserImpl;
 import ru.webdl.otus.socialnetwork.core.user.UserNotFoundException;
 import ru.webdl.otus.socialnetwork.core.user.UserRepository;
-import ru.webdl.otus.socialnetwork.infra.user.externals.dto.ExternalUserRequest;
+import ru.webdl.otus.socialnetwork.infra.user.dto.RemoteUserRequest;
 
 import java.util.Arrays;
 import java.util.List;
@@ -33,11 +33,11 @@ public class RemoteUserServiceImpl implements UserRepository {
         try {
             String url = buildUserUrl(userServiceGetUserPath, userId);
             HttpHeaders headers = createHeaders();
-            ResponseEntity<ExternalUserRequest> response = restTemplate.exchange(
+            ResponseEntity<RemoteUserRequest> response = restTemplate.exchange(
                     url,
                     HttpMethod.GET,
                     new HttpEntity<>(headers),
-                    ExternalUserRequest.class
+                    RemoteUserRequest.class
             );
             if (response.getStatusCode() == HttpStatus.OK && response.getBody() != null) {
                 return convertToExternalUser(response.getBody());
@@ -54,11 +54,11 @@ public class RemoteUserServiceImpl implements UserRepository {
         try {
             String url = buildUserUrl(userServiceGetFriendsPath, user.userId());
             HttpHeaders headers = createHeaders();
-            ResponseEntity<ExternalUserRequest[]> response = restTemplate.exchange(
+            ResponseEntity<RemoteUserRequest[]> response = restTemplate.exchange(
                     url,
                     HttpMethod.GET,
                     new HttpEntity<>(headers),
-                    ExternalUserRequest[].class
+                    RemoteUserRequest[].class
             );
             if (response.getStatusCode() == HttpStatus.OK && response.getBody() != null) {
                 return convertToExternalUser(Arrays.asList(response.getBody()));
@@ -84,11 +84,11 @@ public class RemoteUserServiceImpl implements UserRepository {
         return headers;
     }
 
-    private List<User> convertToExternalUser(List<ExternalUserRequest> externalUsers) {
+    private List<User> convertToExternalUser(List<RemoteUserRequest> externalUsers) {
         return externalUsers.stream().map(this::convertToExternalUser).toList();
     }
 
-    private User convertToExternalUser(ExternalUserRequest externalUser) {
+    private User convertToExternalUser(RemoteUserRequest externalUser) {
         return new UserImpl(externalUser.getId(), externalUser.getFirstName(), externalUser.getLastName());
     }
 }
