@@ -18,6 +18,6 @@ public class ResolveMembersUseCaseImpl implements ResolveMembersUseCase {
     private Member createMember(User user) {
         String displayName = user.firstName() + " " + user.lastName();
         Member member = new MemberImpl(user.userId(), displayName);
-        return memberRepository.create(member);
+        return memberRepository.save(member);
     }
 }

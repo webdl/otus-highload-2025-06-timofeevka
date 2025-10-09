@@ -8,7 +8,12 @@ externals:
 spring:
   application.name: Chat Service
   config.import: optional:file:.env[.properties]
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/chatdb
+      auto-index-creation: true
 
 logging:
   level:
+    org.springframework.data.mongodb: DEBUG
     ru.webdl.otus.socialnetwork: INFO

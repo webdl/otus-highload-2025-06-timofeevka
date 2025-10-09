@@ -9,7 +9,5 @@ public interface MemberRepository {
 
     List<Member> getMembers(List<UUID> userIds);
 
-    Member create(Member member);
-
-    void save(Member member);
+    Member save(Member member);
 }
