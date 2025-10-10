@@ -4,12 +4,15 @@ import org.springframework.data.mongodb.core.mapping.event.AbstractMongoEventLis
 import org.springframework.data.mongodb.core.mapping.event.BeforeConvertEvent;
 import org.springframework.stereotype.Component;
 
+import java.util.UUID;
+
 @Component
 public class MongoChatEventListener extends AbstractMongoEventListener<MongoChat> {
     @Override
     public void onBeforeConvert(BeforeConvertEvent<MongoChat> event) {
         MongoChat source = event.getSource();
         if (source.getChatId() == null) {
+            source.setChatId(UUID.randomUUID());
             source.calculateSortedIds();
         }
         super.onBeforeConvert(event);

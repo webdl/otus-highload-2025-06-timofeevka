@@ -10,6 +10,8 @@ import java.util.UUID;
 @Repository
 public interface SpringMongoChatRepository extends MongoRepository<MongoChat, String> {
 
+    Optional<MongoChat> findByChatId(UUID chatId);
+
     @Query("""
             {
                 $or: [
@@ -19,4 +21,5 @@ public interface SpringMongoChatRepository extends MongoRepository<MongoChat, St
             }
             """)
     Optional<MongoChat> findByMemberIds(UUID firstMemberId, UUID secondMemberId);
+
 }

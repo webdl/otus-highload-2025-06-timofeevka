@@ -18,7 +18,7 @@ public class MongoChatRepositoryAdapter implements ChatRepository {
 
     @Override
     public Optional<Chat> findById(@NonNull UUID id) {
-        return springRepository.findById(id.toString())
+        return springRepository.findByChatId(id)
                 .map(this::toDomainEntity);
     }
 

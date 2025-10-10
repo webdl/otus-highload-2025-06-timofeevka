@@ -2,7 +2,8 @@ package ru.webdl.otus.socialnetwork.infra.chat;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.CompoundIndex;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -10,8 +11,9 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import java.util.UUID;
 
 @Getter
+@Setter
 @AllArgsConstructor
-@RequiredArgsConstructor
+@NoArgsConstructor
 @Document(collection = "chats")
 @CompoundIndex(name = "members_unique_idx",
         def = """
@@ -23,8 +25,8 @@ import java.util.UUID;
 public class MongoChat {
     @Id
     private UUID chatId;
-    private final UUID firstMemberId;
-    private final UUID secondMemberId;
+    private UUID firstMemberId;
+    private UUID secondMemberId;
     private UUID lastMessageId;
     private UUID lastMessageSenderId;
     private String lastMessageText;
