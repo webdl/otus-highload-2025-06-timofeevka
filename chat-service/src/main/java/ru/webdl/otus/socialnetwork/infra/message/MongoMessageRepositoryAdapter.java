@@ -8,6 +8,7 @@ import ru.webdl.otus.socialnetwork.core.message.MessageImpl;
 import ru.webdl.otus.socialnetwork.core.message.MessageRepository;
 
 import java.util.List;
+import java.util.UUID;
 
 @Repository
 @RequiredArgsConstructor
@@ -15,8 +16,8 @@ public class MongoMessageRepositoryAdapter implements MessageRepository {
     private final SpringMongoMessageRepository springRepository;
 
     @Override
-    public List<Message> findByChat(Chat chat) {
-        return springRepository.findByChatId(chat.getChatId()).stream()
+    public List<Message> findByChatId(UUID chatId) {
+        return springRepository.findByChatId(chatId).stream()
                 .map(this::toDomainEntity)
                 .toList();
     }
@@ -29,7 +30,7 @@ public class MongoMessageRepositoryAdapter implements MessageRepository {
     }
 
     private MongoMessage toMongoEntity(Message m) {
-        return new MongoMessage(m.getChatId(), m.getSenderId(), m.getText());
+        return new MongoMessage(null, m.getChatId(), m.getSenderId(), m.getText());
     }
 
     private Message toDomainEntity(MongoMessage m) {

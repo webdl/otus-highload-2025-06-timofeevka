@@ -2,7 +2,7 @@ package ru.webdl.otus.socialnetwork.infra.message;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
@@ -13,13 +13,13 @@ import java.util.UUID;
 @Getter
 @Setter
 @AllArgsConstructor
-@RequiredArgsConstructor
+@NoArgsConstructor
 @Document(collection = "messages")
 public class MongoMessage {
     @Id
     private UUID messageId;
     @Indexed
-    private final UUID chatId;
-    private final UUID senderId;
-    private final String text;
+    private UUID chatId;
+    private UUID senderId;
+    private String text;
 }

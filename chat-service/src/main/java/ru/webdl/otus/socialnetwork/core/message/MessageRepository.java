@@ -1,11 +1,10 @@
 package ru.webdl.otus.socialnetwork.core.message;
 
-import ru.webdl.otus.socialnetwork.core.chat.Chat;
-
 import java.util.List;
+import java.util.UUID;
 
 public interface MessageRepository {
-    List<Message> findByChat(Chat chat);
+    List<Message> findByChatId(UUID chatId);
 
     Message save(Message message);
 }
