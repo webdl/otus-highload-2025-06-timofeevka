@@ -6,12 +6,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.webdl.otus.socialnetwork.core.chat.Chat;
 import ru.webdl.otus.socialnetwork.core.chat.ChatNotFoundException;
-import ru.webdl.otus.socialnetwork.core.chat.ChatRepository;
+import ru.webdl.otus.socialnetwork.core.chat.GetChatsUseCase;
 import ru.webdl.otus.socialnetwork.core.member.Member;
 import ru.webdl.otus.socialnetwork.core.member.ResolveMembersUseCase;
 import ru.webdl.otus.socialnetwork.core.message.*;
-import ru.webdl.otus.socialnetwork.core.user.User;
-import ru.webdl.otus.socialnetwork.core.user.UserRepository;
 import ru.webdl.otus.socialnetwork.infra.message.dto.MessageCreationRequest;
 import ru.webdl.otus.socialnetwork.infra.message.dto.MessageResponse;
 
@@ -22,20 +20,18 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/chats/{chatId}/messages")
 public class MessageController {
-    private final MessageCreationUseCase messageCreationUseCase;
     private final GetMessagesUseCase getMessagesUseCase;
-    private final ResolveMembersUseCase resolveMembersUseCase;
+    private final MessageCreationUseCase messageCreationUseCase;
     private final MessageDeleteUseCase messageDeleteUseCase;
-    private final ChatRepository chatRepository;
-    private final UserRepository userRepository;
+    private final GetChatsUseCase getChatsUseCase;
+    private final ResolveMembersUseCase resolveMembersUseCase;
 
     @PostMapping
     public ResponseEntity<MessageResponse> create(@RequestHeader("userId") UUID userId,
                                                   @PathVariable UUID chatId,
                                                   @RequestBody MessageCreationRequest data) {
-        User user = userRepository.getBy(userId);
-        Member sender = resolveMembersUseCase.getOrCreate(user);
-        Chat chat = chatRepository.findById(chatId).orElseThrow(() -> new ChatNotFoundException(chatId));
+        Member sender = resolveMembersUseCase.getOrCreate(userId);
+        Chat chat = getChatsUseCase.findById(chatId).orElseThrow(() -> new ChatNotFoundException(chatId));
         Message message = messageCreationUseCase.create(chat, sender, data.getText());
         return ResponseEntity.ok(new MessageResponse(message));
     }
@@ -43,9 +39,8 @@ public class MessageController {
     @GetMapping
     public ResponseEntity<List<MessageResponse>> getAll(@RequestHeader("userId") UUID userId,
                                                         @PathVariable UUID chatId) {
-        User user = userRepository.getBy(userId);
-        Member member = resolveMembersUseCase.getOrCreate(user);
-        Chat chat = chatRepository.findById(chatId).orElseThrow(() -> new ChatNotFoundException(chatId));
+        Member member = resolveMembersUseCase.getOrCreate(userId);
+        Chat chat = getChatsUseCase.findById(chatId).orElseThrow(() -> new ChatNotFoundException(chatId));
         List<Message> messages = getMessagesUseCase.findByChat(member, chat);
         return ResponseEntity.ok(messages.stream().map(MessageResponse::new).toList());
     }
@@ -55,9 +50,8 @@ public class MessageController {
     public void delete(@RequestHeader("userId") UUID userId,
                        @PathVariable UUID chatId,
                        @PathVariable UUID messageId) {
-        User user = userRepository.getBy(userId);
-        Member member = resolveMembersUseCase.getOrCreate(user);
-        Chat chat = chatRepository.findById(chatId).orElseThrow(() -> new ChatNotFoundException(chatId));
+        Member member = resolveMembersUseCase.getOrCreate(userId);
+        Chat chat = getChatsUseCase.findById(chatId).orElseThrow(() -> new ChatNotFoundException(chatId));
         Message message = getMessagesUseCase.findById(messageId).orElseThrow(() -> new MessageNotFoundException(messageId));
         messageDeleteUseCase.delete(member, chat, message);
     }

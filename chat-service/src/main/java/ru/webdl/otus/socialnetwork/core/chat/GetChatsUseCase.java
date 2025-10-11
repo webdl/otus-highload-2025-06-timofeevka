@@ -8,7 +8,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface GetChatsUseCase {
-    Optional<Chat> getById(@NonNull UUID id);
+    Optional<Chat> findById(@NonNull UUID id);
 
     List<Chat> findByMember(@NonNull Member member);
 }

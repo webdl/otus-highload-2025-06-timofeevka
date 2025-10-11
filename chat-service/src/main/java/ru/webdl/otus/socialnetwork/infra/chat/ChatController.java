@@ -9,8 +9,6 @@ import ru.webdl.otus.socialnetwork.core.chat.ChatNotFoundException;
 import ru.webdl.otus.socialnetwork.core.chat.GetChatsUseCase;
 import ru.webdl.otus.socialnetwork.core.member.Member;
 import ru.webdl.otus.socialnetwork.core.member.ResolveMembersUseCase;
-import ru.webdl.otus.socialnetwork.core.user.User;
-import ru.webdl.otus.socialnetwork.core.user.UserRepository;
 import ru.webdl.otus.socialnetwork.infra.chat.dto.ChatCreationRequest;
 import ru.webdl.otus.socialnetwork.infra.chat.dto.ChatResponse;
 
@@ -24,32 +22,27 @@ public class ChatController {
     private final ResolveMembersUseCase resolveMembersUseCase;
     private final ChatCreationUseCase chatCreationUseCase;
     private final GetChatsUseCase getChatsUseCase;
-    private final UserRepository userRepository;
 
     @PostMapping
     public ResponseEntity<ChatResponse> create(@RequestHeader("userId") UUID userId,
                                                @RequestBody ChatCreationRequest data) {
-        User firstUser = userRepository.getBy(userId);
-        User secondUser = userRepository.getBy(data.secondMemberId());
-        Member firstMember = resolveMembersUseCase.getOrCreate(firstUser);
-        Member secondMember = resolveMembersUseCase.getOrCreate(secondUser);
+        Member firstMember = resolveMembersUseCase.getOrCreate(userId);
+        Member secondMember = resolveMembersUseCase.getOrCreate(data.secondMemberId());
         Chat chat = chatCreationUseCase.create(firstMember, secondMember);
         return ResponseEntity.ok(new ChatResponse(chat));
     }
 
     @GetMapping
     public ResponseEntity<List<ChatResponse>> getMyChats(@RequestHeader("userId") UUID userId) {
-        User user = userRepository.getBy(userId);
-        Member member = resolveMembersUseCase.getOrCreate(user);
+        Member member = resolveMembersUseCase.getOrCreate(userId);
         return ResponseEntity.ok(getChatsUseCase.findByMember(member).stream()
                 .map(ChatResponse::new)
                 .toList());
     }
 
     @GetMapping("/{chatId}")
-    public ResponseEntity<ChatResponse> getChat(@RequestHeader("userId") UUID userId,
-                                                @PathVariable("chatId") UUID chatId) {
-        Chat chat = getChatsUseCase.getById(chatId).orElseThrow(() -> new ChatNotFoundException(chatId));
+    public ResponseEntity<ChatResponse> getChat(@PathVariable("chatId") UUID chatId) {
+        Chat chat = getChatsUseCase.findById(chatId).orElseThrow(() -> new ChatNotFoundException(chatId));
         return ResponseEntity.ok(new ChatResponse(chat));
     }
 }

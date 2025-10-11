@@ -15,7 +15,7 @@ public class GetChatsUseCaseImpl implements GetChatsUseCase {
     private final ChatRepository repository;
 
     @Override
-    public Optional<Chat> getById(@NonNull UUID id) {
+    public Optional<Chat> findById(@NonNull UUID id) {
         return repository.findById(id);
     }
 
