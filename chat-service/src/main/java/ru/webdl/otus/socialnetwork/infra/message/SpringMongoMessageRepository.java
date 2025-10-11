@@ -11,5 +11,7 @@ import java.util.UUID;
 public interface SpringMongoMessageRepository extends MongoRepository<MongoMessage, String> {
     Optional<MongoMessage> findByMessageId(UUID id);
 
+    Optional<MongoMessage> findFirstByOrderByCreatedAtDesc(UUID chatId);
+
     List<MongoMessage> findByChatId(UUID chatId);
 }

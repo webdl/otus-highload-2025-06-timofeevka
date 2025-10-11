@@ -8,6 +8,7 @@ import ru.webdl.otus.socialnetwork.core.chat.ChatImpl;
 import ru.webdl.otus.socialnetwork.core.chat.ChatRepository;
 import ru.webdl.otus.socialnetwork.core.member.Member;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -29,6 +30,13 @@ public class MongoChatRepositoryAdapter implements ChatRepository {
     }
 
     @Override
+    public List<Chat> findByMember(@NonNull Member member) {
+        return springRepository.findByFirstMemberIdOrSecondMemberId(member.userId(), member.userId()).stream()
+                .map(this::toDomainEntity)
+                .toList();
+    }
+
+    @Override
     public Chat save(@NonNull Chat chat) {
         MongoChat mongoChat = toMongoEntity(chat);
         MongoChat saved = springRepository.save(mongoChat);
@@ -42,6 +50,7 @@ public class MongoChatRepositoryAdapter implements ChatRepository {
                 c.getLastMessageId(),
                 c.getLastMessageSenderId(),
                 c.getLastMessageText(),
+                c.getLastMessageCreatedAt(),
                 c.getMinMemberId(),
                 c.getMaxMemberId());
     }
@@ -53,6 +62,7 @@ public class MongoChatRepositoryAdapter implements ChatRepository {
                 c.getLastMessageId(),
                 c.getLastMessageSenderId(),
                 c.getLastMessageText(),
+                c.getLastMessageCreatedAt(),
                 c.getMinMemberId(),
                 c.getMaxMemberId());
     }

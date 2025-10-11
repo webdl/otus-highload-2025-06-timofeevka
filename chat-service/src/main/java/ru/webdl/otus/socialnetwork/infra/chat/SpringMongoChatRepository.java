@@ -4,12 +4,12 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 @Repository
 public interface SpringMongoChatRepository extends MongoRepository<MongoChat, String> {
-
     Optional<MongoChat> findByChatId(UUID chatId);
 
     @Query("""
@@ -22,4 +22,5 @@ public interface SpringMongoChatRepository extends MongoRepository<MongoChat, St
             """)
     Optional<MongoChat> findByMemberIds(UUID firstMemberId, UUID secondMemberId);
 
+    List<MongoChat> findByFirstMemberIdOrSecondMemberId(UUID firstMemberId, UUID secondMemberId);
 }

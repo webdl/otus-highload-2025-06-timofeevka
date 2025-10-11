@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Getter
@@ -14,4 +15,5 @@ public class MessageImpl implements Message {
     private final UUID chatId;
     private final UUID senderId;
     private final String text;
+    private LocalDateTime createdAt;
 }

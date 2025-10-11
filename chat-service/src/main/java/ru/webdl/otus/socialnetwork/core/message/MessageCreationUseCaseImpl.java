@@ -2,17 +2,23 @@ package ru.webdl.otus.socialnetwork.core.message;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.webdl.otus.socialnetwork.core.chat.Chat;
+import ru.webdl.otus.socialnetwork.core.chat.ChatUpdateUseCase;
 import ru.webdl.otus.socialnetwork.core.member.Member;
 
 @Service
 @RequiredArgsConstructor
 public class MessageCreationUseCaseImpl implements MessageCreationUseCase {
-    private final MessageRepository messageRepository;
+    private final ChatUpdateUseCase chatUpdateUseCase;
+    private final MessageRepository repository;
 
     @Override
+    @Transactional
     public Message create(Chat chat, Member sender, String text) {
-        MessageImpl message = new MessageImpl(chat.getChatId(), sender.userId(), text);
-        return messageRepository.save(message);
+        Message message = new MessageImpl(chat.getChatId(), sender.userId(), text);
+        Message saved = repository.save(message);
+        chatUpdateUseCase.setLastMessage(chat, saved);
+        return saved;
     }
 }

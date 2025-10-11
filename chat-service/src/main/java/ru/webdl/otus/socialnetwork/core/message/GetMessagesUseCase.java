@@ -11,4 +11,6 @@ public interface GetMessagesUseCase {
     Optional<Message> findById(UUID messageId);
 
     List<Message> findByChat(Member user, Chat chat);
+
+    Optional<Message> findLastMessage(Chat chat);
 }

@@ -12,15 +12,20 @@ import java.util.UUID;
 @Service
 @RequiredArgsConstructor
 public class GetMessagesUseCaseImpl implements GetMessagesUseCase {
-    private final MessageRepository messageRepository;
+    private final MessageRepository repository;
 
     @Override
     public Optional<Message> findById(UUID messageId) {
-        return messageRepository.findByMessageId(messageId);
+        return repository.findByMessageId(messageId);
     }
 
     @Override
     public List<Message> findByChat(Member user, Chat chat) {
-        return messageRepository.findByChatId(chat.getChatId());
+        return repository.findByChatId(chat.getChatId());
+    }
+
+    @Override
+    public Optional<Message> findLastMessage(Chat chat) {
+        return repository.findLastMessage(chat.getLastMessageId());
     }
 }

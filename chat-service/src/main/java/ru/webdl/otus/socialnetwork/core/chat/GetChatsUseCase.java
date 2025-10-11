@@ -10,5 +10,5 @@ import java.util.UUID;
 public interface GetChatsUseCase {
     Optional<Chat> getById(@NonNull UUID id);
 
-    List<Chat> getByMember(@NonNull Member member);
+    List<Chat> findByMember(@NonNull Member member);
 }

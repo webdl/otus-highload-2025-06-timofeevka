@@ -6,6 +6,7 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import ru.webdl.otus.socialnetwork.core.message.Message;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Getter
@@ -18,14 +19,19 @@ public class ChatImpl implements Chat {
     private UUID lastMessageId;
     private UUID lastMessageSenderId;
     private String lastMessageText;
+    private LocalDateTime lastMessageCreatedAt;
 
     private UUID minMemberId;
     private UUID maxMemberId;
 
-    @Override
-    public void setLastMessage(@NonNull Message message) {
+    void setLastMessage(@NonNull Message message) {
         this.lastMessageId = message.getMessageId();
         this.lastMessageSenderId = message.getSenderId();
-        this.lastMessageText = message.getText().substring(0, 20);
+        this.lastMessageText = message.getText().length() > 20 ? message.getText().substring(0, 20) : message.getText();
+        this.lastMessageCreatedAt = message.getCreatedAt();
+    }
+
+    boolean isLastMessage(Message message) {
+        return this.lastMessageId.equals(message.getMessageId());
     }
 }

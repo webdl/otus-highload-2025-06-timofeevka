@@ -29,6 +29,12 @@ public class MongoMessageRepositoryAdapter implements MessageRepository {
     }
 
     @Override
+    public Optional<Message> findLastMessage(UUID chatId) {
+        return springRepository.findFirstByOrderByCreatedAtDesc(chatId)
+                .map(this::toDomainEntity);
+    }
+
+    @Override
     public Message save(Message message) {
         MongoMessage mongoEntity = toMongoEntity(message);
         MongoMessage saved = springRepository.save(mongoEntity);
@@ -42,10 +48,10 @@ public class MongoMessageRepositoryAdapter implements MessageRepository {
     }
 
     private MongoMessage toMongoEntity(Message m) {
-        return new MongoMessage(m.getMessageId(), m.getChatId(), m.getSenderId(), m.getText());
+        return new MongoMessage(m.getMessageId(), m.getChatId(), m.getSenderId(), m.getText(), m.getCreatedAt());
     }
 
     private Message toDomainEntity(MongoMessage m) {
-        return new MessageImpl(m.getMessageId(), m.getChatId(), m.getSenderId(), m.getText());
+        return new MessageImpl(m.getMessageId(), m.getChatId(), m.getSenderId(), m.getText(), m.getCreatedAt());
     }
 }

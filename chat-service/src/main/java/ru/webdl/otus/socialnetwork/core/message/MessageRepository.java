@@ -9,6 +9,8 @@ public interface MessageRepository {
 
     List<Message> findByChatId(UUID chatId);
 
+    Optional<Message> findLastMessage(UUID chatId);
+
     Message save(Message message);
 
     void delete(Message message);

@@ -8,6 +8,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.CompoundIndex;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Getter
@@ -30,6 +31,7 @@ public class MongoChat {
     private UUID lastMessageId;
     private UUID lastMessageSenderId;
     private String lastMessageText;
+    private LocalDateTime lastMessageCreatedAt;
     // Атрибуты для отслеживания уникальности по полям firstMemberId и secondMemberId
     private UUID minMemberId;
     private UUID maxMemberId;
