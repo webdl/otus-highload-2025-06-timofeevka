@@ -1,7 +1,5 @@
 package ru.webdl.otus.socialnetwork.core.message;
 
-import lombok.NonNull;
-
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -17,6 +15,4 @@ public interface Message {
     LocalDateTime getCreatedAt();
 
     LocalDateTime getUpdatedAt();
-
-    void edit(@NonNull String text);
 }

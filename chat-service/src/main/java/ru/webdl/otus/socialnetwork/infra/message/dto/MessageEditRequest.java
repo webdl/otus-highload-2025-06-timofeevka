@@ -1,4 +1,4 @@
 package ru.webdl.otus.socialnetwork.infra.message.dto;
 
-public record MessageCreationRequest(String text) {
+public record MessageEditRequest(String text) {
 }

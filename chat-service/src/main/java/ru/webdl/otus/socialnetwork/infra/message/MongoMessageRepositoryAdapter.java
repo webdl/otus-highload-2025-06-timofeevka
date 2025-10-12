@@ -48,7 +48,7 @@ public class MongoMessageRepositoryAdapter implements MessageRepository {
     }
 
     private MongoMessage toMongoEntity(Message m) {
-        return new MongoMessage(m.getMessageId(), m.getChatId(), m.getSenderId(), m.getText(), m.getCreatedAt());
+        return new MongoMessage(m.getMessageId(), m.getChatId(), m.getSenderId(), m.getText(), m.getCreatedAt(), m.getUpdatedAt());
     }
 
     private Message toDomainEntity(MongoMessage m) {
@@ -58,6 +58,7 @@ public class MongoMessageRepositoryAdapter implements MessageRepository {
                 .senderId(m.getSenderId())
                 .text(m.getText())
                 .createdAt(m.getCreatedAt())
+                .updatedAt(m.getUpdatedAt())
                 .build();
     }
 }

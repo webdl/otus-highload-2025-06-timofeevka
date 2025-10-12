@@ -24,4 +24,5 @@ public class MongoMessage {
     private UUID senderId;
     private String text;
     private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 }

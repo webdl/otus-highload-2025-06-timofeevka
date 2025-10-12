@@ -11,6 +11,7 @@ import ru.webdl.otus.socialnetwork.core.member.Member;
 import ru.webdl.otus.socialnetwork.core.member.ResolveMembersUseCase;
 import ru.webdl.otus.socialnetwork.core.message.*;
 import ru.webdl.otus.socialnetwork.infra.message.dto.MessageCreationRequest;
+import ru.webdl.otus.socialnetwork.infra.message.dto.MessageEditRequest;
 import ru.webdl.otus.socialnetwork.infra.message.dto.MessageResponse;
 
 import java.util.List;
@@ -22,6 +23,7 @@ import java.util.UUID;
 public class MessageController {
     private final GetMessagesUseCase getMessagesUseCase;
     private final MessageCreationUseCase messageCreationUseCase;
+    private final MessageEditUseCase messageEditUseCase;
     private final MessageDeleteUseCase messageDeleteUseCase;
     private final GetChatsUseCase getChatsUseCase;
     private final ResolveMembersUseCase resolveMembersUseCase;
@@ -32,8 +34,8 @@ public class MessageController {
                                                   @RequestBody MessageCreationRequest data) {
         Member sender = resolveMembersUseCase.getOrCreate(userId);
         Chat chat = getChatsUseCase.findById(chatId).orElseThrow(() -> new ChatNotFoundException(chatId));
-        Message message = messageCreationUseCase.create(chat, sender, data.getText());
-        return ResponseEntity.ok(new MessageResponse(message));
+        Message message = messageCreationUseCase.create(chat, sender, data.text());
+        return ResponseEntity.ok(MessageResponse.from(message));
     }
 
     @GetMapping
@@ -42,7 +44,19 @@ public class MessageController {
         Member member = resolveMembersUseCase.getOrCreate(userId);
         Chat chat = getChatsUseCase.findById(chatId).orElseThrow(() -> new ChatNotFoundException(chatId));
         List<Message> messages = getMessagesUseCase.findByChat(member, chat);
-        return ResponseEntity.ok(messages.stream().map(MessageResponse::new).toList());
+        return ResponseEntity.ok(messages.stream().map(MessageResponse::from).toList());
+    }
+
+    @PutMapping("/{messageId}")
+    public ResponseEntity<MessageResponse> update(@RequestHeader("userId") UUID userId,
+                                                  @PathVariable UUID chatId,
+                                                  @PathVariable UUID messageId,
+                                                  @RequestBody MessageEditRequest data) {
+        Member member = resolveMembersUseCase.getOrCreate(userId);
+        Chat chat = getChatsUseCase.findById(chatId).orElseThrow(() -> new ChatNotFoundException(chatId));
+        Message message = getMessagesUseCase.findById(messageId).orElseThrow(() -> new MessageNotFoundException(messageId));
+        Message edited = messageEditUseCase.edit(member, chat, message, data.text());
+        return ResponseEntity.ok(MessageResponse.from(edited));
     }
 
     @DeleteMapping("/{messageId}")

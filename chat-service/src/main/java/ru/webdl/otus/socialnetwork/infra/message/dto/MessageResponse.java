@@ -1,24 +1,26 @@
 package ru.webdl.otus.socialnetwork.infra.message.dto;
 
-import lombok.Data;
 import ru.webdl.otus.socialnetwork.core.message.Message;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-@Data
-public class MessageResponse {
-    private final UUID messageId;
-    private final UUID chatId;
-    private final UUID senderId;
-    private final String text;
-    private final LocalDateTime createdAt;
-
-    public MessageResponse(Message message) {
-        this.messageId = message.getMessageId();
-        this.chatId = message.getChatId();
-        this.senderId = message.getSenderId();
-        this.text = message.getText();
-        this.createdAt = message.getCreatedAt();
+public record MessageResponse(
+        UUID messageId,
+        UUID chatId,
+        UUID senderId,
+        String text,
+        LocalDateTime createdAt,
+        LocalDateTime updatedAt
+) {
+    public static MessageResponse from(Message m) {
+        return new MessageResponse(
+                m.getMessageId(),
+                m.getChatId(),
+                m.getSenderId(),
+                m.getText(),
+                m.getCreatedAt(),
+                m.getUpdatedAt()
+        );
     }
 }

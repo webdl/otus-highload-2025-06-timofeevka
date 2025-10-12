@@ -14,15 +14,11 @@ public class MessageImpl implements Message {
     private final UUID messageId;
     private final UUID chatId;
     private final UUID senderId;
+    @Setter(AccessLevel.PACKAGE)
     private String text;
     private final LocalDateTime createdAt;
+    @Setter(AccessLevel.PACKAGE)
     private LocalDateTime updatedAt;
-
-    @Override
-    public void edit(@NonNull String text) {
-        this.text = text;
-        this.updatedAt = LocalDateTime.now(ZoneOffset.UTC);
-    }
 
     public static MessageImplBuilder create(@NonNull UUID chatId, @NonNull UUID senderId, @NonNull String text) {
         return builder()
