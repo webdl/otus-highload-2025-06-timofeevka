@@ -1,19 +1,42 @@
 package ru.webdl.otus.socialnetwork.core.message;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+import java.util.Objects;
 import java.util.UUID;
 
 @Getter
-@AllArgsConstructor
-@RequiredArgsConstructor
+@Builder
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class MessageImpl implements Message {
-    private UUID messageId;
+    private final UUID messageId;
     private final UUID chatId;
     private final UUID senderId;
-    private final String text;
-    private LocalDateTime createdAt;
+    private String text;
+    private final LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
+
+    @Override
+    public void edit(@NonNull String text) {
+        this.text = text;
+        this.updatedAt = LocalDateTime.now(ZoneOffset.UTC);
+    }
+
+    public static MessageImplBuilder create(@NonNull UUID chatId, @NonNull UUID senderId, @NonNull String text) {
+        return builder()
+                .chatId(chatId)
+                .senderId(senderId)
+                .text(text);
+    }
+
+    public static class MessageImplBuilder {
+        public MessageImpl build() {
+            Objects.requireNonNull(chatId);
+            Objects.requireNonNull(senderId);
+            Objects.requireNonNull(text);
+            return new MessageImpl(messageId, chatId, senderId, text, createdAt, updatedAt);
+        }
+    }
 }
