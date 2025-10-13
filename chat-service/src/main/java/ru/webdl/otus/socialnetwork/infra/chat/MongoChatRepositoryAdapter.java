@@ -37,6 +37,12 @@ public class MongoChatRepositoryAdapter implements ChatRepository {
     }
 
     @Override
+    public void updateLastMessage(@NonNull Chat c) {
+        springRepository.updateLastMessageFields(c.getChatId(), c.getLastMessageId(), c.getLastMessageSenderId(), c.getLastMessageText(),
+                c.getLastMessageCreatedAt());
+    }
+
+    @Override
     public Chat save(@NonNull Chat chat) {
         MongoChat mongoChat = toMongoEntity(chat);
         MongoChat saved = springRepository.save(mongoChat);
@@ -44,26 +50,26 @@ public class MongoChatRepositoryAdapter implements ChatRepository {
     }
 
     private MongoChat toMongoEntity(Chat c) {
-        return new MongoChat(c.getChatId(),
-                c.getFirstMemberId(),
-                c.getSecondMemberId(),
-                c.getLastMessageId(),
-                c.getLastMessageSenderId(),
-                c.getLastMessageText(),
-                c.getLastMessageCreatedAt(),
-                c.getMinMemberId(),
-                c.getMaxMemberId());
+        return MongoChat.builder()
+                .chatId(c.getChatId())
+                .firstMemberId(c.getFirstMemberId())
+                .secondMemberId(c.getSecondMemberId())
+                .lastMessageId(c.getLastMessageId())
+                .lastMessageSenderId(c.getLastMessageSenderId())
+                .lastMessageText(c.getLastMessageText())
+                .lastMessageCreatedAt(c.getLastMessageCreatedAt())
+                .build();
     }
 
     private Chat toDomainEntity(MongoChat c) {
-        return new ChatImpl(c.getChatId(),
-                c.getFirstMemberId(),
-                c.getSecondMemberId(),
-                c.getLastMessageId(),
-                c.getLastMessageSenderId(),
-                c.getLastMessageText(),
-                c.getLastMessageCreatedAt(),
-                c.getMinMemberId(),
-                c.getMaxMemberId());
+        return ChatImpl.builder()
+                .chatId(c.getChatId())
+                .firstMemberId(c.getFirstMemberId())
+                .secondMemberId(c.getSecondMemberId())
+                .lastMessageId(c.getLastMessageId())
+                .lastMessageSenderId(c.getLastMessageSenderId())
+                .lastMessageText(c.getLastMessageText())
+                .lastMessageCreatedAt(c.getLastMessageCreatedAt())
+                .build();
     }
 }

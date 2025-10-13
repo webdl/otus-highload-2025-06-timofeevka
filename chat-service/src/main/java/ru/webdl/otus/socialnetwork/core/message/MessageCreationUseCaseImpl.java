@@ -18,7 +18,7 @@ public class MessageCreationUseCaseImpl implements MessageCreationUseCase {
     public Message create(Chat chat, Member sender, String text) {
         Message message = MessageImpl.create(chat.getChatId(), sender.userId(), text).build();
         Message saved = repository.save(message);
-        chatUpdateUseCase.setLastMessage(chat, saved);
+        chatUpdateUseCase.updateLastMessage(chat, saved);
         return saved;
     }
 }

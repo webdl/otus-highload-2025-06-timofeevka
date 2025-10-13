@@ -14,6 +14,8 @@ public class MongoChatEventListener extends AbstractMongoEventListener<MongoChat
         if (source.getChatId() == null) {
             source.setChatId(UUID.randomUUID());
             source.calculateSortedIds();
+        } else if (source.getMinMemberId() == null || source.getMaxMemberId() == null) {
+            source.calculateSortedIds();
         }
         super.onBeforeConvert(event);
     }

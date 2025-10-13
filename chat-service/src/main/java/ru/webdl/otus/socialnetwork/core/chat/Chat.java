@@ -1,5 +1,7 @@
 package ru.webdl.otus.socialnetwork.core.chat;
 
+import ru.webdl.otus.socialnetwork.core.message.Message;
+
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -18,7 +20,5 @@ public interface Chat {
 
     LocalDateTime getLastMessageCreatedAt();
 
-    UUID getMinMemberId();
-
-    UUID getMaxMemberId();
+    boolean isLastMessage(Message message);
 }

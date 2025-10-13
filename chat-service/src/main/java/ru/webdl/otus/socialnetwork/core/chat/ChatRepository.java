@@ -14,5 +14,7 @@ public interface ChatRepository {
 
     List<Chat> findByMember(@NonNull Member member);
 
+    void updateLastMessage(@NonNull Chat chat);
+
     Chat save(@NonNull Chat chat);
 }

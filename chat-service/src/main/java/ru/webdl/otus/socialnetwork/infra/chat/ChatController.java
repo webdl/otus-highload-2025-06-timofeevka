@@ -29,20 +29,20 @@ public class ChatController {
         Member firstMember = resolveMembersUseCase.getOrCreate(userId);
         Member secondMember = resolveMembersUseCase.getOrCreate(data.secondMemberId());
         Chat chat = chatCreationUseCase.create(firstMember, secondMember);
-        return ResponseEntity.ok(new ChatResponse(chat));
+        return ResponseEntity.ok(ChatResponse.from(chat));
     }
 
     @GetMapping
     public ResponseEntity<List<ChatResponse>> getMyChats(@RequestHeader("userId") UUID userId) {
         Member member = resolveMembersUseCase.getOrCreate(userId);
         return ResponseEntity.ok(getChatsUseCase.findByMember(member).stream()
-                .map(ChatResponse::new)
+                .map(ChatResponse::from)
                 .toList());
     }
 
     @GetMapping("/{chatId}")
     public ResponseEntity<ChatResponse> getChat(@PathVariable("chatId") UUID chatId) {
         Chat chat = getChatsUseCase.findById(chatId).orElseThrow(() -> new ChatNotFoundException(chatId));
-        return ResponseEntity.ok(new ChatResponse(chat));
+        return ResponseEntity.ok(ChatResponse.from(chat));
     }
 }
