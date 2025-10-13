@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.webdl.otus.socialnetwork.core.chat.Chat;
-import ru.webdl.otus.socialnetwork.core.chat.ChatUpdateUseCase;
+import ru.webdl.otus.socialnetwork.core.chat.ChatEditUseCase;
 import ru.webdl.otus.socialnetwork.core.member.Member;
 
 import java.time.LocalDateTime;
@@ -14,7 +14,7 @@ import java.time.ZoneOffset;
 @RequiredArgsConstructor
 public class MessageEditUseCaseImpl implements MessageEditUseCase {
     private final MessageRepository repository;
-    private final ChatUpdateUseCase chatUpdateUseCase;
+    private final ChatEditUseCase chatEditUseCase;
 
     @Override
     @Transactional
@@ -24,7 +24,7 @@ public class MessageEditUseCaseImpl implements MessageEditUseCase {
             edited.setText(text);
             edited.setUpdatedAt(LocalDateTime.now(ZoneOffset.UTC));
             Message saved = repository.save(edited);
-            chatUpdateUseCase.updateLastMessage(chat, saved);
+            chatEditUseCase.updateLastMessage(chat, saved);
         }
         return message;
     }

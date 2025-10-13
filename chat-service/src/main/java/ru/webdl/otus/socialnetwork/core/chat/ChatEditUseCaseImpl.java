@@ -11,7 +11,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class ChatUpdateUseCaseImpl implements ChatUpdateUseCase {
+public class ChatEditUseCaseImpl implements ChatEditUseCase {
     private final GetMessagesUseCase getMessagesUseCase;
     private final ChatRepository repository;
 
