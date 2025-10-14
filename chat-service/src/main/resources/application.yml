@@ -2,7 +2,7 @@ server.port: 8082
 
 externals:
   user-service:
-    url: http://localhost:8080/
+    url: ${USER_SERVICE_URL}
     get-user-path: api/v1/public/user/get/{userId}
 
 spring:
@@ -10,7 +10,7 @@ spring:
   config.import: optional:file:.env[.properties]
   data:
     mongodb:
-      uri: mongodb://localhost:27017/chatdb
+      uri: ${MONGODB_URI}
       auto-index-creation: true
 
 logging:

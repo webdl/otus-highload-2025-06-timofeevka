@@ -2,10 +2,15 @@ name: socialnet
 
 services:
   user-service:
+    container_name: user-service
     build:
       context: user-service
       dockerfile: Dockerfile
-    container_name: user-service
+    image: socialnet-user-service:${TAG:-latest}
+    working_dir: /app
+    entrypoint: java -jar user-service-0.0.1-SNAPSHOT.jar
+    volumes:
+      - ./user-service/target:/app
     ports:
       - "8080:8080"
       - "5005:5005"
@@ -19,11 +24,55 @@ services:
       - PGHOST_SLAVE_2=${PGHOST_SLAVE_2}
       - SECURITY_JWT_SECRET=${SECURITY_JWT_SECRET}
       - SPRING_PROFILES_ACTIVE=${SPRING_PROFILES_ACTIVE:-dev}
-      - JAVA_OPTS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005 -Xmx4g -Xms4g -XX:+UseContainerSupport -XX:MaxRAMPercentage=75.0
+      - JAVA_OPTS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005 -Xmx2g -Xms2g -XX:+UseContainerSupport -XX:MaxRAMPercentage=75.0
     networks:
       - socialnet
     restart: unless-stopped
 
+  post-service:
+    image: openjdk:24-jdk-slim
+    container_name: post-service
+    working_dir: /app
+    entrypoint: java -jar post-service-0.0.1-SNAPSHOT.jar
+    volumes:
+      - ./post-service/target:/app
+    ports:
+      - "8081:8081"
+    environment:
+      - PGUSER=${PGUSER}
+      - PGPASSWORD=${PGPASSWORD}
+      - PGDATABASE=${PGDATABASE}
+      - PGHOST=${PGHOST}
+      - PGPORT=${PGPORT}
+      - PGHOST_SLAVE_1=${PGHOST_SLAVE_1}
+      - SPRING_PROFILES_ACTIVE=${SPRING_PROFILES_ACTIVE:-dev}
+      - USER_SERVICE_URL=${USER_SERVICE_URL}
+    networks:
+      - socialnet
+    depends_on:
+      - user-service
+    restart: unless-stopped
+
+  chat-service:
+    image: openjdk:24-jdk-slim
+    container_name: chat-service
+    working_dir: /app
+    entrypoint: java -jar chat-service-0.0.1-SNAPSHOT.jar
+    volumes:
+      - ./chat-service/target:/app
+    ports:
+      - "8082:8082"
+    environment:
+      - SPRING_PROFILES_ACTIVE=${SPRING_PROFILES_ACTIVE:-dev}
+      - USER_SERVICE_URL=${USER_SERVICE_URL}
+      - MONGODB_URI=${MONGODB_URI}
+    networks:
+      - socialnet
+    depends_on:
+      - user-service
+    restart: unless-stopped
+
 networks:
   socialnet:
-    driver: bridge
+    external: true
+    name: socialnet

@@ -2,7 +2,7 @@ server.port: 8081
 
 externals:
   user-service:
-    url: http://localhost:8080/
+    url: ${USER_SERVICE_URL}
     get-user-path: api/v1/public/user/get/{userId}
     get-friends-path: api/v1/public/user/friend/get/{userId}
 

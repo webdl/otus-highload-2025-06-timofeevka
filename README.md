@@ -4,10 +4,16 @@
 2. [HW02: Нагрузочное тестирование с JMeter](hw/HW02.md)
 3. [HW03: Репликация и нагрузочное тестирование](hw/HW03.md)
 4. [HW04: Лента постов и ее кэширование](hw/HW04.md)
+4. [HW05: Масштабируемая подсистема диалогов](hw/HW05.md)
 
-# Подготовка к запуску приложения
+# Среда разработки
 
-В корне проекта создайте файл `.env` с переменными окружения (поменяйте их при необходимости):
+Чтобы запускать микросервисы через [docker-compose.yml](docker-compose.yml), в корне проекта создайте файл `.env` с переменными окружения 
+ниже.
+
+**Обратите внимание!** В Docker compose нет конфигурации серверов PostgreSQL, он должен быть развернут отдельно в кластере из трех
+нод. IP-адреса нод указываются в переменных `PGHOST`, `PGHOST_SLAVE_1`, `PGHOST_SLAVE_2`. Необходимо именно 3 ноды, так как в микросервисах
+используется множество Data Sources.
 
 ```
 SPRING_PROFILES_ACTIVE=dev
@@ -20,11 +26,17 @@ PGPORT=5432
 PGDATABASE=socialnet
 PGUSER=socialnet
 PGPASSWORD=socialnet
+
+USER_SERVICE_URL=http://user-service:8080
+
+MONGODB_URI=mongodb://mongos1:27017/chatdb
 ```
 
-# Инициализация данных в БД
+# Инициализация user-service
 
-Подключитесь к своему серверу БД PostgreSQL, создайте УЗ и БД:
+## Инициализация данных в БД
+
+Подключитесь к своему серверу PostgreSQL, создайте УЗ и БД:
 
 ```sql
 CREATE ROLE socialnet WITH
@@ -37,25 +49,24 @@ CREATE DATABASE socialnet
     ENCODING = 'UTF8';
 ```
 
-# Инициализация приложения
+Перейдите в [docker-compose.yml](docker-compose.yml) и запустите приложение `user-service`.
 
-Перейдите в [docker-compose.yml](docker-compose.yml) и запустите приложение.
-
-**Обратите внимание!**
-
-После первого запуска приложения в каталоге `/app/target/` контейнера автоматически скачается файл `people.v2.csv` из репозитория
-https://github.com/OtusTeam/highload/tree/master/homework.
+После первого запуска в каталог `/app/target/` контейнера автоматически будет скачан файл `people.v2.csv` из репозитория
+https://github.com/OtusTeam/highload/tree/master/homework. Он содержит стартовый набор пользователей.
 
 Зайдите в запущенный образ, подключитесь к базе данных с помощью psql (команду можно выполнить без параметров):
 
 ```shell
 psql
 ```
+
+Выполните импорт csv-файла во временную таблицу:
+
 ```sql
 \COPY tmp_users(full_name, birth_date, city_name) FROM '/app/target/people.v2.csv' WITH (FORMAT csv, DELIMITER ',', HEADER false);
 ```
 
-Далее выполнители запросы ниже:
+Выполнители импорт с преобразованием в таблицу сервиса:
 
 ```sql
 DROP SEQUENCE IF EXISTS username_seq;
