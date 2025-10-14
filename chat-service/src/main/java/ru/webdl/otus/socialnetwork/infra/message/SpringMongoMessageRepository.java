@@ -13,5 +13,5 @@ public interface SpringMongoMessageRepository extends MongoRepository<MongoMessa
 
     Optional<MongoMessage> findFirstByOrderByCreatedAtDesc(UUID chatId);
 
-    List<MongoMessage> findByChatId(UUID chatId);
+    List<MongoMessage> findByChatIdOrderByCreatedAt(UUID chatId);
 }

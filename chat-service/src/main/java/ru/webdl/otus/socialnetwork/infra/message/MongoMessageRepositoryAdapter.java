@@ -23,7 +23,7 @@ public class MongoMessageRepositoryAdapter implements MessageRepository {
 
     @Override
     public List<Message> findByChatId(UUID chatId) {
-        return springRepository.findByChatId(chatId).stream()
+        return springRepository.findByChatIdOrderByCreatedAt(chatId).stream()
                 .map(this::toDomainEntity)
                 .toList();
     }
@@ -48,7 +48,14 @@ public class MongoMessageRepositoryAdapter implements MessageRepository {
     }
 
     private MongoMessage toMongoEntity(Message m) {
-        return new MongoMessage(m.getMessageId(), m.getChatId(), m.getSenderId(), m.getText(), m.getCreatedAt(), m.getUpdatedAt());
+        return MongoMessage.builder()
+                .messageId(m.getMessageId())
+                .chatId(m.getChatId())
+                .senderId(m.getSenderId())
+                .text(m.getText())
+                .createdAt(m.getCreatedAt())
+                .updatedAt(m.getUpdatedAt())
+                .build();
     }
 
     private Message toDomainEntity(MongoMessage m) {
