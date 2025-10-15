@@ -480,7 +480,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"text\": \"message2\"\n}\n",
+							"raw": "{\n    \"text\": \"Привет, МИР!\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -500,6 +500,48 @@
 								"chats",
 								"531ef0dd-2380-429f-8746-2a2f4136058b",
 								"messages"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Message Edit",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "userId",
+								"value": "{{userId}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"text\": \"123456789-1234567890-1234567892\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8082/api/v1/chats/531ef0dd-2380-429f-8746-2a2f4136058b/messages/1e9918fe-75da-40b8-b8b7-f4ba24366d04",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8082",
+							"path": [
+								"api",
+								"v1",
+								"chats",
+								"531ef0dd-2380-429f-8746-2a2f4136058b",
+								"messages",
+								"1e9918fe-75da-40b8-b8b7-f4ba24366d04"
 							]
 						}
 					},
