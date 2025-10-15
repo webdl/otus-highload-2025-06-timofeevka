@@ -4,6 +4,8 @@ import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.CompoundIndex;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
+import org.springframework.data.mongodb.core.mapping.FieldType;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -21,16 +23,23 @@ import java.util.UUID;
         unique = true)
 public class MongoChat {
     @Id
+    @Field(targetType = FieldType.STRING)
     @Setter(AccessLevel.PACKAGE)
     private UUID chatId;
+    @Field(targetType = FieldType.STRING)
     private UUID firstMemberId;
+    @Field(targetType = FieldType.STRING)
     private UUID secondMemberId;
+    @Field(targetType = FieldType.STRING)
     private UUID lastMessageId;
+    @Field(targetType = FieldType.STRING)
     private UUID lastMessageSenderId;
     private String lastMessageText;
     private LocalDateTime lastMessageCreatedAt;
     // Атрибуты для отслеживания уникальности по полям firstMemberId и secondMemberId
+    @Field(targetType = FieldType.STRING)
     private UUID minMemberId;
+    @Field(targetType = FieldType.STRING)
     private UUID maxMemberId;
 
     /**
