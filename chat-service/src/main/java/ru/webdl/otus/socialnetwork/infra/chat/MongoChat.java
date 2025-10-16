@@ -26,16 +26,21 @@ public class MongoChat {
     @Field(targetType = FieldType.STRING)
     @Setter(AccessLevel.PACKAGE)
     private UUID chatId;
+
     @Field(targetType = FieldType.STRING)
     private UUID firstMemberId;
+
     @Field(targetType = FieldType.STRING)
     private UUID secondMemberId;
+
     @Field(targetType = FieldType.STRING)
     private UUID lastMessageId;
+
     @Field(targetType = FieldType.STRING)
     private UUID lastMessageSenderId;
     private String lastMessageText;
     private LocalDateTime lastMessageCreatedAt;
+
     // Атрибуты для отслеживания уникальности по полям firstMemberId и secondMemberId
     @Field(targetType = FieldType.STRING)
     private UUID minMemberId;

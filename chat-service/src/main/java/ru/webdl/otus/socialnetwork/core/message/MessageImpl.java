@@ -8,30 +8,43 @@ import java.util.Objects;
 import java.util.UUID;
 
 @Getter
-@Builder
+@Builder(builderClassName = "Builder")
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class MessageImpl implements Message {
+class MessageImpl implements Message {
     private final UUID messageId;
     private final UUID chatId;
     private final UUID senderId;
-    @Setter(AccessLevel.PACKAGE)
     private String text;
     private final LocalDateTime createdAt;
-    @Setter(AccessLevel.PACKAGE)
     private LocalDateTime updatedAt;
 
-    public static MessageImplBuilder create(@NonNull UUID chatId, @NonNull UUID senderId, @NonNull String text) {
-        return builder()
-                .chatId(chatId)
-                .senderId(senderId)
-                .text(text);
+    @Override
+    public boolean change(@NonNull String text) {
+        if (this.text.equals(text)) {
+            return false;
+        }
+        this.text = text;
+        this.updatedAt = LocalDateTime.now(ZoneOffset.UTC);
+        return true;
     }
 
-    public static class MessageImplBuilder {
-        public MessageImpl build() {
+    static Message create(@NonNull UUID chatId, @NonNull UUID senderId, @NonNull String text) {
+        return builder()
+                .messageId(UUID.randomUUID())
+                .chatId(chatId)
+                .senderId(senderId)
+                .text(text)
+                .createdAt(LocalDateTime.now(ZoneOffset.UTC))
+                .build();
+    }
+
+    public static class Builder implements Message.Builder {
+        public Message build() {
+            Objects.requireNonNull(messageId);
             Objects.requireNonNull(chatId);
             Objects.requireNonNull(senderId);
             Objects.requireNonNull(text);
+            Objects.requireNonNull(createdAt);
             return new MessageImpl(messageId, chatId, senderId, text, createdAt, updatedAt);
         }
     }

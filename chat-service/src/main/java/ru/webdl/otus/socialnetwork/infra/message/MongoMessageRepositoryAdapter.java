@@ -3,7 +3,7 @@ package ru.webdl.otus.socialnetwork.infra.message;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import ru.webdl.otus.socialnetwork.core.message.Message;
-import ru.webdl.otus.socialnetwork.core.message.MessageImpl;
+import ru.webdl.otus.socialnetwork.core.message.MessageCreationUseCaseImpl;
 import ru.webdl.otus.socialnetwork.core.message.MessageRepository;
 
 import java.util.List;
@@ -14,6 +14,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class MongoMessageRepositoryAdapter implements MessageRepository {
     private final SpringMongoMessageRepository springRepository;
+    private final MessageCreationUseCaseImpl messageCreationUseCase;
 
     @Override
     public Optional<Message> findByMessageId(UUID id) {
@@ -59,7 +60,7 @@ public class MongoMessageRepositoryAdapter implements MessageRepository {
     }
 
     private Message toDomainEntity(MongoMessage m) {
-        return MessageImpl.builder()
+        return messageCreationUseCase.builder()
                 .messageId(m.getMessageId())
                 .chatId(m.getChatId())
                 .senderId(m.getSenderId())

@@ -17,19 +17,24 @@ import java.util.UUID;
 public class MongoMessage {
     @Id
     @Field(targetType = FieldType.STRING)
-    @Setter(AccessLevel.PACKAGE)
-    private UUID messageId;
+    private final UUID messageId;
+
     @Field(targetType = FieldType.STRING)
-    private UUID chatId;
+    private final UUID chatId;
+
     @Setter(AccessLevel.PACKAGE)
     private int bucketId;
+
     @HashIndexed
     @Setter(AccessLevel.PACKAGE)
     private String compositeHash;
+
     @Field(targetType = FieldType.STRING)
-    private UUID senderId;
-    private String text;
-    @Setter(AccessLevel.PACKAGE)
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
+    private final UUID senderId;
+
+    private final String text;
+
+    private final LocalDateTime createdAt;
+
+    private final LocalDateTime updatedAt;
 }

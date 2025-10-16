@@ -7,9 +7,6 @@ import ru.webdl.otus.socialnetwork.core.chat.Chat;
 import ru.webdl.otus.socialnetwork.core.chat.ChatEditUseCase;
 import ru.webdl.otus.socialnetwork.core.member.Member;
 
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
-
 @Service
 @RequiredArgsConstructor
 public class MessageEditUseCaseImpl implements MessageEditUseCase {
@@ -19,11 +16,9 @@ public class MessageEditUseCaseImpl implements MessageEditUseCase {
     @Override
     @Transactional
     public Message edit(Member member, Chat chat, Message message, String text) {
-        if (!message.getText().equals(text)) {
-            MessageImpl edited = (MessageImpl) message;
-            edited.setText(text);
-            edited.setUpdatedAt(LocalDateTime.now(ZoneOffset.UTC));
-            Message saved = repository.save(edited);
+        boolean changed = message.change(text);
+        if (changed) {
+            Message saved = repository.save(message);
             chatEditUseCase.updateLastMessage(chat, saved);
         }
         return message;

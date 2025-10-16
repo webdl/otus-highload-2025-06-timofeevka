@@ -16,9 +16,14 @@ public class MessageCreationUseCaseImpl implements MessageCreationUseCase {
     @Override
     @Transactional
     public Message create(Chat chat, Member sender, String text) {
-        Message message = MessageImpl.create(chat.getChatId(), sender.userId(), text).build();
+        Message message = MessageImpl.create(chat.getChatId(), sender.userId(), text);
         Message saved = repository.save(message);
         chatEditUseCase.updateLastMessage(chat, saved);
         return saved;
+    }
+
+    @Override
+    public Message.Builder builder() {
+        return MessageImpl.builder();
     }
 }

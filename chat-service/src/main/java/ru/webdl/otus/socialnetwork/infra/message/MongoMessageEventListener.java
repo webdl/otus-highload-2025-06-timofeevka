@@ -5,7 +5,6 @@ import org.springframework.data.mongodb.core.mapping.event.BeforeConvertEvent;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
-import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 
@@ -16,14 +15,9 @@ public class MongoMessageEventListener extends AbstractMongoEventListener<MongoM
     @Override
     public void onBeforeConvert(BeforeConvertEvent<MongoMessage> event) {
         MongoMessage source = event.getSource();
-        if (source.getMessageId() == null) {
-            UUID uuid = UUID.randomUUID();
-            LocalDateTime createdAt = LocalDateTime.now(ZoneOffset.UTC);
-            int bucketId = calculateBucket(createdAt);
-            String compositeHash = createCompositeHash(uuid, bucketId);
-
-            source.setMessageId(uuid);
-            source.setCreatedAt(createdAt);
+        if (source.getCompositeHash() == null) {
+            int bucketId = calculateBucket(source.getCreatedAt());
+            String compositeHash = createCompositeHash(source.getMessageId(), bucketId);
             source.setBucketId(bucketId);
             source.setCompositeHash(compositeHash);
         }
