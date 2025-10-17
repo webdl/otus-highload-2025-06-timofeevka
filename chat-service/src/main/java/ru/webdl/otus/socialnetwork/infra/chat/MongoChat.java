@@ -24,7 +24,6 @@ import java.util.UUID;
 public class MongoChat {
     @Id
     @Field(targetType = FieldType.STRING)
-    @Setter(AccessLevel.PACKAGE)
     private UUID chatId;
 
     @Field(targetType = FieldType.STRING)

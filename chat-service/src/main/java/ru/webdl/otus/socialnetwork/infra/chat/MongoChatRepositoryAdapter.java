@@ -4,7 +4,7 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import ru.webdl.otus.socialnetwork.core.chat.Chat;
-import ru.webdl.otus.socialnetwork.core.chat.ChatImpl;
+import ru.webdl.otus.socialnetwork.core.chat.ChatCreationUseCase;
 import ru.webdl.otus.socialnetwork.core.chat.ChatRepository;
 import ru.webdl.otus.socialnetwork.core.member.Member;
 
@@ -16,6 +16,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class MongoChatRepositoryAdapter implements ChatRepository {
     private final SpringMongoChatRepository springRepository;
+    private final ChatCreationUseCase chatCreationUseCase;
 
     @Override
     public Optional<Chat> findById(@NonNull UUID id) {
@@ -62,7 +63,7 @@ public class MongoChatRepositoryAdapter implements ChatRepository {
     }
 
     private Chat toDomainEntity(MongoChat c) {
-        return ChatImpl.builder()
+        return chatCreationUseCase.builder()
                 .chatId(c.getChatId())
                 .firstMemberId(c.getFirstMemberId())
                 .secondMemberId(c.getSecondMemberId())

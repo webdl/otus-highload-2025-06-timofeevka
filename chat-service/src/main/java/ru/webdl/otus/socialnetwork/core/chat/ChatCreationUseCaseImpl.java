@@ -15,7 +15,12 @@ public class ChatCreationUseCaseImpl implements ChatCreationUseCase {
         if (chatRepository.findByMembers(first, second).isPresent()) {
             throw new ChatAlreadyExistsException(first, second);
         }
-        Chat chat = ChatImpl.create(first.userId(), second.userId()).build();
+        Chat chat = ChatImpl.create(first.userId(), second.userId());
         return chatRepository.save(chat);
+    }
+
+    @Override
+    public Chat.ChatBuilder builder() {
+        return ChatImpl.builder();
     }
 }
