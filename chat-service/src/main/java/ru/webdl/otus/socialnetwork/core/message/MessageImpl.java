@@ -8,7 +8,7 @@ import java.util.Objects;
 import java.util.UUID;
 
 @Getter
-@Builder(builderClassName = "Builder")
+@Builder
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 class MessageImpl implements Message {
     private final UUID messageId;
@@ -38,7 +38,7 @@ class MessageImpl implements Message {
                 .build();
     }
 
-    public static class Builder implements Message.Builder {
+    public static class MessageImplBuilder implements Message.MessageBuilder {
         public Message build() {
             Objects.requireNonNull(messageId);
             Objects.requireNonNull(chatId);

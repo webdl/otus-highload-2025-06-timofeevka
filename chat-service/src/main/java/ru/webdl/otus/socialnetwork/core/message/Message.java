@@ -18,18 +18,18 @@ public interface Message {
 
     boolean change(String text);
 
-    interface Builder {
-        Builder messageId(UUID messageId);
+    interface MessageBuilder {
+        MessageBuilder messageId(UUID messageId);
 
-        Builder chatId(UUID chatId);
+        MessageBuilder chatId(UUID chatId);
 
-        Builder senderId(UUID senderId);
+        MessageBuilder senderId(UUID senderId);
 
-        Builder text(String text);
+        MessageBuilder text(String text);
 
-        Builder createdAt(LocalDateTime createdAt);
+        MessageBuilder createdAt(LocalDateTime createdAt);
 
-        Builder updatedAt(LocalDateTime updatedAt);
+        MessageBuilder updatedAt(LocalDateTime updatedAt);
 
         Message build();
     }

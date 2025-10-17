@@ -23,7 +23,7 @@ public class MessageCreationUseCaseImpl implements MessageCreationUseCase {
     }
 
     @Override
-    public Message.Builder builder() {
+    public Message.MessageBuilder builder() {
         return MessageImpl.builder();
     }
 }
