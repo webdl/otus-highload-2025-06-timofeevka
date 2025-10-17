@@ -18,9 +18,4 @@ public class ChatCreationUseCaseImpl implements ChatCreationUseCase {
         Chat chat = ChatImpl.create(first.userId(), second.userId());
         return chatRepository.save(chat);
     }
-
-    @Override
-    public Chat.ChatBuilder builder() {
-        return ChatImpl.builder();
-    }
 }

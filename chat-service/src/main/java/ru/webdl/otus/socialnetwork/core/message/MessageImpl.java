@@ -10,7 +10,7 @@ import java.util.UUID;
 @Getter
 @Builder
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-class MessageImpl implements Message {
+public class MessageImpl implements Message {
     private final UUID messageId;
     private final UUID chatId;
     private final UUID senderId;

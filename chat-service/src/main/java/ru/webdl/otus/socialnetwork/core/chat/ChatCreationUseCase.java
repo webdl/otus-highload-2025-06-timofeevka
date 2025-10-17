@@ -5,6 +5,4 @@ import ru.webdl.otus.socialnetwork.core.member.Member;
 
 public interface ChatCreationUseCase {
     Chat create(@NonNull Member first, @NonNull Member second);
-
-    Chat.ChatBuilder builder();
 }

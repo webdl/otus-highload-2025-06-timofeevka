@@ -21,9 +21,4 @@ public class MessageCreationUseCaseImpl implements MessageCreationUseCase {
         chatEditUseCase.updateLastMessage(chat, saved);
         return saved;
     }
-
-    @Override
-    public Message.MessageBuilder builder() {
-        return MessageImpl.builder();
-    }
 }

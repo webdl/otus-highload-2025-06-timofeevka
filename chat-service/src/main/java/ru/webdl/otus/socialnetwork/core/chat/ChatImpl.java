@@ -12,7 +12,7 @@ import java.util.UUID;
 @Getter
 @Builder
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-class ChatImpl implements Chat {
+public class ChatImpl implements Chat {
     private final UUID chatId;
     private final UUID firstMemberId;
     private final UUID secondMemberId;
