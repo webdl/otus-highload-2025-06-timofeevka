@@ -92,11 +92,11 @@
 
 ## Контекстная диаграмма
 
-![С1.svg](c4/C1.svg)
+![С1.svg](c4/C1_v1.svg)
 
 ## Диаграмма контейнеров
 
-![С2.svg](c4/C2.svg)
+![С2.svg](c4/C2_v1.svg)
 
 ## Диаграммы компонентов
 
@@ -106,7 +106,7 @@ TBD
 
 ### Сервис Постов
 
-![С3-posts-service.svg](c4/C3-posts-service.svg)
+![С3-posts-service.svg](c4/C3-posts-service_v1.svg)
 
 ### Сервис Чатов
 
