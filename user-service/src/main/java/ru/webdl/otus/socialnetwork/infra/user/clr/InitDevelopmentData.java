@@ -3,10 +3,9 @@ package ru.webdl.otus.socialnetwork.infra.user.clr;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
-import ru.webdl.otus.socialnetwork.core.user.cases.UserFindUseCase;
-import ru.webdl.otus.socialnetwork.core.user.cases.UserSignUpUseCase;
-import ru.webdl.otus.socialnetwork.core.user.entities.User;
-import ru.webdl.otus.socialnetwork.core.user.entities.impl.UserImpl;
+import ru.webdl.otus.socialnetwork.core.user.UserCreateParameters;
+import ru.webdl.otus.socialnetwork.core.user.UserFindUseCase;
+import ru.webdl.otus.socialnetwork.core.user.UserSignUpUseCase;
 
 @Component
 @Profile("dev")
@@ -27,8 +26,9 @@ public class InitDevelopmentData implements CommandLineRunner {
     }
 
     private void createAdminUser() {
-        User user = new UserImpl(null, "Админ", "Админов", null, null, null,
-                171, "admin", "admin");
-        userSignUpUseCase.signup(user);
+        UserCreateParameters parameters = UserCreateParameters.create("Админ", "Админов", "admin", "admin")
+                .cityId(171)
+                .build();
+        userSignUpUseCase.signup(parameters);
     }
 }

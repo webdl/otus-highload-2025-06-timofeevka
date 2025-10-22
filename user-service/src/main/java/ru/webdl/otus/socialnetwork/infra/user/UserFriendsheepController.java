@@ -1,14 +1,13 @@
-package ru.webdl.otus.socialnetwork.infra.user.rest;
+package ru.webdl.otus.socialnetwork.infra.user;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.webdl.otus.socialnetwork.core.user.cases.UserFindUseCase;
-import ru.webdl.otus.socialnetwork.core.user.cases.UserFriendsheepUseCase;
-import ru.webdl.otus.socialnetwork.core.user.cases.exceptions.UserNotFoundException;
-import ru.webdl.otus.socialnetwork.core.user.entities.User;
-import ru.webdl.otus.socialnetwork.infra.user.CurrentUser;
-import ru.webdl.otus.socialnetwork.infra.user.rest.dto.FriendResponse;
+import ru.webdl.otus.socialnetwork.core.user.UserFindUseCase;
+import ru.webdl.otus.socialnetwork.core.user.UserFriendsheepUseCase;
+import ru.webdl.otus.socialnetwork.core.user.UserNotFoundException;
+import ru.webdl.otus.socialnetwork.core.user.User;
+import ru.webdl.otus.socialnetwork.infra.user.dto.FriendResponse;
 
 import java.util.List;
 import java.util.Optional;

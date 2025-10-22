@@ -1,13 +1,7 @@
-package ru.webdl.otus.socialnetwork.core.user.cases.impl;
+package ru.webdl.otus.socialnetwork.core.user;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import ru.webdl.otus.socialnetwork.core.user.PasswordHasher;
-import ru.webdl.otus.socialnetwork.core.user.cases.UserFindUseCase;
-import ru.webdl.otus.socialnetwork.core.user.cases.UserSignInUseCase;
-import ru.webdl.otus.socialnetwork.core.user.cases.exceptions.PasswordIncorrectException;
-import ru.webdl.otus.socialnetwork.core.user.cases.exceptions.UserNotFoundException;
-import ru.webdl.otus.socialnetwork.core.user.entities.User;
 
 @Service
 @RequiredArgsConstructor

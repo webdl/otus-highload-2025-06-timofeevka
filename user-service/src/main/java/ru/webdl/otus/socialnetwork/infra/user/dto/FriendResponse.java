@@ -1,8 +1,8 @@
-package ru.webdl.otus.socialnetwork.infra.user.rest.dto;
+package ru.webdl.otus.socialnetwork.infra.user.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import ru.webdl.otus.socialnetwork.core.user.entities.User;
+import ru.webdl.otus.socialnetwork.core.user.User;
 
 import java.util.UUID;
 

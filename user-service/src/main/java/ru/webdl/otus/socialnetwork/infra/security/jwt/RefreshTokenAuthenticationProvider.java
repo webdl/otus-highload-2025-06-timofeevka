@@ -7,8 +7,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
-import ru.webdl.otus.socialnetwork.core.user.cases.UserFindUseCase;
-import ru.webdl.otus.socialnetwork.core.user.entities.User;
+import ru.webdl.otus.socialnetwork.core.user.UserFindUseCase;
+import ru.webdl.otus.socialnetwork.core.user.User;
 import ru.webdl.otus.socialnetwork.infra.user.UserDetailsImpl;
 
 @Component

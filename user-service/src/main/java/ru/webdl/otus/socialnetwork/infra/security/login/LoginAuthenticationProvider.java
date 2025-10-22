@@ -9,8 +9,8 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
-import ru.webdl.otus.socialnetwork.core.user.cases.UserSignInUseCase;
-import ru.webdl.otus.socialnetwork.core.user.entities.User;
+import ru.webdl.otus.socialnetwork.core.user.UserSignInUseCase;
+import ru.webdl.otus.socialnetwork.core.user.User;
 import ru.webdl.otus.socialnetwork.infra.user.UserDetailsImpl;
 
 @Component

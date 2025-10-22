@@ -11,8 +11,8 @@ import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
-import ru.webdl.otus.socialnetwork.core.user.cases.UserFindUseCase;
-import ru.webdl.otus.socialnetwork.core.user.entities.User;
+import ru.webdl.otus.socialnetwork.core.user.User;
+import ru.webdl.otus.socialnetwork.core.user.UserFindUseCase;
 
 @Configuration
 @RequiredArgsConstructor

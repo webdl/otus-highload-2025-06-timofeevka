@@ -5,7 +5,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import ru.webdl.otus.socialnetwork.core.user.entities.User;
+import ru.webdl.otus.socialnetwork.core.user.User;
 
 import java.io.Serial;
 import java.util.Collection;

@@ -1,10 +1,10 @@
-package ru.webdl.otus.socialnetwork.infra.user.rest;
+package ru.webdl.otus.socialnetwork.infra.user;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.webdl.otus.socialnetwork.core.user.cases.UserFindUseCase;
-import ru.webdl.otus.socialnetwork.infra.user.rest.dto.UserResponse;
+import ru.webdl.otus.socialnetwork.core.user.UserFindUseCase;
+import ru.webdl.otus.socialnetwork.infra.user.dto.UserResponse;
 
 import java.util.List;
 import java.util.UUID;

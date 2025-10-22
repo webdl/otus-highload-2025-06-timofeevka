@@ -1,4 +1,4 @@
-package ru.webdl.otus.socialnetwork.core.user.entities;
+package ru.webdl.otus.socialnetwork.core.user;
 
 import java.util.List;
 import java.util.Optional;
@@ -12,7 +12,7 @@ public interface UserRepository {
 
     List<User> findByFirstLastName(String firstName, String lastName);
 
-    UUID create(User user);
+    User create(User user);
 
     void addFriend(User user, User friend);
 

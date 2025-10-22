@@ -6,8 +6,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.webdl.otus.socialnetwork.core.user.entities.User;
-import ru.webdl.otus.socialnetwork.core.user.entities.UserRepository;
+import ru.webdl.otus.socialnetwork.core.user.User;
+import ru.webdl.otus.socialnetwork.core.user.UserRepository;
 
 @Service
 @RequiredArgsConstructor
