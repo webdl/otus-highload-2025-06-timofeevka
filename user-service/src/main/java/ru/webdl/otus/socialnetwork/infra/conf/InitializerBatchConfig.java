@@ -1,4 +1,4 @@
-package ru.webdl.otus.socialnetwork;
+package ru.webdl.otus.socialnetwork.infra.conf;
 
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.context.annotation.Bean;

@@ -30,7 +30,7 @@ import java.util.List;
 @Configuration
 @EnableWebSecurity
 @Order(SecurityProperties.BASIC_AUTH_ORDER)
-public class SecurityConfiguration {
+public class SecurityConfig {
     private static final String SIGNIN_ENTRY_POINT = "/login";
     private static final String SIGNUP_ENTRY_POINT = "/api/v1/user/register";
     private static final String PUBLIC_ENTRY_POINT = "/api/v1/public/**";
@@ -46,12 +46,12 @@ public class SecurityConfiguration {
     private final RefreshTokenAuthenticationProvider refreshTokenAuthenticationProvider;
 
     @Autowired
-    public SecurityConfiguration(JwtTokenProvider jwtTokenProvider,
-                                 AuthenticationFailureHandler failureHandler,
-                                 @Qualifier("loginAuthenticationSuccessHandler") AuthenticationSuccessHandler authenticationSuccessHandler,
-                                 TokenAuthenticationProvider tokenAuthenticationProvider,
-                                 LoginAuthenticationProvider loginAuthenticationProvider,
-                                 RefreshTokenAuthenticationProvider refreshTokenAuthenticationProvider) {
+    public SecurityConfig(JwtTokenProvider jwtTokenProvider,
+                          AuthenticationFailureHandler failureHandler,
+                          @Qualifier("loginAuthenticationSuccessHandler") AuthenticationSuccessHandler authenticationSuccessHandler,
+                          TokenAuthenticationProvider tokenAuthenticationProvider,
+                          LoginAuthenticationProvider loginAuthenticationProvider,
+                          RefreshTokenAuthenticationProvider refreshTokenAuthenticationProvider) {
         this.jwtTokenProvider = jwtTokenProvider;
         this.failureHandler = failureHandler;
         this.authenticationSuccessHandler = authenticationSuccessHandler;

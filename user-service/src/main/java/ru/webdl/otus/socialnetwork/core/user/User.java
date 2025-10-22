@@ -4,7 +4,6 @@ import java.time.LocalDate;
 import java.util.UUID;
 
 public interface User {
-
     UUID getId();
 
     String getFirstName();
@@ -22,8 +21,6 @@ public interface User {
     String getUsername();
 
     String getPassword();
-
-    void setPassword(String password);
 
     interface UserBuilder {
         UserBuilder id(UUID id);
@@ -46,5 +43,4 @@ public interface User {
 
         User build();
     }
-
 }

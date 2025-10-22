@@ -2,6 +2,7 @@ package ru.webdl.otus.socialnetwork.core.user;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import ru.webdl.otus.socialnetwork.core.util.PasswordHasher;
 
 @Service
 @RequiredArgsConstructor
@@ -10,13 +11,12 @@ class UserSignUpUseCaseImpl implements UserSignUpUseCase {
     private final PasswordHasher passwordHasher;
 
     @Override
-    public User signup(UserCreateParameters parameters) {
-        User user = UserImpl.create(parameters.getFirstName(), parameters.getLastName(), parameters.getUsername())
-                .birthDate(parameters.getBirthDate())
-                .gender(parameters.getGender())
-                .interests(parameters.getInterests())
-                .cityId(parameters.getCityId())
-                .password(passwordHasher.encode(parameters.getPassword()))
+    public User signup(UserCreateParameters p) {
+        User user = UserImpl.create(p.getFirstName(), p.getLastName(), p.getUsername(), passwordHasher.encode(p.getPassword()))
+                .birthDate(p.getBirthDate())
+                .gender(p.getGender())
+                .interests(p.getInterests())
+                .cityId(p.getCityId())
                 .build();
         return repository.create(user);
     }

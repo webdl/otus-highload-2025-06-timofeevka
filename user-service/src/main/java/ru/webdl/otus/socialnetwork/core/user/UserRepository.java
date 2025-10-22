@@ -19,5 +19,4 @@ public interface UserRepository {
     void deleteFriend(User user, User friend);
 
     List<User> getFriends(User user);
-
 }

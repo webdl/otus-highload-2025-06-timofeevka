@@ -1,4 +1,4 @@
-package ru.webdl.otus.socialnetwork;
+package ru.webdl.otus.socialnetwork.infra.conf;
 
 import lombok.extern.log4j.Log4j2;
 import org.springframework.batch.core.Job;

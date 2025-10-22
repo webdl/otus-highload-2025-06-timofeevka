@@ -1,9 +1,9 @@
-package ru.webdl.otus.socialnetwork.infra.user;
+package ru.webdl.otus.socialnetwork.infra.util;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
-import ru.webdl.otus.socialnetwork.core.user.PasswordHasher;
+import ru.webdl.otus.socialnetwork.core.util.PasswordHasher;
 
 @Component
 @RequiredArgsConstructor

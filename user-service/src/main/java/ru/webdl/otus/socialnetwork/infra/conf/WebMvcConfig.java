@@ -1,22 +1,23 @@
-package ru.webdl.otus.socialnetwork;
+package ru.webdl.otus.socialnetwork.infra.conf;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import ru.webdl.otus.socialnetwork.ExecutionTimeInterceptor;
 import ru.webdl.otus.socialnetwork.infra.user.CurrentUserResolver;
 
 import java.util.List;
 
 @Configuration
-class WebMvcConfiguration implements WebMvcConfigurer {
+class WebMvcConfig implements WebMvcConfigurer {
     private final ExecutionTimeInterceptor executionTimeInterceptor;
     private final CurrentUserResolver currentUserResolver;
 
     @Autowired
-    WebMvcConfiguration(ExecutionTimeInterceptor executionTimeInterceptor,
-                        CurrentUserResolver currentUserResolver) {
+    WebMvcConfig(ExecutionTimeInterceptor executionTimeInterceptor,
+                 CurrentUserResolver currentUserResolver) {
         this.executionTimeInterceptor = executionTimeInterceptor;
         this.currentUserResolver = currentUserResolver;
     }
