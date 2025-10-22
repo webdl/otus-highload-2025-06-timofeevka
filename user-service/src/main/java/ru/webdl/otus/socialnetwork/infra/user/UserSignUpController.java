@@ -6,11 +6,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import ru.webdl.otus.socialnetwork.core.user.User;
 import ru.webdl.otus.socialnetwork.core.user.UserCreateParameters;
 import ru.webdl.otus.socialnetwork.core.user.UserSignUpUseCase;
-import ru.webdl.otus.socialnetwork.core.user.User;
 import ru.webdl.otus.socialnetwork.infra.user.dto.UserIdResponse;
-import ru.webdl.otus.socialnetwork.infra.user.dto.UserSignUpResponse;
+import ru.webdl.otus.socialnetwork.infra.user.dto.UserSignUpRequest;
 
 @RestController
 @RequiredArgsConstructor
@@ -19,19 +19,18 @@ class UserSignUpController {
     private final UserSignUpUseCase userSignUpUseCase;
 
     @PostMapping("/register")
-    ResponseEntity<UserIdResponse> register(@RequestBody UserSignUpResponse data) {
+    ResponseEntity<UserIdResponse> register(@RequestBody UserSignUpRequest data) {
         UserCreateParameters parameters = UserCreateParameters.builder()
-                .firstName(data.getFirstName())
-                .lastName(data.getLastName())
-                .birthDate(data.getBirthDate())
-                .gender(data.getGender())
-                .interests(data.getInterests())
-                .cityId(data.getCityId())
-                .username(data.getUsername())
-                .password(data.getPassword())
+                .firstName(data.firstName())
+                .lastName(data.lastName())
+                .birthDate(data.birthDate())
+                .gender(data.gender())
+                .interests(data.interests())
+                .cityId(data.cityId())
+                .username(data.username())
+                .password(data.password())
                 .build();
         User user = userSignUpUseCase.signup(parameters);
         return ResponseEntity.ok(new UserIdResponse(user.getId()));
     }
-
 }

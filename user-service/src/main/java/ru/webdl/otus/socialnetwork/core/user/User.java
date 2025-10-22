@@ -1,6 +1,7 @@
 package ru.webdl.otus.socialnetwork.core.user;
 
 import java.time.LocalDate;
+import java.time.OffsetDateTime;
 import java.util.UUID;
 
 public interface User {
@@ -21,6 +22,10 @@ public interface User {
     String getUsername();
 
     String getPassword();
+
+    OffsetDateTime getLastLogin();
+
+    void setLastLogin(OffsetDateTime lastLogin);
 
     interface UserBuilder {
         UserBuilder id(UUID id);

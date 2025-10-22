@@ -3,6 +3,7 @@ package ru.webdl.otus.socialnetwork.core.user;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.time.OffsetDateTime;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -17,8 +18,10 @@ public class UserImpl implements User {
     private String gender;
     private String interests;
     private Integer cityId;
-    private String username;
+    private final String username;
     private String password;
+    @Setter
+    private OffsetDateTime lastLogin;
 
     static User.UserBuilder create(@NonNull String firstName,
                                    @NonNull String lastName,
@@ -39,7 +42,7 @@ public class UserImpl implements User {
             Objects.requireNonNull(lastName);
             Objects.requireNonNull(username);
             Objects.requireNonNull(password);
-            return new UserImpl(id, firstName, lastName, birthDate, gender, interests, cityId, username, password);
+            return new UserImpl(id, firstName, lastName, birthDate, gender, interests, cityId, username, password, lastLogin);
         }
     }
 }

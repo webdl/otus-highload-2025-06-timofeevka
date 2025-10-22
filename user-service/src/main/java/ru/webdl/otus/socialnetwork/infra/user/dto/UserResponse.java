@@ -1,31 +1,33 @@
 package ru.webdl.otus.socialnetwork.infra.user.dto;
 
-import lombok.Data;
 import ru.webdl.otus.socialnetwork.core.user.User;
 
 import java.time.LocalDate;
+import java.time.OffsetDateTime;
 import java.util.UUID;
 
-@Data
-public class UserResponse {
-    private UUID id;
-    private String firstName;
-    private String lastName;
-    private LocalDate birthDate;
-    private String gender;
-    private String interests;
-    private Integer cityId;
-    private String username;
-
-    public UserResponse(User user) {
-        this.id = user.getId();
-        this.firstName = user.getFirstName();
-        this.lastName = user.getLastName();
-        this.birthDate = user.getBirthDate();
-        this.gender = user.getGender();
-        this.interests = user.getInterests();
-        this.cityId = user.getCityId();
-        this.username = user.getUsername();
+public record UserResponse(
+        UUID id,
+        String firstName,
+        String lastName,
+        LocalDate birthDate,
+        String gender,
+        String interests,
+        Integer cityId,
+        String username,
+        OffsetDateTime lastLogin
+) {
+    public static UserResponse from(User u) {
+        return new UserResponse(
+                u.getId(),
+                u.getFirstName(),
+                u.getLastName(),
+                u.getBirthDate(),
+                u.getGender(),
+                u.getInterests(),
+                u.getCityId(),
+                u.getUsername(),
+                u.getLastLogin()
+        );
     }
 }
-

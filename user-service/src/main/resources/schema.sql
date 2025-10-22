@@ -14,6 +14,7 @@ CREATE TABLE cities
 
 CREATE TABLE users
 (
+    user_id    UUID PRIMARY KEY DEFAULT uuid_generate_v7(),
     first_name VARCHAR(100)        NOT NULL,
     last_name  VARCHAR(100),
     birth_date DATE,
@@ -22,7 +23,7 @@ CREATE TABLE users
     city_id    INT,
     username   VARCHAR(100) UNIQUE NOT NULL,
     password   VARCHAR(100)        NOT NULL,
-    user_id    UUID PRIMARY KEY DEFAULT uuid_generate_v7(),
+    last_login TIMESTAMPTZ,
 
     CONSTRAINT fk_city FOREIGN KEY (city_id) REFERENCES cities (city_id)
 );

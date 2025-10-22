@@ -89,6 +89,12 @@ class UserRepositoryImpl implements UserRepository {
         return records.stream().map(this::toDomainEntity).toList();
     }
 
+    @Override
+    public void updateLastLogin(User user) {
+        String sql = "UPDATE users SET last_login = ? WHERE user_id = ?";
+        jdbcTemplate.update(sql, user.getId(), user.getId());
+    }
+
 
     private User toDomainEntity(UserRecord r) {
         return UserImpl.builder()

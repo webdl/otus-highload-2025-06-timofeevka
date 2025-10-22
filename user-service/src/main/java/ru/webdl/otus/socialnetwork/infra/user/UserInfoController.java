@@ -11,7 +11,7 @@ class UserInfoController {
 
     @GetMapping("/me")
     ResponseEntity<UserResponse> getCurrentUser(@CurrentUser User user) {
-        return ResponseEntity.ok(new UserResponse(user));
+        return ResponseEntity.ok(UserResponse.from(user));
     }
 
 }

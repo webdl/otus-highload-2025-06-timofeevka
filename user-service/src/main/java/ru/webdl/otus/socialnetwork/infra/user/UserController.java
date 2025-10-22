@@ -18,7 +18,7 @@ class UserController {
     @GetMapping("/get/{id}")
     ResponseEntity<UserResponse> getUserById(@PathVariable UUID id) {
         return userFindUseCase.findById(id)
-                .map(UserResponse::new)
+                .map(UserResponse::from)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
@@ -27,7 +27,7 @@ class UserController {
     ResponseEntity<List<UserResponse>> findUsers(@RequestParam String firstName, @RequestParam String lastName) {
         return ResponseEntity.ok(
                 userFindUseCase.findByFirstLastName(firstName, lastName).stream()
-                        .map(UserResponse::new)
+                        .map(UserResponse::from)
                         .toList()
         );
     }
