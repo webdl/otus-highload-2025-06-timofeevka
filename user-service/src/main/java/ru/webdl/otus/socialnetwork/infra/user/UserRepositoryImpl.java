@@ -4,6 +4,8 @@ import com.baomidou.dynamic.datasource.annotation.DS;
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 import ru.webdl.otus.socialnetwork.core.user.User;
 import ru.webdl.otus.socialnetwork.core.user.UserImpl;
@@ -17,6 +19,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 class UserRepositoryImpl implements UserRepository {
     private final JdbcTemplate jdbcTemplate;
+    private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
     private static final BeanPropertyRowMapper<UserRecord> userRowMapper = new BeanPropertyRowMapper<>(UserRecord.class);
 
     @Override
@@ -25,7 +28,7 @@ class UserRepositoryImpl implements UserRepository {
         String sql = "SELECT user_id, first_name, last_name, birth_date, gender, interests, city_id, username, password " +
                 "FROM users WHERE user_id = ?";
         UserRecord record = jdbcTemplate.queryForObject(sql, userRowMapper, id);
-        return Optional.ofNullable(record).map(this::toDomain);
+        return Optional.ofNullable(record).map(this::toDomainEntity);
     }
 
     @Override
@@ -34,7 +37,7 @@ class UserRepositoryImpl implements UserRepository {
         String sql = "SELECT user_id, first_name, last_name, birth_date, gender, interests, city_id, username, password " +
                 "FROM users WHERE username = ?";
         UserRecord record = jdbcTemplate.queryForObject(sql, userRowMapper, username);
-        return Optional.ofNullable(record).map(this::toDomain);
+        return Optional.ofNullable(record).map(this::toDomainEntity);
     }
 
     @Override
@@ -46,24 +49,17 @@ class UserRepositoryImpl implements UserRepository {
                 "FROM users " +
                 "WHERE first_name LIKE ? AND last_name LIKE ?";
         List<UserRecord> records = jdbcTemplate.query(sql, userRowMapper, firstName, lastName);
-        return records.stream().map(this::toDomain).toList();
+        return records.stream().map(this::toDomainEntity).toList();
     }
 
     @Override
     public User create(User user) {
         String sql = "INSERT INTO users (first_name, last_name, birth_date, gender, interests, city_id, username, password) " +
-                "VALUES (?, ?, ?, ?, ?, ?, ?, ?) " +
+                "VALUES (:firstName, :lastName, :birthDate, :gender, :interests, :cityId, :username, :password) " +
                 "RETURNING *;";
-        UserRecord record = jdbcTemplate.queryForObject(sql, userRowMapper,
-                user.getUsername(),
-                user.getLastName(),
-                user.getBirthDate(),
-                user.getGender(),
-                user.getInterests(),
-                user.getCityId(),
-                user.getUsername(),
-                user.getPassword());
-        return toDomain(record);
+        BeanPropertySqlParameterSource params = new BeanPropertySqlParameterSource(toDbEntity(user));
+        UserRecord record = namedParameterJdbcTemplate.queryForObject(sql, params, userRowMapper);
+        return toDomainEntity(record);
     }
 
     @Override
@@ -90,11 +86,11 @@ class UserRepositoryImpl implements UserRepository {
                     WHERE user_id = ?
                     );""";
         List<UserRecord> records = jdbcTemplate.query(sql, userRowMapper, user.getId());
-        return records.stream().map(this::toDomain).toList();
+        return records.stream().map(this::toDomainEntity).toList();
     }
 
 
-    private User toDomain(UserRecord r) {
+    private User toDomainEntity(UserRecord r) {
         return UserImpl.builder()
                 .firstName(r.firstName())
                 .lastName(r.lastName())
@@ -105,5 +101,18 @@ class UserRepositoryImpl implements UserRepository {
                 .username(r.username())
                 .password(r.password())
                 .build();
+    }
+
+    private UserRecord toDbEntity(User r) {
+        return new UserRecord(r.getId(),
+                r.getFirstName(),
+                r.getLastName(),
+                r.getBirthDate(),
+                r.getGender(),
+                r.getInterests(),
+                r.getCityId(),
+                r.getUsername(),
+                r.getPassword()
+        );
     }
 }
