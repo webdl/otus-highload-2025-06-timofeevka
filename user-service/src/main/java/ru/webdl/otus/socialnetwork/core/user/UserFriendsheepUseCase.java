@@ -7,5 +7,5 @@ public interface UserFriendsheepUseCase {
 
     void delete(User user, User friend);
 
-    List<User> getFriends(User user);
+    List<User> getFriends(User user, Boolean activeOnly);
 }

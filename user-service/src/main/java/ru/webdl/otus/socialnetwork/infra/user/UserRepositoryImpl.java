@@ -11,6 +11,7 @@ import ru.webdl.otus.socialnetwork.core.user.User;
 import ru.webdl.otus.socialnetwork.core.user.UserImpl;
 import ru.webdl.otus.socialnetwork.core.user.UserRepository;
 
+import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -86,6 +87,21 @@ class UserRepositoryImpl implements UserRepository {
                     WHERE user_id = ?
                     );""";
         List<UserEntity> records = jdbcTemplate.query(sql, userRowMapper, user.getId());
+        return records.stream().map(this::toDomain).toList();
+    }
+
+    @Override
+    public List<User> findFriendsByLastLoginAfter(User user, OffsetDateTime date) {
+        String sql = """
+                SELECT u.*
+                FROM users u
+                WHERE u.last_login > ?
+                AND u.user_id IN (
+                        SELECT friend_id
+                        FROM user_friends
+                        WHERE user_id = ?
+                    );""";
+        List<UserEntity> records = jdbcTemplate.query(sql, userRowMapper, date, user.getId());
         return records.stream().map(this::toDomain).toList();
     }
 

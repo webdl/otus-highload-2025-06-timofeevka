@@ -3,10 +3,10 @@ package ru.webdl.otus.socialnetwork.infra.user;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ru.webdl.otus.socialnetwork.core.user.User;
 import ru.webdl.otus.socialnetwork.core.user.UserFindUseCase;
 import ru.webdl.otus.socialnetwork.core.user.UserFriendsheepUseCase;
 import ru.webdl.otus.socialnetwork.core.user.UserNotFoundException;
-import ru.webdl.otus.socialnetwork.core.user.User;
 import ru.webdl.otus.socialnetwork.infra.user.dto.FriendResponse;
 
 import java.util.List;
@@ -21,18 +21,18 @@ class UserFriendsheepController {
     private final UserFriendsheepUseCase userFriendsheepUseCase;
 
     @GetMapping("/all")
-    ResponseEntity<List<FriendResponse>> getFriends(@CurrentUser User user) {
-        return ResponseEntity.ok(userFriendsheepUseCase.getFriends(user).stream()
-                .map(FriendResponse::new)
+    ResponseEntity<List<FriendResponse>> getFriends(@CurrentUser User user, @RequestParam(required = false) Boolean activeOnly) {
+        return ResponseEntity.ok(userFriendsheepUseCase.getFriends(user, activeOnly).stream()
+                .map(FriendResponse::from)
                 .toList()
         );
     }
 
     @GetMapping("/get/{userId}")
-    ResponseEntity<List<FriendResponse>> getFriends(@PathVariable UUID userId) {
+    ResponseEntity<List<FriendResponse>> getFriends(@PathVariable UUID userId, @RequestParam(required = false) Boolean activeOnly) {
         Optional<User> user = userFindUseCase.findById(userId);
-        return user.map(value -> ResponseEntity.ok(userFriendsheepUseCase.getFriends(value).stream()
-                .map(FriendResponse::new)
+        return user.map(value -> ResponseEntity.ok(userFriendsheepUseCase.getFriends(value, activeOnly).stream()
+                .map(FriendResponse::from)
                 .toList())).orElseGet(() -> ResponseEntity.notFound().build());
     }
 

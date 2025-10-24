@@ -31,6 +31,6 @@ class UserSignUpController {
                 .password(data.password())
                 .build();
         User user = userSignUpUseCase.signup(parameters);
-        return ResponseEntity.ok(new UserIdResponse(user.getId()));
+        return ResponseEntity.ok(UserIdResponse.from(user));
     }
 }
