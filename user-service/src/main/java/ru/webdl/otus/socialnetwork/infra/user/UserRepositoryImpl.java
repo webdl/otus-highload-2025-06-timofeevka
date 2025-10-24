@@ -20,24 +20,24 @@ import java.util.UUID;
 class UserRepositoryImpl implements UserRepository {
     private final JdbcTemplate jdbcTemplate;
     private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
-    private static final BeanPropertyRowMapper<UserRecord> userRowMapper = new BeanPropertyRowMapper<>(UserRecord.class);
+    private static final BeanPropertyRowMapper<UserEntity> userRowMapper = new BeanPropertyRowMapper<>(UserEntity.class);
 
     @Override
     @DS("slave_1")
     public Optional<User> findById(UUID id) {
-        String sql = "SELECT user_id, first_name, last_name, birth_date, gender, interests, city_id, username, password " +
+        String sql = "SELECT user_id, first_name, last_name, birth_date, gender, interests, city_id, username, password, last_login " +
                 "FROM users WHERE user_id = ?";
-        UserRecord record = jdbcTemplate.queryForObject(sql, userRowMapper, id);
-        return Optional.ofNullable(record).map(this::toDomainEntity);
+        UserEntity record = jdbcTemplate.queryForObject(sql, userRowMapper, id);
+        return Optional.ofNullable(record).map(this::toDomain);
     }
 
     @Override
     @DS("slave_1")
     public Optional<User> findByUsername(String username) {
-        String sql = "SELECT user_id, first_name, last_name, birth_date, gender, interests, city_id, username, password " +
+        String sql = "SELECT user_id, first_name, last_name, birth_date, gender, interests, city_id, username, password, last_login " +
                 "FROM users WHERE username = ?";
-        UserRecord record = jdbcTemplate.queryForObject(sql, userRowMapper, username);
-        return Optional.ofNullable(record).map(this::toDomainEntity);
+        UserEntity record = jdbcTemplate.queryForObject(sql, userRowMapper, username);
+        return Optional.ofNullable(record).map(this::toDomain);
     }
 
     @Override
@@ -45,11 +45,11 @@ class UserRepositoryImpl implements UserRepository {
     public List<User> findByFirstLastName(String firstName, String lastName) {
         firstName += "%";
         lastName += "%";
-        String sql = "SELECT user_id, first_name, last_name, birth_date, gender, interests, city_id, username, password " +
+        String sql = "SELECT user_id, first_name, last_name, birth_date, gender, interests, city_id, username, password, last_login " +
                 "FROM users " +
                 "WHERE first_name LIKE ? AND last_name LIKE ?";
-        List<UserRecord> records = jdbcTemplate.query(sql, userRowMapper, firstName, lastName);
-        return records.stream().map(this::toDomainEntity).toList();
+        List<UserEntity> records = jdbcTemplate.query(sql, userRowMapper, firstName, lastName);
+        return records.stream().map(this::toDomain).toList();
     }
 
     @Override
@@ -57,9 +57,9 @@ class UserRepositoryImpl implements UserRepository {
         String sql = "INSERT INTO users (first_name, last_name, birth_date, gender, interests, city_id, username, password) " +
                 "VALUES (:firstName, :lastName, :birthDate, :gender, :interests, :cityId, :username, :password) " +
                 "RETURNING *;";
-        BeanPropertySqlParameterSource params = new BeanPropertySqlParameterSource(toDbEntity(user));
-        UserRecord record = namedParameterJdbcTemplate.queryForObject(sql, params, userRowMapper);
-        return toDomainEntity(record);
+        BeanPropertySqlParameterSource params = new BeanPropertySqlParameterSource(toEntity(user));
+        UserEntity record = namedParameterJdbcTemplate.queryForObject(sql, params, userRowMapper);
+        return toDomain(record);
     }
 
     @Override
@@ -85,40 +85,44 @@ class UserRepositoryImpl implements UserRepository {
                     FROM user_friends
                     WHERE user_id = ?
                     );""";
-        List<UserRecord> records = jdbcTemplate.query(sql, userRowMapper, user.getId());
-        return records.stream().map(this::toDomainEntity).toList();
+        List<UserEntity> records = jdbcTemplate.query(sql, userRowMapper, user.getId());
+        return records.stream().map(this::toDomain).toList();
     }
 
     @Override
     public void updateLastLogin(User user) {
         String sql = "UPDATE users SET last_login = ? WHERE user_id = ?";
-        jdbcTemplate.update(sql, user.getId(), user.getId());
+        jdbcTemplate.update(sql, user.getLastLogin(), user.getId());
     }
 
 
-    private User toDomainEntity(UserRecord r) {
+    private User toDomain(UserEntity r) {
         return UserImpl.builder()
-                .firstName(r.firstName())
-                .lastName(r.lastName())
-                .birthDate(r.birthDate())
-                .gender(r.gender())
-                .interests(r.interests())
-                .cityId(r.cityId())
-                .username(r.username())
-                .password(r.password())
+                .id(r.getUserId())
+                .firstName(r.getFirstName())
+                .lastName(r.getLastName())
+                .birthDate(r.getBirthDate())
+                .gender(r.getGender())
+                .interests(r.getInterests())
+                .cityId(r.getCityId())
+                .username(r.getUsername())
+                .password(r.getPassword())
+                .lastLogin(r.getLastLogin())
                 .build();
     }
 
-    private UserRecord toDbEntity(User r) {
-        return new UserRecord(r.getId(),
-                r.getFirstName(),
-                r.getLastName(),
-                r.getBirthDate(),
-                r.getGender(),
-                r.getInterests(),
-                r.getCityId(),
-                r.getUsername(),
-                r.getPassword()
-        );
+    private UserEntity toEntity(User r) {
+        return UserEntity.builder()
+                .userId(r.getId())
+                .firstName(r.getFirstName())
+                .lastName(r.getLastName())
+                .birthDate(r.getBirthDate())
+                .gender(r.getGender())
+                .interests(r.getInterests())
+                .cityId(r.getCityId())
+                .username(r.getUsername())
+                .password(r.getPassword())
+                .lastLogin(r.getLastLogin())
+                .build();
     }
 }
