@@ -1,78 +1,99 @@
 name: socialnet
 
 services:
-  user-service:
-    container_name: user-service
-    build:
-      context: user-service
-      dockerfile: Dockerfile
-    image: socialnet-user-service:${TAG:-latest}
-    working_dir: /app
-    entrypoint: java -jar user-service-0.0.1-SNAPSHOT.jar
+  prometheus:
+    image: prom/prometheus:v3.5.0
+    container_name: prometheus
+    restart: unless-stopped
     volumes:
-      - ./user-service/target:/app
+      - ./deploy/prometheus/config/:/etc/prometheus/
+      - prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--storage.tsdb.retention.time=200h'
+      - '--web.console.libraries=/etc/prometheus/console_libraries'
+      - '--web.console.templates=/etc/prometheus/consoles'
+      - '--web.enable-lifecycle'
+    expose:
+      - 9090
     ports:
-      - "8080:8080"
-      - "5005:5005"
-    environment:
-      - PGUSER=${PGUSER}
-      - PGPASSWORD=${PGPASSWORD}
-      - PGDATABASE=${PGDATABASE}
-      - PGHOST=${PGHOST}
-      - PGPORT=${PGPORT}
-      - PGHOST_SLAVE_1=${PGHOST_SLAVE_1}
-      - PGHOST_SLAVE_2=${PGHOST_SLAVE_2}
-      - SECURITY_JWT_SECRET=${SECURITY_JWT_SECRET}
-      - SPRING_PROFILES_ACTIVE=${SPRING_PROFILES_ACTIVE:-dev}
-      - JAVA_OPTS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005 -Xmx2g -Xms2g -XX:+UseContainerSupport -XX:MaxRAMPercentage=75.0
+      - "9090:9090"
     networks:
       - socialnet
-    restart: unless-stopped
+    links:
+      - cadvisor:cadvisor
+      - node-exporter:node-exporter
 
-  post-service:
-    image: openjdk:24-jdk-slim
-    container_name: post-service
-    working_dir: /app
-    entrypoint: java -jar post-service-0.0.1-SNAPSHOT.jar
+  node-exporter:
+    image: prom/node-exporter:v1.9.1
+    container_name: node_exporter
+    restart: unless-stopped
+    expose:
+      - 9100
+    networks:
+      - socialnet
+
+  cadvisor:
+    image: gcr.io/cadvisor/cadvisor:v0.52.1
+    container_name: cadvisor
+    restart: unless-stopped
+    privileged: true
     volumes:
-      - ./post-service/target:/app
+      - /var/run:/var/run:ro
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /etc/machine-id:/etc/machine-id:ro
+      - /var/lib/dbus/machine-id:/var/lib/dbus/machine-id:ro
+    expose:
+      - 8080
     ports:
-      - "8081:8081"
+      - "8090:8080"
+    networks:
+      - socialnet
+
+  grafana:
+    image: grafana/grafana-oss:11.5.8
+    container_name: grafana
+    restart: unless-stopped
+    links:
+      - prometheus:prometheus
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./deploy/grafana/provisioning:/etc/grafana/provisioning
+      - ./deploy/grafana/dashboards:/var/lib/grafana/dashboards
     environment:
-      - PGUSER=${PGUSER}
-      - PGPASSWORD=${PGPASSWORD}
-      - PGDATABASE=${PGDATABASE}
-      - PGHOST=${PGHOST}
-      - PGPORT=${PGPORT}
-      - PGHOST_SLAVE_1=${PGHOST_SLAVE_1}
-      - SPRING_PROFILES_ACTIVE=${SPRING_PROFILES_ACTIVE:-dev}
-      - USER_SERVICE_URL=${USER_SERVICE_URL}
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_USERS_ALLOW_SIGN_UP=false
+    ports:
+      - "3000:3000"
     networks:
       - socialnet
     depends_on:
-      - user-service
-    restart: unless-stopped
+      - prometheus
 
-  chat-service:
-    image: openjdk:24-jdk-slim
-    container_name: chat-service
-    working_dir: /app
-    entrypoint: java -jar chat-service-0.0.1-SNAPSHOT.jar
-    volumes:
-      - ./chat-service/target:/app
-    ports:
-      - "8082:8082"
+  postgres-exporter:
+    image: prometheuscommunity/postgres-exporter:v0.17.1
+    container_name: postgres-exporter
+    restart: unless-stopped
     environment:
-      - SPRING_PROFILES_ACTIVE=${SPRING_PROFILES_ACTIVE:-dev}
-      - USER_SERVICE_URL=${USER_SERVICE_URL}
-      - MONGODB_URI=${MONGODB_URI}
+      DATA_SOURCE_NAME: "postgresql://postgres:postgres@${PGHOST}:${PGPORT}/postgres?sslmode=disable"
+    ports:
+      - "9187:9187"
     networks:
       - socialnet
-    depends_on:
-      - user-service
-    restart: unless-stopped
+    command:
+      - '--web.listen-address=:9187'
+      - '--extend.query-path=/queries.yaml'
 
 networks:
   socialnet:
-    external: true
-    name: socialnet
+    driver: bridge
+
+volumes:
+  prometheus_data:
+    driver: local
+  grafana_data:
+    driver: local

@@ -1,0 +1,35 @@
+name: socialnet
+
+services:
+  user-service:
+    container_name: user-service
+    build:
+      context: user-service
+      dockerfile: Dockerfile
+    image: socialnet-user-service:${TAG:-latest}
+    working_dir: /app
+    entrypoint: java -jar user-service-0.0.1-SNAPSHOT.jar
+    volumes:
+      - ./target:/app
+    ports:
+      - "8080:8080"
+      - "5005:5005"
+    environment:
+      - PGUSER=${PGUSER}
+      - PGPASSWORD=${PGPASSWORD}
+      - PGDATABASE=${PGDATABASE}
+      - PGHOST=${PGHOST}
+      - PGPORT=${PGPORT}
+      - PGHOST_SLAVE_1=${PGHOST_SLAVE_1}
+      - PGHOST_SLAVE_2=${PGHOST_SLAVE_2}
+      - SECURITY_JWT_SECRET=${SECURITY_JWT_SECRET}
+      - SPRING_PROFILES_ACTIVE=${SPRING_PROFILES_ACTIVE:-dev}
+      - JAVA_OPTS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005 -Xmx2g -Xms2g -XX:+UseContainerSupport -XX:MaxRAMPercentage=75.0
+    networks:
+      - socialnet
+    restart: unless-stopped
+
+networks:
+  socialnet:
+    external: true
+    name: socialnet

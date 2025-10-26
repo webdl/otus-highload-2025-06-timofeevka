@@ -1,0 +1,29 @@
+name: socialnet
+
+services:
+  post-service:
+    image: openjdk:24-jdk-slim
+    container_name: post-service
+    working_dir: /app
+    entrypoint: java -jar post-service-0.0.1-SNAPSHOT.jar
+    volumes:
+      - ./target:/app
+    ports:
+      - "8081:8081"
+    environment:
+      - PGUSER=${PGUSER}
+      - PGPASSWORD=${PGPASSWORD}
+      - PGDATABASE=${PGDATABASE}
+      - PGHOST=${PGHOST}
+      - PGPORT=${PGPORT}
+      - PGHOST_SLAVE_1=${PGHOST_SLAVE_1}
+      - SPRING_PROFILES_ACTIVE=${SPRING_PROFILES_ACTIVE:-dev}
+      - USER_SERVICE_URL=${USER_SERVICE_URL}
+    networks:
+      - socialnet
+    restart: unless-stopped
+
+networks:
+  socialnet:
+    external: true
+    name: socialnet
