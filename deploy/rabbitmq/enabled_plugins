@@ -1,0 +1,8 @@
+[rabbitmq_management,
+ rabbitmq_prometheus,
+ rabbitmq_stream,
+ rabbitmq_stream_management,
+ rabbitmq_shovel,
+ rabbitmq_shovel_management,
+ rabbitmq_top,
+ rabbitmq_tracing].

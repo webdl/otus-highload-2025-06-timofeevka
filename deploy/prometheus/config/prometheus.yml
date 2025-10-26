@@ -10,22 +10,41 @@ rule_files:
 # - "second.rules"
 
 scrape_configs:
+  # RabbitMQ built-in Prometheus endpoint
+  - job_name: 'rabbitmq'
+    static_configs:
+      - targets: ['rabbitmq:15692']
+        labels:
+          service: 'rabbitmq'
+
+  # RabbitMQ Exporter - дополнительные метрики
+  - job_name: 'rabbitmq-exporter'
+    static_configs:
+      - targets: ['rabbitmq-exporter:9419']
+        labels:
+          service: 'rabbitmq-extended'
+
+  # Prometheus self-monitoring
   - job_name: 'prometheus'
     static_configs:
       - targets: [ 'prometheus:9090' ]
 
+  # Node Exporter - системные метрики
   - job_name: 'node-exporter'
     static_configs:
       - targets: [ 'node-exporter:9100', '10.0.2.2:9100', '10.0.2.3:9100', '10.0.2.4:9100' ]
 
+  # Docker Metrics
   - job_name: 'cadvisor'
     static_configs:
       - targets: [ 'cadvisor:8080' ]
 
+  # Grafana metrics
   - job_name: 'grafana'
     static_configs:
       - targets: [ 'grafana:3000' ]
 
+  # PG Metrics
   - job_name: 'postgres'
     static_configs:
       - targets: [ 'postgres-exporter:9187' ]
