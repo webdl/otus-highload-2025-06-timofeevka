@@ -6,16 +6,38 @@
 4. [HW04: Лента постов и ее кэширование](doc/hw/HW04.md)
 5. [HW05: Масштабируемая подсистема диалогов](doc/hw/HW05.md)
 
-# Среда разработки
+# Окружение
 
-Чтобы запускать микросервисы через [docker-compose.yml](docker-compose.yml), в корне проекта создайте файл `.env` с переменными окружения 
-ниже.
+В корневом [docker-compose.yml](docker-compose.yml) находятся общие для всех микросервисов подсистемы:
 
-**Обратите внимание!** В Docker compose нет конфигурации серверов PostgreSQL, он должен быть развернут отдельно в кластере из трех
-нод. IP-адреса нод указываются в переменных `PGHOST`, `PGHOST_SLAVE_1`, `PGHOST_SLAVE_2`. Необходимо именно 3 ноды, так как в микросервисах
-используется множество Data Sources.
+- **traefik** — для проксирования трафика в микросервисы и системы ниже
+- **prometheus** (+[конфигурация](/deploy/prometheus/config/prometheus.yml)) — для сбора метрик с остальных систем
+- **grafana** (+[дашборды](/deploy/grafana/dashboards)) — для отображения графиков по метрикам
+- **cadvisor** — для мониторинга docker-контейнеров
+- **node-exporter** — для мониторинга операционной системы (ставится в т.ч. на сервера с БД)
+- **postgres-exporter** — для мониторинга кластера PostgreSQL
+
+В каждом микросервисе свой docker-compose.yml:
+
+- user-service/[docker-compose.yml](user-service/docker-compose.yml)
+- post-service/[docker-compose.yml](post-service/docker-compose.yml)
+- chat-service/[docker-compose.yml](chat-service/docker-compose.yml)
+
+Traefik отвечает за проксирование во все микросервисы, но требует дополнительной настройки. Для этого добавьте в свой hosts файл строки:
 
 ```
+127.0.0.1 grafana.socnet.ru prometheus.socnet.ru cadviser.socnet.ru
+127.0.0.1 user.socnet.ru post.socnet.ru chat.socnet.ru
+```
+
+# Инициализация user-service
+
+## Переменные окружения
+
+Создайте файл user-service/.env и наполните его содержимым:
+
+```
+SERVICE_PORT=8080
 SPRING_PROFILES_ACTIVE=dev
 SECURITY_JWT_SECRET=fallback-key-only-for-testing
 
@@ -26,13 +48,13 @@ PGPORT=5432
 PGDATABASE=socialnet
 PGUSER=socialnet
 PGPASSWORD=socialnet
-
-USER_SERVICE_URL=http://user-service:8080
-
-MONGODB_URI=mongodb://mongos1:27017/chatdb
 ```
 
-# Инициализация user-service
+## Установка БД
+
+**Обратите внимание!** В Docker compose нет конфигурации серверов PostgreSQL, он должен быть развернут отдельно в кластере из трех
+нод. IP-адреса нод указываются в переменных `PGHOST`, `PGHOST_SLAVE_1`, `PGHOST_SLAVE_2`. Необходимо именно 3 ноды, так как в микросервисах
+используется множество Data Sources.
 
 ## Инициализация данных в БД
 
@@ -89,4 +111,40 @@ FROM tmp_users t
 DROP SEQUENCE IF EXISTS username_seq;
 DROP TABLE IF EXISTS tmp_users;
 
+```
+
+# Инициализация post-service
+
+## Переменные окружения
+
+Создайте файл post-service/.env и наполните его содержимым:
+
+```
+SERVICE_PORT=8080
+SPRING_PROFILES_ACTIVE=dev
+
+PGHOST=10.0.2.2
+PGHOST_SLAVE_1=10.0.2.3
+PGHOST_SLAVE_2=10.0.2.4
+PGPORT=5432
+PGDATABASE=socialnet_post
+PGUSER=socialnet
+PGPASSWORD=socialnet
+
+USER_SERVICE_URL=http://user-service:8080
+```
+
+# Инициализация chat-service
+
+## Переменные окружения
+
+Создайте файл chat-service/.env и наполните его содержимым:
+
+```
+SERVICE_PORT=8080
+SPRING_PROFILES_ACTIVE=dev
+
+USER_SERVICE_URL=http://user-service:8080
+
+MONGODB_URI=mongodb://mongos1:27017/chatdb
 ```

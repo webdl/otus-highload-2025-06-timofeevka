@@ -8,8 +8,8 @@ services:
     entrypoint: java -jar chat-service-0.0.1-SNAPSHOT.jar
     volumes:
       - ./target:/app
-    ports:
-      - "8082:8082"
+    expose:
+      - 8080
     environment:
       - SPRING_PROFILES_ACTIVE=${SPRING_PROFILES_ACTIVE:-dev}
       - USER_SERVICE_URL=${USER_SERVICE_URL}
@@ -19,6 +19,11 @@ services:
     depends_on:
       - mongos1
     restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.chat-service.rule=Host(`chat.socnet.ru`)"
+      - "traefik.http.routers.chat-service.service=chat-service"
+      - "traefik.http.services.chat-service.loadbalancer.server.port=8080"
 
   # ============= MONGO CLUSTER =============
   # First Shard Cluster

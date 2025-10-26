@@ -55,7 +55,7 @@ public class RemoteUserServiceImpl implements UserRepository {
     private HttpHeaders createHeaders() {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-        headers.set("User-Agent", "PostService/1.0");
+        headers.set("User-Agent", "ChatService/1.0");
         return headers;
     }
 

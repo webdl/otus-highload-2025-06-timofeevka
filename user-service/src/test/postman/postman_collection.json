@@ -28,12 +28,13 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/v1/user/register",
+							"raw": "http://user.socnet.ru/api/v1/user/register",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"user",
+								"socnet",
+								"ru"
 							],
-							"port": "8080",
 							"path": [
 								"api",
 								"v1",
@@ -62,12 +63,13 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/login",
+							"raw": "http://user.socnet.ru/login",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"user",
+								"socnet",
+								"ru"
 							],
-							"port": "8080",
 							"path": [
 								"login"
 							]
@@ -81,12 +83,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/v1/user/get/019975d1-7db7-7349-9077-b51c1e627b99",
+							"raw": "http://user.socnet.ru/api/v1/user/get/019975d1-7db7-7349-9077-b51c1e627b99",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"user",
+								"socnet",
+								"ru"
 							],
-							"port": "8080",
 							"path": [
 								"api",
 								"v1",
@@ -104,12 +107,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/v1/user/me",
+							"raw": "http://user.socnet.ru/api/v1/user/me",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"user",
+								"socnet",
+								"ru"
 							],
-							"port": "8080",
 							"path": [
 								"api",
 								"v1",
@@ -126,12 +130,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/v1/user/find?firstName=Адм&lastName=Адм",
+							"raw": "http://user.socnet.ru/api/v1/user/find?firstName=Адм&lastName=Адм",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"user",
+								"socnet",
+								"ru"
 							],
-							"port": "8080",
 							"path": [
 								"api",
 								"v1",
@@ -163,12 +168,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/v1/user/friend/all?activeOnly=true",
+							"raw": "http://user.socnet.ru/api/v1/user/friend/all?activeOnly=true",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"user",
+								"socnet",
+								"ru"
 							],
-							"port": "8080",
 							"path": [
 								"api",
 								"v1",
@@ -192,12 +198,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/v1/user/friend/get/019994a8-4c6b-7db4-9993-be35230e9e76?activeOnly=true",
+							"raw": "http://user.socnet.ru/api/v1/user/friend/get/019994a8-4c6b-7db4-9993-be35230e9e76?activeOnly=true",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"user",
+								"socnet",
+								"ru"
 							],
-							"port": "8080",
 							"path": [
 								"api",
 								"v1",
@@ -222,12 +229,13 @@
 						"method": "POST",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/v1/user/friend/add/019975d4-4874-77da-9845-914b1904ca93",
+							"raw": "http://user.socnet.ru/api/v1/user/friend/add/019975d4-4874-77da-9845-914b1904ca93",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"user",
+								"socnet",
+								"ru"
 							],
-							"port": "8080",
 							"path": [
 								"api",
 								"v1",
@@ -246,12 +254,13 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/v1/user/friend/delete/019975d4-4874-77da-9845-914b1904ca93",
+							"raw": "http://user.socnet.ru/api/v1/user/friend/delete/019975d4-4874-77da-9845-914b1904ca93",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"user",
+								"socnet",
+								"ru"
 							],
-							"port": "8080",
 							"path": [
 								"api",
 								"v1",
@@ -293,12 +302,13 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8081/api/v1/posts",
+							"raw": "http://post.socnet.ru/api/v1/posts",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"post",
+								"socnet",
+								"ru"
 							],
-							"port": "8081",
 							"path": [
 								"api",
 								"v1",
@@ -323,12 +333,13 @@
 							}
 						],
 						"url": {
-							"raw": "http://localhost:8081/api/v1/posts/019999f2-35c2-741d-8533-073645c1f900",
+							"raw": "http://post.socnet.ru/api/v1/posts/019999f2-35c2-741d-8533-073645c1f900",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"post",
+								"socnet",
+								"ru"
 							],
-							"port": "8081",
 							"path": [
 								"api",
 								"v1",
@@ -354,12 +365,13 @@
 							}
 						],
 						"url": {
-							"raw": "http://localhost:8081/api/v1/posts/feed",
+							"raw": "http://post.socnet.ru/api/v1/posts/feed",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"post",
+								"socnet",
+								"ru"
 							],
-							"port": "8081",
 							"path": [
 								"api",
 								"v1",
@@ -390,12 +402,13 @@
 							}
 						],
 						"url": {
-							"raw": "http://localhost:8082/api/v1/chats",
+							"raw": "http://chat.socnet.ru/api/v1/chats",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"chat",
+								"socnet",
+								"ru"
 							],
-							"port": "8082",
 							"path": [
 								"api",
 								"v1",
@@ -420,12 +433,13 @@
 							}
 						],
 						"url": {
-							"raw": "http://localhost:8082/api/v1/chats/531ef0dd-2380-429f-8746-2a2f4136058b/messages",
+							"raw": "http://chat.socnet.ru/api/v1/chats/531ef0dd-2380-429f-8746-2a2f4136058b/messages",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"chat",
+								"socnet",
+								"ru"
 							],
-							"port": "8082",
 							"path": [
 								"api",
 								"v1",
@@ -453,7 +467,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"secondMemberId\": \"019994a8-4c6b-7db4-9993-be35230e9e76\"\n}\n",
+							"raw": "{\n    \"secondMemberId\": \"019994a8-4c6b-7f14-8840-6c10c354955d\"\n}\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -461,12 +475,13 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8082/api/v1/chats",
+							"raw": "http://chat.socnet.ru/api/v1/chats",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"chat",
+								"socnet",
+								"ru"
 							],
-							"port": "8082",
 							"path": [
 								"api",
 								"v1",
@@ -500,17 +515,18 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8082/api/v1/chats/531ef0dd-2380-429f-8746-2a2f4136058b/messages",
+							"raw": "http://chat.socnet.ru/api/v1/chats/32073ee4-fb66-4ca0-aca1-42d2220c327c/messages",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"chat",
+								"socnet",
+								"ru"
 							],
-							"port": "8082",
 							"path": [
 								"api",
 								"v1",
 								"chats",
-								"531ef0dd-2380-429f-8746-2a2f4136058b",
+								"32073ee4-fb66-4ca0-aca1-42d2220c327c",
 								"messages"
 							]
 						}
@@ -541,12 +557,13 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8082/api/v1/chats/531ef0dd-2380-429f-8746-2a2f4136058b/messages/1e9918fe-75da-40b8-b8b7-f4ba24366d04",
+							"raw": "http://chat.socnet.ru/api/v1/chats/531ef0dd-2380-429f-8746-2a2f4136058b/messages/1e9918fe-75da-40b8-b8b7-f4ba24366d04",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"chat",
+								"socnet",
+								"ru"
 							],
-							"port": "8082",
 							"path": [
 								"api",
 								"v1",
@@ -574,12 +591,13 @@
 							}
 						],
 						"url": {
-							"raw": "http://localhost:8082/api/v1/chats/531ef0dd-2380-429f-8746-2a2f4136058b/messages/ed5dc140-c7c9-443b-889f-30b8d4b75d01",
+							"raw": "http://chat.socnet.ru/api/v1/chats/531ef0dd-2380-429f-8746-2a2f4136058b/messages/ed5dc140-c7c9-443b-889f-30b8d4b75d01",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"chat",
+								"socnet",
+								"ru"
 							],
-							"port": "8082",
 							"path": [
 								"api",
 								"v1",
@@ -600,12 +618,13 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/actuator",
+					"raw": "http://user.socnet.ru/actuator",
 					"protocol": "http",
 					"host": [
-						"localhost"
+						"user",
+						"socnet",
+						"ru"
 					],
-					"port": "8080",
 					"path": [
 						"actuator"
 					]

@@ -1,4 +1,4 @@
-server.port: 8081
+server.port: ${SERVICE_PORT:8080}
 
 externals:
   user-service:

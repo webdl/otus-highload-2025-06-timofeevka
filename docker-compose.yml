@@ -1,29 +1,65 @@
 name: socialnet
 
 services:
+  traefik:
+    image: traefik:v3.5.3
+    ports:
+      - "80:80"
+      - "8080:8080"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    command:
+      - --api.insecure=true
+      - --providers.docker=true
+      - --providers.docker.exposedbydefault=false
+      - --providers.docker.network=socialnet
+      - --entryPoints.web.address=:80
+      - --log.level=DEBUG
+    networks:
+      - socialnet
+
+  grafana:
+    image: grafana/grafana-oss:11.5.8
+    container_name: grafana
+    restart: unless-stopped
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./deploy/grafana/provisioning:/etc/grafana/provisioning
+      - ./deploy/grafana/dashboards:/var/lib/grafana/dashboards
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_USERS_ALLOW_SIGN_UP=false
+    networks:
+      - socialnet
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.grafana.rule=Host(`grafana.socnet.ru`)"
+      - "traefik.http.routers.grafana.service=grafana"
+      - "traefik.http.services.grafana.loadbalancer.server.port=3000"
+
   prometheus:
     image: prom/prometheus:v3.5.0
     container_name: prometheus
     restart: unless-stopped
     volumes:
-      - ./deploy/prometheus/config/:/etc/prometheus/
+      - ./deploy/prometheus/config/prometheus.yml:/etc/prometheus/prometheus.yml:ro
       - prometheus_data:/prometheus
     command:
-      - '--config.file=/etc/prometheus/prometheus.yml'
-      - '--storage.tsdb.path=/prometheus'
-      - '--storage.tsdb.retention.time=200h'
-      - '--web.console.libraries=/etc/prometheus/console_libraries'
-      - '--web.console.templates=/etc/prometheus/consoles'
-      - '--web.enable-lifecycle'
+      - "--config.file=/etc/prometheus/prometheus.yml"
+      - "--storage.tsdb.path=/prometheus"
+      - "--web.console.libraries=/etc/prometheus/console_libraries"
+      - "--web.console.templates=/etc/prometheus/consoles"
+      - "--web.enable-lifecycle"
     expose:
       - 9090
-    ports:
-      - "9090:9090"
     networks:
       - socialnet
-    links:
-      - cadvisor:cadvisor
-      - node-exporter:node-exporter
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.prometheus.rule=Host(`prometheus.socnet.ru`)"
+      - "traefik.http.routers.prometheus.service=prometheus"
+      - "traefik.http.services.prometheus.loadbalancer.server.port=9090"
 
   node-exporter:
     image: prom/node-exporter:v1.9.1
@@ -46,33 +82,13 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - /etc/machine-id:/etc/machine-id:ro
       - /var/lib/dbus/machine-id:/var/lib/dbus/machine-id:ro
-    expose:
-      - 8080
-    ports:
-      - "8090:8080"
     networks:
       - socialnet
-
-  grafana:
-    image: grafana/grafana-oss:11.5.8
-    container_name: grafana
-    restart: unless-stopped
-    links:
-      - prometheus:prometheus
-    volumes:
-      - grafana_data:/var/lib/grafana
-      - ./deploy/grafana/provisioning:/etc/grafana/provisioning
-      - ./deploy/grafana/dashboards:/var/lib/grafana/dashboards
-    environment:
-      - GF_SECURITY_ADMIN_USER=admin
-      - GF_SECURITY_ADMIN_PASSWORD=admin
-      - GF_USERS_ALLOW_SIGN_UP=false
-    ports:
-      - "3000:3000"
-    networks:
-      - socialnet
-    depends_on:
-      - prometheus
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.cadvisor.rule=Host(`cadvisor.socnet.ru`)"
+      - "traefik.http.routers.cadvisor.service=cadvisor"
+      - "traefik.http.services.cadvisor.loadbalancer.server.port=8080"
 
   postgres-exporter:
     image: prometheuscommunity/postgres-exporter:v0.17.1
@@ -80,17 +96,18 @@ services:
     restart: unless-stopped
     environment:
       DATA_SOURCE_NAME: "postgresql://postgres:postgres@${PGHOST}:${PGPORT}/postgres?sslmode=disable"
-    ports:
-      - "9187:9187"
+    expose:
+      - 9187
     networks:
       - socialnet
     command:
-      - '--web.listen-address=:9187'
-      - '--extend.query-path=/queries.yaml'
+      - "--web.listen-address=:9187"
+      - "--extend.query-path=/queries.yaml"
 
 networks:
   socialnet:
-    driver: bridge
+    external: true
+    name: socialnet
 
 volumes:
   prometheus_data:
